@@ -1,26 +1,94 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 3WS palette */
+  --color-ink: #0a0b1a;
+  --color-navy: #001539;
+  --color-navy-soft: #041c44;
+  --color-alabaster: #e5e4e2;
+  --color-alabaster-deep: #d7d5d1;
+  --color-teal: #2c8dff;
+  --color-teal-deep: #1c6fd6;
+  --color-white: #ffffff;
+
+  --background: var(--color-ink);
+  --foreground: var(--color-white);
 }
 
 @theme inline {
+  --color-ink: var(--color-ink);
+  --color-navy: var(--color-navy);
+  --color-navy-soft: var(--color-navy-soft);
+  --color-alabaster: var(--color-alabaster);
+  --color-alabaster-deep: var(--color-alabaster-deep);
+  --color-teal: var(--color-teal);
+  --color-teal-deep: var(--color-teal-deep);
+  --color-white: var(--color-white);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-satoshi);
+  --font-body: var(--font-satoshi);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-teal);
+  color: var(--color-white);
+}
+
+/* Scrollbar */
+html {
+  scrollbar-color: var(--color-teal) var(--color-ink);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-teal), var(--color-teal-deep));
+  border-radius: 999px;
+  border: 2px solid var(--color-ink);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--color-teal-deep), var(--color-navy));
+}
+
+/* Custom cursor: native cursor is hidden only after JS confirms a fine pointer */
+.custom-cursor,
+.custom-cursor * {
+  cursor: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
