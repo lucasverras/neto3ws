@@ -154,11 +154,6 @@ export function Categories() {
                 <p className="max-w-md font-body text-[15px] leading-relaxed text-white/60">
                   {category.description}
                 </p>
-                <PhotoImage
-                  src={category.image}
-                  alt={category.title}
-                  className="mt-2 aspect-[4/3] w-full"
-                />
               </div>
             </Reveal>
           ))}

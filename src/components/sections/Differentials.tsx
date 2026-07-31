@@ -117,7 +117,7 @@ export function Differentials() {
             <RevealGroup
               key={rowIndex}
               stagger={0.1}
-              className="grid grid-cols-2 divide-x divide-white/10 border-b border-white/10 sm:grid-cols-4"
+              className="grid grid-cols-2 divide-x divide-white/10 border-x border-b border-white/10 sm:grid-cols-4"
             >
               {row.map((item) => (
                 <DifferentialCard key={item.title} item={item} />

@@ -25,24 +25,62 @@ export function HowItWorks() {
           </h2>
         </Reveal>
 
-        <RevealGroup className="relative mt-20 grid grid-cols-1 gap-14 md:mt-24 md:grid-cols-4 md:gap-8">
-          <div className="pointer-events-none absolute left-0 right-0 top-[1.6rem] hidden h-px bg-ink/15 md:block" />
+        {/* Mobile: zigzag timeline, everything on one screen, no scroll */}
+        <RevealGroup className="mt-16 grid grid-cols-4 md:hidden">
+          {STEPS.map((step, i) => (
+            <p
+              key={`top-${step}`}
+              style={{ gridColumn: i + 1, gridRow: 1 }}
+              className={`px-1 text-center font-body text-[11px] leading-snug text-ink/60 ${
+                i % 2 === 0 ? "" : "invisible"
+              }`}
+            >
+              {step}
+            </p>
+          ))}
+
+          <div className="relative col-span-4 row-start-2 flex items-center py-3">
+            <div className="pointer-events-none absolute inset-x-[12%] top-1/2 h-px -translate-y-1/2 bg-ink/15" />
+            {STEPS.map((_, i) => (
+              <RevealItem
+                key={`dot-${i}`}
+                className="relative z-10 flex flex-1 items-center justify-center"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-alabaster font-display text-sm font-bold text-teal-deep ring-1 ring-teal-deep/40">
+                  {i + 1}
+                </span>
+              </RevealItem>
+            ))}
+          </div>
+
+          {STEPS.map((step, i) => (
+            <p
+              key={`bottom-${step}`}
+              style={{ gridColumn: i + 1, gridRow: 3 }}
+              className={`px-1 text-center font-body text-[11px] leading-snug text-ink/60 ${
+                i % 2 === 1 ? "" : "invisible"
+              }`}
+            >
+              {step}
+            </p>
+          ))}
+        </RevealGroup>
+
+        {/* Desktop: even row of cards with a connecting line */}
+        <RevealGroup className="relative mt-24 hidden md:grid md:grid-cols-4 md:gap-8">
+          <div className="pointer-events-none absolute left-0 right-0 top-[1.6rem] h-px bg-ink/15" />
 
           {STEPS.map((step, i) => (
             <RevealItem key={step} className="relative">
               <motion.div
-                className="group flex cursor-default flex-col gap-6"
+                className="group flex h-full cursor-default flex-col gap-6"
                 whileHover={{ y: -6 }}
                 transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="flex items-center gap-4 md:block">
-                  <span className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-alabaster font-display text-xl font-bold text-teal-deep ring-1 ring-teal-deep/40 transition-colors duration-300 group-hover:bg-teal group-hover:text-white group-hover:ring-teal md:h-14 md:w-14 md:text-2xl">
-                    {i + 1}
-                  </span>
-                </div>
-                <p className="font-body text-[15px] leading-relaxed text-ink/65 md:pr-4 md:text-base">
-                  {step}
-                </p>
+                <span className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-alabaster font-display text-2xl font-bold text-teal-deep ring-1 ring-teal-deep/40 transition-colors duration-300 group-hover:bg-teal group-hover:text-white group-hover:ring-teal">
+                  {i + 1}
+                </span>
+                <p className="pr-4 font-body text-base leading-relaxed text-ink/65">{step}</p>
               </motion.div>
             </RevealItem>
           ))}

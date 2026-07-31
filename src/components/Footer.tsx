@@ -172,7 +172,16 @@ export function Footer() {
 
       <Container>
         <p className="border-t border-white/10 py-6 text-center font-body text-sm text-white/70">
-          Desenvolvido by Ergon Digital Product Studio.
+          Desenvolvido by{" "}
+          <a
+            href="https://www.ergonagencia.com.br"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-teal"
+          >
+            Ergon Digital Product Studio
+          </a>
+          .
         </p>
       </Container>
 
