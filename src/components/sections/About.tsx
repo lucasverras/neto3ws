@@ -51,7 +51,7 @@ export function About() {
           {INDICATORS.map((item) => (
             <RevealItem key={item.label} className="flex flex-col gap-3">
               <span className="h-[3px] w-6 bg-teal-deep" />
-              <span className="font-display text-4xl font-black leading-none tracking-tight text-ink md:text-5xl">
+              <span className="font-display text-4xl font-medium leading-none tracking-tight text-ink md:text-5xl">
                 {item.target !== undefined ? (
                   <CountUp target={item.target} suffix={item.suffix ?? ""} />
                 ) : (

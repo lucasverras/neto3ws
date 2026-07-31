@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
+import { PhotoImage } from "@/components/ui/PhotoImage";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 
 const CATEGORIES = [
@@ -13,26 +13,31 @@ const CATEGORIES = [
     title: "Moldes para injeção plástica",
     description:
       "Moldes utilizados na fabricação de peças plásticas por injeção, avaliados quanto ao estado de conservação e à viabilidade de reaproveitamento.",
+    image: "/images/gallery/06-moldes-injecao-plastica.png",
   },
   {
     title: "Porta-moldes",
     description:
       "Estruturas responsáveis por fixar e posicionar moldes durante o processo produtivo, negociadas separadamente ou como parte de um lote.",
+    image: "/images/gallery/07-porta-moldes.png",
   },
   {
     title: "Bases para estampos",
     description:
       "Bases utilizadas em processos de estampagem, essenciais para a precisão e a estabilidade das ferramentas industriais.",
+    image: "/images/gallery/08-bases-para-estampos.png",
   },
   {
     title: "Equipamentos industriais",
     description:
       "Máquinas e equipamentos de linha de produção, avaliados tecnicamente para compra, venda ou intermediação em todo o Brasil.",
+    image: "/images/gallery/09-equipamentos-industriais.png",
   },
   {
     title: "Ferramentas especiais",
     description:
       "Ferramentas desenvolvidas para aplicações específicas, com potencial de reaproveitamento em novos projetos industriais.",
+    image: "/images/gallery/10-ferramentas-especiais.png",
   },
 ];
 
@@ -65,7 +70,7 @@ export function Categories() {
     <section id="categorias" className="relative bg-ink">
       {/* Desktop: pinned scroll-locked list */}
       <div ref={wrapperRef} className="hidden lg:block" style={{ height: `${COUNT * 48}vh` }}>
-        <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
+        <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden pt-28 pb-10">
           <Container>
             <SectionLabel index="03" label="Categorias" className="justify-center" />
             <h2 className="mx-auto mt-6 max-w-3xl text-center font-display text-4xl font-bold leading-[1.05] tracking-tight text-white">
@@ -109,7 +114,7 @@ export function Categories() {
               </div>
 
               <div className="col-span-5">
-                <div className="relative h-full w-full overflow-hidden rounded-2xl">
+                <div className="relative h-full w-full overflow-hidden rounded-lg">
                   {CATEGORIES.map((category, i) => (
                     <motion.div
                       key={category.title}
@@ -117,7 +122,7 @@ export function Categories() {
                       animate={{ opacity: active === i ? 1 : 0 }}
                       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <PlaceholderImage label={category.title} className="h-full w-full" />
+                      <PhotoImage src={category.image} alt={category.title} className="h-full w-full" />
                     </motion.div>
                   ))}
                 </div>
@@ -149,7 +154,11 @@ export function Categories() {
                 <p className="max-w-md font-body text-[15px] leading-relaxed text-white/60">
                   {category.description}
                 </p>
-                <PlaceholderImage label={category.title} className="mt-2 aspect-[4/3] w-full" />
+                <PhotoImage
+                  src={category.image}
+                  alt={category.title}
+                  className="mt-2 aspect-[4/3] w-full"
+                />
               </div>
             </Reveal>
           ))}

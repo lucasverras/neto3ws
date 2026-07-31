@@ -14,7 +14,6 @@ import {
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { SectionDivider } from "@/components/ui/SectionDivider";
 
 const DIFFERENTIALS = [
   {
@@ -127,8 +126,6 @@ export function Differentials() {
           ))}
         </div>
       </Container>
-
-      <SectionDivider fillClassName="fill-alabaster" />
     </section>
   );
 }

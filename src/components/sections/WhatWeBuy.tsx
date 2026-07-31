@@ -3,7 +3,7 @@
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
+import { PhotoImage } from "@/components/ui/PhotoImage";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 
 export function WhatWeBuy() {
@@ -25,8 +25,9 @@ export function WhatWeBuy() {
           </div>
 
           <Reveal delay={0.15} className="lg:col-span-6">
-            <PlaceholderImage
-              label="Ativos industriais avaliados"
+            <PhotoImage
+              src="/images/gallery/11-ativos-industriais-avaliados.png"
+              alt="Ativos industriais avaliados"
               className="aspect-[5/4] w-full"
             />
           </Reveal>

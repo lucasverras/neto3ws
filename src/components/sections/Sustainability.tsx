@@ -3,11 +3,10 @@
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
-import { SectionDivider } from "@/components/ui/SectionDivider";
 
 export function Sustainability() {
   return (
-    <section className="relative bg-alabaster py-24 md:py-32">
+    <section className="eco-paper relative py-24 md:py-32">
       <Container>
         <div className="flex flex-col items-start gap-10 lg:items-center lg:text-center">
           <SectionLabel index="06" label="Sustentabilidade" tone="onLight" />
@@ -25,8 +24,6 @@ export function Sustainability() {
           </Reveal>
         </div>
       </Container>
-
-      <SectionDivider fillClassName="fill-ink" />
     </section>
   );
 }

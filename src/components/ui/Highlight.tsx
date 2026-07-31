@@ -10,17 +10,20 @@ export function Highlight({
   delay?: number;
 }) {
   return (
-    <span className="relative inline-block">
-      <span className="relative z-10">{children}</span>
-      <motion.span
-        aria-hidden
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true, amount: 0.8 }}
-        transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay }}
-        style={{ transformOrigin: "left" }}
-        className="absolute inset-x-0 bottom-[0.06em] -z-10 h-[0.32em] rounded-[2px] bg-teal/45 sm:bottom-[0.1em]"
-      />
-    </span>
+    <motion.span
+      initial={{ backgroundSize: "0% 0.32em" }}
+      whileInView={{ backgroundSize: "100% 0.32em" }}
+      viewport={{ once: true, amount: 0.8 }}
+      transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay }}
+      style={{
+        backgroundImage: "linear-gradient(rgba(44,141,255,0.45), rgba(44,141,255,0.45))",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "0 88%",
+        WebkitBoxDecorationBreak: "clone",
+        boxDecorationBreak: "clone",
+      }}
+    >
+      {children}
+    </motion.span>
   );
 }

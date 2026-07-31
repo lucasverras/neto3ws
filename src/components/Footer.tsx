@@ -4,6 +4,13 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { scrollToId } from "@/lib/scrollTo";
+
+function handleAnchorClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+  if (!href.startsWith("#")) return;
+  e.preventDefault();
+  scrollToId(href.slice(1));
+}
 
 function InstagramIcon() {
   return (
@@ -52,9 +59,9 @@ export function Footer() {
           <Image
             src="/images/logo.webp"
             alt="3WS Moldes"
-            width={140}
-            height={46}
-            className="h-9 w-auto"
+            width={150}
+            height={50}
+            className="h-9 w-auto self-start"
           />
           <p className="max-w-xs font-body text-sm leading-relaxed text-white/50">
             Compra, venda e intermediação de moldes e equipamentos
@@ -95,6 +102,7 @@ export function Footer() {
                 <li key={link.href}>
                   <a
                     href={link.href}
+                    onClick={(e) => handleAnchorClick(e, link.href)}
                     className="font-body text-sm text-white/65 transition-colors hover:text-teal"
                   >
                     {link.label}
@@ -113,6 +121,7 @@ export function Footer() {
                 <li key={service}>
                   <a
                     href="#servicos"
+                    onClick={(e) => handleAnchorClick(e, "#servicos")}
                     className="font-body text-sm text-white/65 transition-colors hover:text-teal"
                   >
                     {service}
@@ -130,13 +139,18 @@ export function Footer() {
             </span>
             <ul className="flex flex-col gap-3 font-body text-sm text-white/65">
               <li>
-                <a href="mailto:contato@3ws.com.br" className="hover:text-teal">
-                  contato@3ws.com.br
+                <a href="mailto:comercial@3wsmoldes.com.br" className="hover:text-teal">
+                  comercial@3wsmoldes.com.br
                 </a>
               </li>
               <li>
-                <a href="tel:+550000000000" className="hover:text-teal">
-                  (00) 0000-0000
+                <a
+                  href="https://wa.me/5511973692861"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-teal"
+                >
+                  (11) 97369-2861
                 </a>
               </li>
             </ul>
@@ -147,21 +161,27 @@ export function Footer() {
               Endereço
             </span>
             <p className="font-body text-sm leading-relaxed text-white/65">
-              A definir — endereço da unidade 3WS.
+              Rua Dr. Edgard Magalhães Noronha, 789 — Vila Nova York
+              <br />
+              São Paulo/SP — CEP 03480-000
             </p>
           </div>
         </div>
       </Reveal>
       </Container>
 
+      <Container>
+        <p className="border-t border-white/10 py-6 text-center font-body text-sm text-white/70">
+          Desenvolvido by Ergon Digital Product Studio.
+        </p>
+      </Container>
+
       <div className="border-t border-white/10">
         <Container className="flex flex-col-reverse items-start gap-4 py-6 font-body text-xs text-white/40 md:flex-row md:items-center md:justify-between">
-          <span>3WS Moldes — Dados institucionais a definir.</span>
-          <div className="flex items-center gap-6">
-            <a href="#" className="transition-colors hover:text-white/70">
-              Política de Privacidade
-            </a>
-          </div>
+          <span>© {new Date().getFullYear()} 3WS Moldes e Equipamentos. Todos os direitos reservados.</span>
+          <a href="#" className="transition-colors hover:text-white/70">
+            Política de Privacidade
+          </a>
         </Container>
       </div>
     </footer>

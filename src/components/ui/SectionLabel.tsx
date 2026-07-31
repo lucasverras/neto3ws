@@ -1,12 +1,11 @@
 import { cn } from "@/lib/utils";
 
 export function SectionLabel({
-  index,
   label,
   tone = "onDark",
   className,
 }: {
-  index: string;
+  index?: string;
   label: string;
   tone?: "onDark" | "onLight";
   className?: string;
@@ -20,7 +19,6 @@ export function SectionLabel({
       )}
     >
       <span className="h-px w-8 bg-teal" />
-      <span>{index}</span>
       <span>{label}</span>
     </div>
   );

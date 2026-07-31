@@ -11,7 +11,7 @@ export function FinalCTA() {
       <Container>
         <div className="flex flex-col items-start gap-10 lg:items-center lg:text-center">
           <Reveal className="max-w-3xl">
-            <h2 className="font-display text-4xl font-black leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
+            <h2 className="font-display text-4xl font-medium leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
               Tem um molde parado ou procura uma oportunidade industrial?
             </h2>
           </Reveal>
@@ -25,7 +25,9 @@ export function FinalCTA() {
 
           <Reveal delay={0.2}>
             <motion.a
-              href="mailto:contato@3ws.com.br"
+              href="https://wa.me/5511973692861"
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.035 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}

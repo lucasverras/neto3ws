@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { scrollToId } from "@/lib/scrollTo";
 
 const NAV_LINKS = [
-  { href: "#servicos", label: "serviços" },
-  { href: "#categorias", label: "categorias" },
-  { href: "#como-funciona", label: "como funciona" },
-  { href: "#sobre", label: "sobre" },
-  { href: "#faq", label: "faq" },
+  { href: "#servicos", label: "Serviços" },
+  { href: "#categorias", label: "Categorias" },
+  { href: "#como-funciona", label: "Como Funciona" },
+  { href: "#sobre", label: "Sobre" },
+  { href: "#faq", label: "FAQ" },
 ];
 
 export function Header() {
@@ -31,19 +32,36 @@ export function Header() {
     };
   }, [open]);
 
+  const handleAnchorClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!href.startsWith("#")) return;
+    e.preventDefault();
+    scrollToId(href.slice(1));
+  };
+
   return (
-    <header className="fixed inset-x-0 top-4 z-50 px-4 md:top-6 md:px-6">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-[padding] duration-500 ease-out ${
+        scrolled ? "px-4 pt-4 md:px-6 md:pt-6" : "px-0 pt-0"
+      }`}
+    >
       <div
-        className={`mx-auto flex h-16 max-w-4xl items-center justify-between rounded-2xl border border-white/15 bg-ink/45 pl-5 pr-2 backdrop-blur-xl backdrop-saturate-150 transition-shadow duration-300 md:h-[4.25rem] md:pl-6 md:pr-2.5 ${
-          scrolled ? "shadow-[0_8px_30px_rgba(0,0,0,0.35)]" : ""
+        className={`mx-auto flex h-16 items-center justify-between border backdrop-blur-xl backdrop-saturate-150 transition-all duration-500 ease-out pl-5 pr-2 md:h-[4.25rem] md:pl-6 md:pr-2.5 ${
+          scrolled
+            ? "max-w-4xl rounded-2xl border-white/15 bg-ink/45 shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
+            : "max-w-full rounded-none border-transparent border-b-white/10 bg-ink/80 shadow-none"
         }`}
       >
-        <a href="#top" className="relative z-10 flex shrink-0 items-center" aria-label="3WS — início">
+        <a
+          href="#top"
+          onClick={(e) => handleAnchorClick(e, "#top")}
+          className="relative z-10 flex shrink-0 items-center"
+          aria-label="3WS — início"
+        >
           <Image
             src="/images/logo.webp"
             alt="3WS Moldes"
-            width={148}
-            height={48}
+            width={150}
+            height={50}
             priority
             className="h-8 w-auto md:h-9"
           />
@@ -54,6 +72,7 @@ export function Header() {
             <a
               key={link.href}
               href={link.href}
+              onClick={(e) => handleAnchorClick(e, link.href)}
               className="font-body text-[14px] tracking-[0.01em] text-white/70 transition-colors hover:text-teal"
             >
               {link.label}
@@ -64,12 +83,13 @@ export function Header() {
         <div className="flex items-center gap-2">
           <motion.a
             href="#contato"
+            onClick={(e) => handleAnchorClick(e, "#contato")}
             whileHover={{ scale: 1.035 }}
             whileTap={{ scale: 0.97 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="hidden shrink-0 items-center rounded-full bg-teal px-6 py-2.5 font-body text-[14px] font-medium tracking-[0.01em] text-white shadow-[0_4px_20px_rgba(44,141,255,0.35)] transition-colors duration-300 hover:bg-teal-deep hover:shadow-[0_6px_24px_rgba(44,141,255,0.5)] lg:inline-flex"
           >
-            solicitar avaliação
+            Solicitar Avaliação
           </motion.a>
 
           <button
@@ -98,7 +118,10 @@ export function Header() {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => {
+                    setOpen(false);
+                    handleAnchorClick(e, link.href);
+                  }}
                   className="font-display text-2xl font-semibold tracking-tight text-white"
                 >
                   {link.label}
@@ -106,10 +129,13 @@ export function Header() {
               ))}
               <a
                 href="#contato"
-                onClick={() => setOpen(false)}
+                onClick={(e) => {
+                  setOpen(false);
+                  handleAnchorClick(e, "#contato");
+                }}
                 className="mt-2 inline-flex w-fit items-center rounded-full bg-teal px-6 py-3 font-body text-[14px] font-medium tracking-[0.01em] text-white shadow-[0_4px_20px_rgba(44,141,255,0.35)]"
               >
-                solicitar avaliação
+                Solicitar Avaliação
               </a>
             </div>
           </motion.div>

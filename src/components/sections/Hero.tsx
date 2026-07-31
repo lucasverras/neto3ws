@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { Highlight } from "@/components/ui/Highlight";
+import { scrollToId } from "@/lib/scrollTo";
 
 export function Hero() {
   return (
@@ -74,6 +75,10 @@ export function Hero() {
             >
               <a
                 href="#contato"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToId("contato");
+                }}
                 className="inline-flex items-center rounded-xl bg-teal px-7 py-3.5 font-body text-[13px] font-medium uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-teal-deep"
               >
                 Solicitar Avaliação

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 const satoshi = localFont({
   src: [
@@ -39,6 +40,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-ink text-white">
         <CustomCursor />
         {children}
+        <WhatsAppButton />
       </body>
     </html>
   );

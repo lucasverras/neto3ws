@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Boxes, ClipboardCheck, Handshake, Scale, Wrench } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
+import { PhotoImage } from "@/components/ui/PhotoImage";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 
 const SERVICES = [
@@ -18,6 +18,7 @@ const SERVICES = [
       "Moldes novos, usados ou desativados",
       "Equipamentos e ferramentas industriais",
     ],
+    image: "/images/gallery/01-compra-moldes-e-equipamentos.png",
   },
   {
     icon: Boxes,
@@ -28,6 +29,7 @@ const SERVICES = [
       "Ativos avaliados tecnicamente",
       "Redução de custos e prazos",
     ],
+    image: "/images/gallery/02-venda-moldes-e-equipamentos.png",
   },
   {
     icon: Handshake,
@@ -38,6 +40,7 @@ const SERVICES = [
       "Negociação conduzida do início ao fim",
       "Segurança para as duas partes",
     ],
+    image: "/images/gallery/03-intermediacao-comercial.png",
   },
   {
     icon: Scale,
@@ -48,6 +51,7 @@ const SERVICES = [
       "Avaliação por peso especializada",
       "Ferramentas dentro ou fora de operação",
     ],
+    image: "/images/gallery/04-compra-ferramentas-por-peso.png",
   },
   {
     icon: ClipboardCheck,
@@ -58,6 +62,7 @@ const SERVICES = [
       "Avaliação técnica e comercial",
       "Suporte à decisão de reaproveitamento",
     ],
+    image: "/images/gallery/05-avaliacao-consultoria-tecnica.png",
   },
 ];
 
@@ -66,15 +71,13 @@ const COUNT = SERVICES.length;
 function ServiceRow({
   service,
   isActive,
-  onActivate,
 }: {
   service: (typeof SERVICES)[number];
   isActive: boolean;
-  onActivate: () => void;
 }) {
   const Icon = service.icon;
   return (
-    <div className="border-b border-white/12" onMouseEnter={onActivate}>
+    <div className="border-b border-white/12">
       <div className="flex w-full items-center gap-6 py-3 text-left md:gap-8">
         <span
           className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ring-1 transition-colors duration-300 ${
@@ -85,16 +88,12 @@ function ServiceRow({
         </span>
 
         <motion.div
-          className="w-64 shrink-0 overflow-hidden md:w-96"
+          className="w-64 shrink-0 overflow-hidden lg:w-72 xl:w-96"
           animate={{ height: isActive ? 210 : 40 }}
           initial={false}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >
-          <PlaceholderImage
-            label={service.title}
-            showLabel={isActive}
-            className="h-full w-full"
-          />
+          <PhotoImage src={service.image} alt={service.title} className="h-full w-full" />
         </motion.div>
 
         <div className="flex flex-1 flex-col gap-1.5">
@@ -119,7 +118,7 @@ function ServiceRow({
           initial={false}
           animate={{ height: isActive ? "auto" : 0, opacity: isActive ? 1 : 0 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="hidden shrink-0 flex-col gap-2 overflow-hidden md:flex md:w-64"
+          className="hidden shrink-0 flex-col gap-2 overflow-hidden xl:flex xl:w-56"
         >
           <span className="font-body text-[10px] uppercase tracking-[0.16em] text-white/30">
             Destaques
@@ -163,7 +162,7 @@ export function Services() {
     <section id="servicos" className="relative bg-ink">
       {/* Desktop: pinned scroll-locked list */}
       <div ref={wrapperRef} className="hidden lg:block" style={{ height: `${COUNT * 55}vh` }}>
-        <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
+        <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden pt-28 pb-10">
           <Container>
             <SectionLabel index="01" label="Serviços" />
             <h2 className="mt-6 max-w-2xl font-display text-3xl font-bold leading-[1.05] tracking-tight text-white sm:text-4xl">
@@ -172,12 +171,7 @@ export function Services() {
 
             <div className="mt-10 border-t border-white/12">
               {SERVICES.map((service, i) => (
-                <ServiceRow
-                  key={service.title}
-                  service={service}
-                  isActive={active === i}
-                  onActivate={() => setActive(i)}
-                />
+                <ServiceRow key={service.title} service={service} isActive={active === i} />
               ))}
             </div>
           </Container>
