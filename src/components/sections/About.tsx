@@ -25,8 +25,9 @@ export function About() {
         <div className="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-12">
           <Reveal delay={0.05} className="lg:col-span-8">
             <h2 className="font-display text-lg font-medium leading-snug tracking-tight text-ink/80 sm:text-xl md:text-2xl">
-              Há três gerações, a 3WS molda confiança, valoriza ativos e cria
-              oportunidades reais de negócio.
+              Há três gerações, a 3WS molda confiança, valoriza ativos
+              <br />
+              e cria oportunidades reais de negócio.
             </h2>
           </Reveal>
 
