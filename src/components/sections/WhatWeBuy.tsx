@@ -16,10 +16,10 @@ export function WhatWeBuy() {
 
             <Reveal className="mt-8 md:mt-10">
               <h2 className="font-display text-3xl font-medium leading-[1.15] tracking-tight sm:text-4xl md:text-[2.75rem]">
-                Avaliamos moldes novos, usados, desativados ou ainda em
-                operação — além de porta-moldes, bases para estampos,
-                equipamentos industriais, lotes completos e ferramentas
-                especiais.
+                Avaliamos moldes novos, usados, desativados ou que ainda
+                estejam em operação. Também analisamos porta-moldes, bases
+                para estampos, equipamentos industriais, lotes completos e
+                ferramentas especiais.
               </h2>
             </Reveal>
           </div>

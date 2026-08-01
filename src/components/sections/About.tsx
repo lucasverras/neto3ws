@@ -52,11 +52,7 @@ export function About() {
             <RevealItem key={item.label} className="flex flex-col gap-3">
               <span className="h-[3px] w-6 bg-teal-deep" />
               <span className="font-display text-4xl font-medium leading-none tracking-tight text-ink md:text-5xl">
-                {item.target !== undefined ? (
-                  <CountUp target={item.target} suffix={item.suffix ?? ""} />
-                ) : (
-                  item.value
-                )}
+                <CountUp target={item.target} suffix={item.suffix ?? ""} />
               </span>
               <span className="font-body text-xs uppercase leading-snug tracking-[0.08em] text-ink/55 md:text-[13px]">
                 {item.label}

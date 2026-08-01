@@ -7,10 +7,23 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 
 const STEPS = [
-  "Você envia as informações, imagens e especificações do ativo.",
-  "Nossa equipe realiza uma avaliação técnica e comercial.",
-  "Apresentamos uma proposta de compra ou definimos a estratégia de intermediação.",
-  "Acompanhamos a negociação, retirada e conclusão do processo.",
+  {
+    title: "Envio das informações",
+    description: "Você envia as informações, imagens e especificações do ativo.",
+  },
+  {
+    title: "Avaliação técnica",
+    description: "Nossa equipe realiza uma avaliação técnica e comercial.",
+  },
+  {
+    title: "Proposta e negociação",
+    description:
+      "Apresentamos uma proposta de compra ou definimos a estratégia de intermediação.",
+  },
+  {
+    title: "Conclusão do processo",
+    description: "Acompanhamos a negociação, retirada e conclusão do processo.",
+  },
 ];
 
 export function HowItWorks() {
@@ -28,15 +41,16 @@ export function HowItWorks() {
         {/* Mobile: zigzag timeline, everything on one screen, no scroll */}
         <RevealGroup className="mt-16 grid grid-cols-4 md:hidden">
           {STEPS.map((step, i) => (
-            <p
-              key={`top-${step}`}
+            <div
+              key={`top-${step.title}`}
               style={{ gridColumn: i + 1, gridRow: 1 }}
-              className={`px-1 text-center font-body text-[11px] leading-snug text-ink/60 ${
-                i % 2 === 0 ? "" : "invisible"
-              }`}
+              className={`px-1 text-center ${i % 2 === 0 ? "" : "invisible"}`}
             >
-              {step}
-            </p>
+              <p className="font-display text-xs font-bold text-ink">{step.title}</p>
+              <p className="mt-1 font-body text-[11px] leading-snug text-ink/60">
+                {step.description}
+              </p>
+            </div>
           ))}
 
           <div className="relative col-span-4 row-start-2 flex items-center py-3">
@@ -54,15 +68,16 @@ export function HowItWorks() {
           </div>
 
           {STEPS.map((step, i) => (
-            <p
-              key={`bottom-${step}`}
+            <div
+              key={`bottom-${step.title}`}
               style={{ gridColumn: i + 1, gridRow: 3 }}
-              className={`px-1 text-center font-body text-[11px] leading-snug text-ink/60 ${
-                i % 2 === 1 ? "" : "invisible"
-              }`}
+              className={`px-1 text-center ${i % 2 === 1 ? "" : "invisible"}`}
             >
-              {step}
-            </p>
+              <p className="font-display text-xs font-bold text-ink">{step.title}</p>
+              <p className="mt-1 font-body text-[11px] leading-snug text-ink/60">
+                {step.description}
+              </p>
+            </div>
           ))}
         </RevealGroup>
 
@@ -71,7 +86,7 @@ export function HowItWorks() {
           <div className="pointer-events-none absolute left-0 right-0 top-[1.6rem] h-px bg-ink/15" />
 
           {STEPS.map((step, i) => (
-            <RevealItem key={step} className="relative">
+            <RevealItem key={step.title} className="relative">
               <motion.div
                 className="group flex h-full cursor-default flex-col gap-6"
                 whileHover={{ y: -6 }}
@@ -80,7 +95,12 @@ export function HowItWorks() {
                 <span className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-alabaster font-display text-2xl font-bold text-teal-deep ring-1 ring-teal-deep/40 transition-colors duration-300 group-hover:bg-teal group-hover:text-white group-hover:ring-teal">
                   {i + 1}
                 </span>
-                <p className="pr-4 font-body text-base leading-relaxed text-ink/65">{step}</p>
+                <div className="pr-4">
+                  <h3 className="font-display text-lg font-semibold text-ink">{step.title}</h3>
+                  <p className="mt-2 font-body text-base leading-relaxed text-ink/65">
+                    {step.description}
+                  </p>
+                </div>
               </motion.div>
             </RevealItem>
           ))}
