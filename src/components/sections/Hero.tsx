@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { Highlight } from "@/components/ui/Highlight";
-import { scrollToId } from "@/lib/scrollTo";
 
 export function Hero() {
   return (
@@ -74,11 +73,9 @@ export function Hero() {
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.45 }}
             >
               <a
-                href="#contato"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToId("contato");
-                }}
+                href="https://wa.me/5511973692861?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20uma%20avalia%C3%A7%C3%A3o%20de%20moldes%2Fequipamentos."
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center rounded-xl bg-teal px-7 py-3.5 font-body text-[13px] font-medium uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-teal-deep"
               >
                 Solicitar Avaliação

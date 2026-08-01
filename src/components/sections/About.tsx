@@ -9,7 +9,7 @@ const INDICATORS = [
   { target: 1500, suffix: "+", label: "toneladas em ferramentas industriais" },
   { target: 3, label: "gerações de experiência" },
   { target: 100, suffix: "%", label: "atendimento em todo o Brasil" },
-  { value: "+XX", label: "toneladas negociadas e entregues" },
+  { target: 20000, suffix: "+", label: "toneladas negociadas e entregues" },
 ];
 
 export function About() {

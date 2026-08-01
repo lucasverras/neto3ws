@@ -82,8 +82,9 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <motion.a
-            href="#contato"
-            onClick={(e) => handleAnchorClick(e, "#contato")}
+            href="https://wa.me/5511973692861?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20uma%20avalia%C3%A7%C3%A3o%20de%20moldes%2Fequipamentos."
+            target="_blank"
+            rel="noopener noreferrer"
             whileHover={{ scale: 1.035 }}
             whileTap={{ scale: 0.97 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
@@ -128,11 +129,10 @@ export function Header() {
                 </a>
               ))}
               <a
-                href="#contato"
-                onClick={(e) => {
-                  setOpen(false);
-                  handleAnchorClick(e, "#contato");
-                }}
+                href="https://wa.me/5511973692861?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20uma%20avalia%C3%A7%C3%A3o%20de%20moldes%2Fequipamentos."
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
                 className="mt-2 inline-flex w-fit items-center rounded-full bg-teal px-6 py-3 font-body text-[14px] font-medium tracking-[0.01em] text-white shadow-[0_4px_20px_rgba(44,141,255,0.35)]"
               >
                 Solicitar Avaliação
