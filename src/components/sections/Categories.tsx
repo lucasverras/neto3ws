@@ -70,7 +70,7 @@ export function Categories() {
     <section id="categorias" className="relative bg-ink">
       {/* Desktop: pinned scroll-locked list */}
       <div ref={wrapperRef} className="hidden lg:block" style={{ height: `${COUNT * 48}vh` }}>
-        <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden pt-28 pb-20">
+        <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden pt-28 pb-36">
           <Container>
             <SectionLabel index="03" label="Categorias" className="justify-center" />
             <h2 className="mx-auto mt-6 max-w-3xl text-center font-display text-4xl font-bold leading-[1.05] tracking-tight text-white">
