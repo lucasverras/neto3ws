@@ -1,0 +1,228 @@
+{
+  "$comment": [
+    "Curadoria manual do estoque. TUDO aqui é OPCIONAL — uma pasta nova em",
+    "3ws-images/imagens/<segmento>/<slug>/ entra no catálogo automaticamente com",
+    "título, categoria e alt derivados do próprio slug. Este arquivo só existe",
+    "para (a) refinar títulos que o gerador automático não teria como acertar e",
+    "(b) registrar quais fotos mostram a PEÇA PRODUZIDA em vez do molde.",
+    "",
+    "'result' lista os nomes de arquivo (sem extensão) que mostram a peça injetada.",
+    "Foi preenchido por inspeção visual foto a foto — não por heurística. Pastas",
+    "ausentes desta lista ficam com galeria única de molde, que é o padrão seguro.",
+    "",
+    "Campos aceitos por slug: title, subject, kind ('mold' | 'collection'),",
+    "category, result[], cover, summary."
+  ],
+
+  "exclude": [
+    "estampos/estampos-base-para-estampo/08.jpg"
+  ],
+
+  "excludeReasons": {
+    "estampos/estampos-base-para-estampo/08.jpg": "Card promocional com telefone/CTA, não é foto do ativo. Arquivo preservado no acervo original."
+  },
+
+  "institutional": "acervo-geral-do-estoque",
+
+  "items": {
+    "alca-caixao-2-cavidades": {
+      "title": "Molde para Alça de Caixão – 2 Cavidades",
+      "subject": "alça de caixão",
+      "result": ["08"]
+    },
+    "bandeja-1-cavidade": {
+      "subject": "bandeja",
+      "result": ["03", "12", "13", "14", "15", "16"]
+    },
+    "bandeja-decorada-1-cavidade": {
+      "subject": "bandeja decorada",
+      "result": ["04"]
+    },
+    "bandeja-oval-1-cavidade": {
+      "subject": "bandeja oval",
+      "result": ["05"]
+    },
+    "caneca-uvas-2-cavidades": {
+      "title": "Molde para Caneca com Relevo de Uvas – 2 Cavidades",
+      "subject": "caneca com relevo de uvas",
+      "result": ["07", "08"]
+    },
+    "cinzeiro-1-cavidade": {
+      "subject": "cinzeiro",
+      "result": ["04", "05", "06"]
+    },
+    "copo-250ml-2-cavidades": {
+      "subject": "copo de 250 ml",
+      "result": ["05"]
+    },
+    "copo-4-cavidades-peca-40g": {
+      "title": "Molde para Copo 40 g – 4 Cavidades",
+      "subject": "copo com peça de 40 g",
+      "result": ["04", "05", "06"]
+    },
+    "copo-4-cavidades-peca-60g": {
+      "title": "Molde para Copo 60 g – 4 Cavidades",
+      "subject": "copo com peça de 60 g",
+      "result": ["06", "07"]
+    },
+    "copo-660ml-tampa-sobretampa-2-cavidades": {
+      "title": "Molde para Copo 660 ml com Tampa e Sobretampa – 2 Cavidades",
+      "subject": "copo de 660 ml com tampa e sobretampa",
+      "result": ["05", "06", "07", "08", "09"]
+    },
+    "copo-azul-decorado-4-cavidades": {
+      "subject": "copo decorado",
+      "result": ["06"]
+    },
+    "copo-decorado-4-cavidades": {
+      "subject": "copo decorado",
+      "result": ["05"]
+    },
+    "forma-de-pudim-1-cavidade": {
+      "subject": "forma de pudim",
+      "result": ["03", "04"]
+    },
+    "jarra-2l-tampa-copo": {
+      "title": "Molde para Jarra 2 L com Tampa e Copos",
+      "subject": "jarra de 2 litros com tampa e copos",
+      "result": ["08", "09"]
+    },
+    "manteigueira-base-tampa-4-cavidades": {
+      "title": "Molde para Manteigueira, Base e Tampa – 4 Cavidades",
+      "subject": "manteigueira com base e tampa",
+      "result": ["14", "15", "16", "17", "18"]
+    },
+    "pes-de-moveis-4-cavidades": {
+      "subject": "pés de móveis",
+      "result": ["09", "10", "11"]
+    },
+    "prato-4-cavidades-peca-100g": {
+      "title": "Molde para Prato 100 g – 4 Cavidades",
+      "subject": "prato com peça de 100 g",
+      "result": ["03", "04", "05", "06"]
+    },
+    "prato-4-cavidades-peca-95g": {
+      "title": "Molde para Prato 95 g – 4 Cavidades",
+      "subject": "prato com peça de 95 g",
+      "result": ["03", "04"]
+    },
+    "prato-elegance-2-cavidades": {
+      "subject": "prato Elegance",
+      "result": ["04", "06", "07", "08"]
+    },
+    "prato-quadrado-4-cavidades": {
+      "subject": "prato quadrado",
+      "result": ["05", "06"]
+    },
+    "saboneteira-4-cavidades": {
+      "subject": "saboneteira",
+      "result": ["04", "05", "06", "07", "08"]
+    },
+    "saladeira-1-cavidade": {
+      "subject": "saladeira",
+      "result": ["03", "04", "05", "06", "07"]
+    },
+    "saladeira-sopeira-1-cavidade": {
+      "title": "Molde para Saladeira / Sopeira – 1 Cavidade",
+      "subject": "saladeira ou sopeira",
+      "result": ["01"]
+    },
+    "tabua-1-cavidade": {
+      "subject": "tábua",
+      "result": ["03", "04", "05", "07"]
+    },
+    "taca-300ml-2-cavidades": {
+      "subject": "taça de 300 ml",
+      "result": ["07", "08"]
+    },
+    "tampa-flip-top": {
+      "subject": "tampa flip top",
+      "result": ["05", "06", "07"]
+    },
+    "vasilha-4-cavidades": {
+      "subject": "vasilha",
+      "result": ["03", "04", "05"]
+    },
+    "vasilha-grande-2-cavidades": {
+      "subject": "vasilha grande",
+      "result": ["06"]
+    },
+    "vasilha-pequena-4-cavidades": {
+      "subject": "vasilha pequena",
+      "result": ["07", "08", "09", "10", "11"]
+    },
+    "vaso-1-cavidade": {
+      "subject": "vaso"
+    },
+
+    "automotivos": {
+      "kind": "collection",
+      "title": "Moldes para Peças Automotivas",
+      "subject": "peças automotivas",
+      "category": "Automotivos",
+      "summary": "Conjunto de moldes de injeção destinados a componentes plásticos do setor automotivo, fotografados individualmente no acervo."
+    },
+    "brinquedos": {
+      "kind": "collection",
+      "title": "Moldes para Brinquedos",
+      "subject": "brinquedos plásticos",
+      "category": "Brinquedos"
+    },
+    "copos-diversos": {
+      "kind": "collection",
+      "title": "Moldes para Copos — Modelos Diversos",
+      "subject": "copos plásticos de modelos diversos",
+      "category": "Copos e Taças"
+    },
+    "diversos": {
+      "kind": "collection",
+      "title": "Moldes de Injeção — Acervo Diversos",
+      "subject": "moldes de injeção de aplicações diversas",
+      "category": "Diversos",
+      "summary": "Registro amplo do acervo: lotes de moldes de injeção de diferentes segmentos armazenados no galpão da 3WS."
+    },
+    "potes-hermeticos": {
+      "kind": "collection",
+      "title": "Moldes para Potes Herméticos",
+      "subject": "potes herméticos",
+      "category": "Vasilhas e Potes"
+    },
+    "utilidades-domesticas": {
+      "kind": "collection",
+      "title": "Moldes para Utilidades Domésticas",
+      "subject": "utilidades domésticas",
+      "category": "Utilidades Domésticas"
+    },
+    "vasos-baldes-cestos": {
+      "kind": "collection",
+      "title": "Moldes para Vasos, Baldes e Cestos",
+      "subject": "vasos, baldes e cestos",
+      "category": "Vasos, Baldes e Cestos"
+    },
+    "porta-moldes-posticados": {
+      "kind": "collection",
+      "title": "Porta-Moldes Postiçados",
+      "subject": "porta-moldes postiçados",
+      "category": "Porta-Moldes",
+      "summary": "Porta-moldes postiçados disponíveis para reaproveitamento em novos projetos de ferramentaria."
+    },
+    "estampos-base-para-estampo": {
+      "kind": "collection",
+      "title": "Bases para Estampo",
+      "subject": "bases para estampo",
+      "category": "Bases para Estampos",
+      "summary": "Porta-estampos, bases de estampos e ferramentas de corte e repuxo, comercializados no varejo, no atacado e por quilo."
+    },
+    "molde-para-sopro": {
+      "title": "Molde para Sopro",
+      "subject": "sopro de embalagens plásticas",
+      "category": "Moldes de Sopro"
+    },
+    "acervo-geral-do-estoque": {
+      "kind": "collection",
+      "title": "Acervo Geral do Estoque",
+      "subject": "o acervo geral de moldes da 3WS",
+      "category": "Diversos"
+    }
+  }
+}

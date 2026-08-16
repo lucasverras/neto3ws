@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+import { SITE } from "@/lib/site";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 const satoshi = localFont({
@@ -22,9 +23,18 @@ const satoshi = localFont({
 });
 
 export const metadata: Metadata = {
+  // metadataBase resolve canonical e Open Graph relativos das páginas filhas.
+  metadataBase: new URL(SITE.url),
   title: "3WS | Ativos Industriais de Alto Valor",
   description:
     "Compra, venda e intermediação de moldes para injeção plástica, porta-moldes, bases para estampos e equipamentos industriais em todo o Brasil.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: SITE.name,
+    locale: "pt_BR",
+    url: SITE.url,
+  },
 };
 
 export default function RootLayout({

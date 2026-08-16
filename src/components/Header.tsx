@@ -2,6 +2,8 @@
 
 import { useEffect, useState, type MouseEvent } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { scrollToId } from "@/lib/scrollTo";
@@ -9,6 +11,7 @@ import { scrollToId } from "@/lib/scrollTo";
 const NAV_LINKS = [
   { href: "#servicos", label: "Serviços" },
   { href: "#categorias", label: "Categorias" },
+  { href: "/estoque", label: "Estoque" },
   { href: "#como-funciona", label: "Como Funciona" },
   { href: "#sobre", label: "Sobre" },
   { href: "#faq", label: "FAQ" },
@@ -17,6 +20,12 @@ const NAV_LINKS = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const onHome = pathname === "/";
+
+  // Fora da home as âncoras da landing viram links reais para "/#secao",
+  // senão o clique não teria alvo para rolar.
+  const resolveHref = (href: string) => (href.startsWith("#") && !onHome ? `/${href}` : href);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -33,7 +42,7 @@ export function Header() {
   }, [open]);
 
   const handleAnchorClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (!href.startsWith("#")) return;
+    if (!href.startsWith("#") || !onHome) return;
     e.preventDefault();
     scrollToId(href.slice(1));
   };
@@ -51,8 +60,8 @@ export function Header() {
             : "max-w-full rounded-none border-transparent border-b-white/10 bg-ink/80 shadow-none"
         }`}
       >
-        <a
-          href="#top"
+        <Link
+          href={onHome ? "#top" : "/"}
           onClick={(e) => handleAnchorClick(e, "#top")}
           className="relative z-10 flex shrink-0 items-center"
           aria-label="3WS — início"
@@ -65,18 +74,21 @@ export function Header() {
             priority
             className="h-8 w-auto md:h-9"
           />
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">
           {NAV_LINKS.map((link) => (
-            <a
+            <Link
               key={link.href}
-              href={link.href}
+              href={resolveHref(link.href)}
               onClick={(e) => handleAnchorClick(e, link.href)}
-              className="font-body text-[14px] tracking-[0.01em] text-white/70 transition-colors hover:text-teal"
+              aria-current={pathname === link.href ? "page" : undefined}
+              className={`font-body text-[14px] tracking-[0.01em] transition-colors hover:text-teal ${
+                pathname === link.href ? "text-teal" : "text-white/70"
+              }`}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -116,17 +128,18 @@ export function Header() {
           >
             <div className="flex flex-col gap-6 px-7 py-8">
               {NAV_LINKS.map((link) => (
-                <a
+                <Link
                   key={link.href}
-                  href={link.href}
+                  href={resolveHref(link.href)}
                   onClick={(e) => {
                     setOpen(false);
                     handleAnchorClick(e, link.href);
                   }}
+                  aria-current={pathname === link.href ? "page" : undefined}
                   className="font-display text-2xl font-semibold tracking-tight text-white"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
               <a
                 href="https://wa.me/5511973692861?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20uma%20avalia%C3%A7%C3%A3o%20de%20moldes%2Fequipamentos."

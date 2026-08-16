@@ -1,13 +1,19 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { scrollToId } from "@/lib/scrollTo";
 
-function handleAnchorClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
-  if (!href.startsWith("#")) return;
+function handleAnchorClick(
+  e: React.MouseEvent<HTMLAnchorElement>,
+  href: string,
+  onHome: boolean
+) {
+  if (!href.startsWith("#") || !onHome) return;
   e.preventDefault();
   scrollToId(href.slice(1));
 }
@@ -37,6 +43,7 @@ function LinkedinIcon() {
 const QUICK_LINKS = [
   { href: "#servicos", label: "Serviços" },
   { href: "#categorias", label: "Categorias" },
+  { href: "/estoque", label: "Estoque de moldes" },
   { href: "#como-funciona", label: "Como Funciona" },
   { href: "#sobre", label: "Sobre" },
   { href: "#faq", label: "FAQ" },
@@ -51,6 +58,11 @@ const SERVICES = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+  const onHome = pathname === "/";
+  // Fora da home as âncoras precisam virar "/#secao" para ter destino.
+  const resolveHref = (href: string) => (href.startsWith("#") && !onHome ? `/${href}` : href);
+
   return (
     <footer className="bg-ink text-white">
       <Container>
@@ -100,13 +112,13 @@ export function Footer() {
             <ul className="flex flex-col gap-3">
               {QUICK_LINKS.map((link) => (
                 <li key={link.href}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => handleAnchorClick(e, link.href)}
+                  <Link
+                    href={resolveHref(link.href)}
+                    onClick={(e) => handleAnchorClick(e, link.href, onHome)}
                     className="font-body text-sm text-white/65 transition-colors hover:text-teal"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -119,13 +131,13 @@ export function Footer() {
             <ul className="flex flex-col gap-3">
               {SERVICES.map((service) => (
                 <li key={service}>
-                  <a
-                    href="#servicos"
-                    onClick={(e) => handleAnchorClick(e, "#servicos")}
+                  <Link
+                    href={resolveHref("#servicos")}
+                    onClick={(e) => handleAnchorClick(e, "#servicos", onHome)}
                     className="font-body text-sm text-white/65 transition-colors hover:text-teal"
                   >
                     {service}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
