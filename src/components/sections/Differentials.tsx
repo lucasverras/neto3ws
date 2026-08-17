@@ -14,53 +14,22 @@ import {
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { useI18n } from "@/lib/i18n/context";
 
-const DIFFERENTIALS = [
-  {
-    icon: Scale,
-    title: "Escala e volume",
-    description: "Mais de 1.500 toneladas em ferramentas avaliadas e negociadas.",
-  },
-  {
-    icon: History,
-    title: "Três gerações de experiência",
-    description: "Know-how acumulado e relacionamentos de confiança no setor.",
-  },
-  {
-    icon: ClipboardCheck,
-    title: "Avaliação especializada",
-    description: "Análise técnica detalhada com proposta comercial justa.",
-  },
-  {
-    icon: Boxes,
-    title: "Lotes completos",
-    description: "Capacidade para negociar lotes inteiros, sem fracionar.",
-  },
-  {
-    icon: Truck,
-    title: "Cobertura nacional",
-    description: "Compra, venda e intermediação em todo o Brasil.",
-  },
-  {
-    icon: TrendingDown,
-    title: "Redução de custos e prazos",
-    description: "Ativos avaliados e prontos, reduzindo tempo e investimento.",
-  },
-  {
-    icon: Recycle,
-    title: "Reaproveitamento inteligente",
-    description: "Menos desperdício, mais economia circular.",
-  },
-  {
-    icon: LifeBuoy,
-    title: "Acompanhamento completo",
-    description: "Suporte da 3WS do contato inicial até a retirada dos ativos.",
-  },
-];
+const DIFFERENTIAL_KEYS = [
+  { key: "scale", icon: Scale },
+  { key: "experience", icon: History },
+  { key: "appraisal", icon: ClipboardCheck },
+  { key: "lots", icon: Boxes },
+  { key: "coverage", icon: Truck },
+  { key: "savings", icon: TrendingDown },
+  { key: "reuse", icon: Recycle },
+  { key: "support", icon: LifeBuoy },
+] as const;
 
-const ROWS = [DIFFERENTIALS.slice(0, 4), DIFFERENTIALS.slice(4, 8)];
+type DifferentialItem = { icon: typeof Scale; title: string; description: string };
 
-function DifferentialCard({ item }: { item: (typeof DIFFERENTIALS)[number] }) {
+function DifferentialCard({ item }: { item: DifferentialItem }) {
   const [glow, setGlow] = useState({ x: 50, y: 50, opacity: 0 });
   const Icon = item.icon;
 
@@ -102,18 +71,25 @@ function DifferentialCard({ item }: { item: (typeof DIFFERENTIALS)[number] }) {
 }
 
 export function Differentials() {
+  const { dict } = useI18n();
+  const items: DifferentialItem[] = DIFFERENTIAL_KEYS.map(({ key, icon }) => ({
+    icon,
+    ...dict.differentials.items[key],
+  }));
+  const rows = [items.slice(0, 4), items.slice(4, 8)];
+
   return (
     <section className="relative bg-ink py-24 md:py-32">
       <Container>
-        <SectionLabel index="05" label="Diferenciais Competitivos" />
+        <SectionLabel index="05" label={dict.differentials.label} />
         <Reveal className="mt-8 max-w-2xl md:mt-10">
           <h2 className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl">
-            Por que negociar com a 3WS.
+            {dict.differentials.heading}
           </h2>
         </Reveal>
 
         <div className="mt-16 border-t border-white/10 md:mt-20">
-          {ROWS.map((row, rowIndex) => (
+          {rows.map((row, rowIndex) => (
             <RevealGroup
               key={rowIndex}
               stagger={0.1}

@@ -1,82 +1,84 @@
 /**
  * Categorias do estoque.
  *
- * As categorias não vêm de uma lista fixa de produtos: são derivadas do próprio
- * slug da pasta por regras em ordem de prioridade. Uma pasta nova
- * ("balde-20-litros-2-cavidades") cai automaticamente na categoria certa sem
- * nenhuma edição de código — que é o requisito de extensibilidade do acervo.
+ * A categoria é derivada do slug da pasta por regras em ordem de prioridade, e
+ * o que sai daqui é uma CHAVE estável (`copos-tacas`), não um texto. A chave
+ * vai para a URL (`?categoria=`) e para o dicionário, então trocar de idioma
+ * não muda o link e um nome traduzido não vira identidade.
  *
- * A curadoria (curation.json) pode sobrescrever caso a caso.
+ * Uma pasta nova ("balde-20-litros-2-cavidades") cai na categoria certa sem
+ * nenhuma edição de código.
  */
 
-/** Rótulo do segmento, vindo da pasta de 1º nível do acervo. */
-export const SEGMENT_LABELS: Record<string, string> = {
-  "moldes-injecao-plastica": "Moldes de injeção plástica",
-  "porta-moldes": "Porta-moldes",
-  estampos: "Bases para estampos",
-  "moldes-sopro": "Moldes de sopro",
-};
+import type { Dictionary } from "@/lib/i18n";
 
-export function segmentLabel(segment: string) {
-  return SEGMENT_LABELS[segment] ?? "Ativos industriais";
-}
+export type CategoryKey = keyof Dictionary["stock"]["categories"];
+export type SegmentKey = keyof Dictionary["stock"]["segments"];
 
 interface CategoryRule {
-  category: string;
+  key: CategoryKey;
   /** Testado contra o slug do item. Primeira regra que casar vence. */
   match: RegExp;
 }
 
 const RULES: CategoryRule[] = [
   // Segmentos que já são uma categoria por si só.
-  { category: "Porta-Moldes", match: /porta-molde/ },
-  { category: "Bases para Estampos", match: /estampo/ },
-  { category: "Moldes de Sopro", match: /sopro/ },
+  { key: "porta-moldes", match: /porta-molde/ },
+  { key: "bases-estampos", match: /estampo/ },
+  { key: "moldes-sopro", match: /sopro/ },
 
-  { category: "Automotivos", match: /automotiv/ },
-  { category: "Brinquedos", match: /brinquedo/ },
-  { category: "Tampas", match: /^tampa|-tampa$/ },
-  { category: "Bandejas", match: /bandeja/ },
-  { category: "Copos e Taças", match: /copo|copos|taca|caneca|xicara/ },
-  { category: "Pratos e Saladeiras", match: /prato|saladeira|sopeira/ },
-  { category: "Vasos, Baldes e Cestos", match: /vaso|balde|cesto|lixeira/ },
-  { category: "Vasilhas e Potes", match: /vasilha|pote|tigela|marmita/ },
+  { key: "automotivos", match: /automotiv/ },
+  { key: "brinquedos", match: /brinquedo/ },
+  { key: "tampas", match: /^tampa|-tampa$/ },
+  { key: "bandejas", match: /bandeja/ },
+  { key: "copos-tacas", match: /copo|copos|taca|caneca|xicara/ },
+  { key: "pratos-saladeiras", match: /prato|saladeira|sopeira/ },
+  { key: "vasos-baldes-cestos", match: /vaso|balde|cesto|lixeira/ },
+  { key: "vasilhas-potes", match: /vasilha|pote|tigela|marmita/ },
   {
-    category: "Utilidades Domésticas",
+    key: "utilidades-domesticas",
     match: /utilidade|forma|manteigueira|jarra|tabua|saboneteira|cinzeiro|escorredor|peneira/,
   },
 ];
 
-const FALLBACK_CATEGORY = "Diversos";
+const FALLBACK_CATEGORY: CategoryKey = "diversos";
 
-export function deriveCategory(slug: string): string {
+export function deriveCategoryKey(slug: string): CategoryKey {
   for (const rule of RULES) {
-    if (rule.match.test(slug)) return rule.category;
+    if (rule.match.test(slug)) return rule.key;
   }
   return FALLBACK_CATEGORY;
 }
 
-/**
- * Ordem de exibição dos chips. Categorias não listadas vão para o fim, em
- * ordem alfabética — de novo, para que uma categoria nova não exija código.
- */
-export const CATEGORY_ORDER = [
-  "Copos e Taças",
-  "Pratos e Saladeiras",
-  "Bandejas",
-  "Vasilhas e Potes",
-  "Utilidades Domésticas",
-  "Vasos, Baldes e Cestos",
-  "Tampas",
-  "Automotivos",
-  "Brinquedos",
-  "Porta-Moldes",
-  "Bases para Estampos",
-  "Moldes de Sopro",
+const KNOWN_SEGMENTS: SegmentKey[] = [
+  "moldes-injecao-plastica",
+  "porta-moldes",
+  "estampos",
+  "moldes-sopro",
+];
+
+export function segmentKey(segment: string): SegmentKey {
+  return KNOWN_SEGMENTS.includes(segment as SegmentKey) ? (segment as SegmentKey) : "outros";
+}
+
+/** Ordem dos chips. Chaves não listadas vão para o fim. */
+export const CATEGORY_ORDER: CategoryKey[] = [
+  "copos-tacas",
+  "pratos-saladeiras",
+  "bandejas",
+  "vasilhas-potes",
+  "utilidades-domesticas",
+  "vasos-baldes-cestos",
+  "tampas",
+  "automotivos",
+  "brinquedos",
+  "porta-moldes",
+  "bases-estampos",
+  "moldes-sopro",
   FALLBACK_CATEGORY,
 ];
 
-export function categoryRank(category: string) {
-  const index = CATEGORY_ORDER.indexOf(category);
+export function categoryRank(key: CategoryKey) {
+  const index = CATEGORY_ORDER.indexOf(key);
   return index === -1 ? CATEGORY_ORDER.length : index;
 }

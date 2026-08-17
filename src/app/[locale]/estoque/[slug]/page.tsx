@@ -9,20 +9,21 @@ import { Breadcrumbs } from "@/components/estoque/Breadcrumbs";
 import { MoldGallery } from "@/components/estoque/MoldGallery";
 import { StockContactCTA } from "@/components/estoque/StockContactCTA";
 import { StockPhoto } from "@/components/estoque/StockPhoto";
+import { LOCALES, getDictionary, isLocale, t } from "@/lib/i18n";
 import { cavityLabel } from "@/lib/stock/normalizeTitle";
-import { STOCK_ITEMS, getRelatedItems, getStockItem } from "@/lib/stock/parseStock";
+import { getRelatedItems, getStockItem, getStockSlugs } from "@/lib/stock/parseStock";
 import {
-  STOCK_PATH,
   breadcrumbJsonLd,
   buildItemMetadata,
   itemBreadcrumbs,
   productJsonLd,
   stockItemPath,
+  stockPath,
 } from "@/lib/stock/generateMetadata";
 
-/** Todas as páginas de molde são estáticas — nada é gerado sob demanda. */
+/** 40 moldes × 3 idiomas = 120 páginas estáticas. Nada é gerado sob demanda. */
 export function generateStaticParams() {
-  return STOCK_ITEMS.map((item) => ({ slug: item.slug }));
+  return LOCALES.flatMap((locale) => getStockSlugs().map((slug) => ({ locale, slug })));
 }
 
 export const dynamicParams = false;
@@ -30,46 +31,66 @@ export const dynamicParams = false;
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const item = getStockItem(slug);
+  const { locale, slug } = await params;
+  if (!isLocale(locale)) return {};
+  const item = getStockItem(locale, slug);
   if (!item) return {};
-  return buildItemMetadata(item);
+  return buildItemMetadata(locale, getDictionary(locale), item);
 }
 
-export default async function MoldPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const item = getStockItem(slug);
+export default async function MoldPage({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}) {
+  const { locale, slug } = await params;
+  if (!isLocale(locale)) notFound();
+
+  const dict = getDictionary(locale);
+  const item = getStockItem(locale, slug);
   if (!item) notFound();
 
-  const crumbs = itemBreadcrumbs(item);
-  const related = getRelatedItems(item);
+  const crumbs = itemBreadcrumbs(locale, dict, item);
+  const related = getRelatedItems(locale, item);
+  const d = dict.stock.detail;
+
+  const photoWord = (n: number) =>
+    `${n} ${n === 1 ? d.photoCountOne : d.photoCountMany}`;
 
   // Só entram fatos que o próprio acervo declara. Material, dimensões, aço,
   // fabricante, tonelagem, condição e preço não são exibidos porque não são
   // conhecidos — e não serão inferidos das fotos.
   const specs = [
-    { label: "Categoria", value: item.category },
-    { label: "Linha", value: item.segmentLabel },
-    item.cavities ? { label: "Cavidades", value: cavityLabel(item.cavities) } : null,
-    item.volume ? { label: "Volume da peça", value: item.volume } : null,
-    item.partWeight ? { label: "Peso da peça", value: item.partWeight } : null,
+    { label: d.specs.category, value: item.category },
+    { label: d.specs.line, value: item.segmentLabel },
+    item.cavities
+      ? { label: d.specs.cavities, value: cavityLabel(dict, item.cavities) }
+      : null,
+    item.volume ? { label: d.specs.volume, value: item.volume } : null,
+    item.partWeight ? { label: d.specs.weight, value: item.partWeight } : null,
     {
-      label: "Registro fotográfico",
+      label: d.specs.photos,
       value:
         item.resultImages.length > 0
-          ? `${item.moldImages.length} do molde · ${item.resultImages.length} da peça`
-          : `${item.images.length} ${item.images.length === 1 ? "foto" : "fotos"}`,
+          ? `${item.moldImages.length} ${d.specs.photosMold} · ${item.resultImages.length} ${d.specs.photosPart}`
+          : photoWord(item.images.length),
     },
   ].filter((spec): spec is { label: string; value: string } => spec !== null);
+
+  const summary =
+    item.summary ??
+    t(item.kind === "collection" ? d.summaryCollection : d.summaryMold, {
+      subject: item.subject,
+    });
 
   return (
     <>
       <Header />
       <main className="flex flex-1 flex-col bg-ink pt-28 md:pt-32">
         <Container>
-          <Breadcrumbs crumbs={crumbs} />
+          <Breadcrumbs crumbs={crumbs} label={d.breadcrumbLabel} />
 
           <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
             <div className="lg:col-span-7">
@@ -80,10 +101,7 @@ export default async function MoldPage({ params }: { params: Promise<{ slug: str
                 {item.title}
               </h1>
               <p className="mt-6 max-w-xl font-body text-[15px] leading-relaxed text-white/60 md:text-base">
-                {item.summary ??
-                  (item.kind === "collection"
-                    ? `Conjunto de moldes de injeção plástica para ${item.subject}, disponíveis no estoque da 3WS para compra, venda ou intermediação.`
-                    : `Molde de injeção plástica para ${item.subject}, disponível no estoque da 3WS para compra, venda ou intermediação.`)}
+                {summary}
               </p>
             </div>
 
@@ -104,7 +122,7 @@ export default async function MoldPage({ params }: { params: Promise<{ slug: str
               id="sobre-molde"
               className="font-display text-2xl font-medium tracking-tight text-white md:text-3xl"
             >
-              Sobre este molde
+              {d.about}
             </h2>
             <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-3 lg:grid-cols-6">
               {specs.map((spec) => (
@@ -119,9 +137,7 @@ export default async function MoldPage({ params }: { params: Promise<{ slug: str
               ))}
             </dl>
             <p className="mt-8 max-w-2xl font-body text-[14px] leading-relaxed text-white/45">
-              As informações acima vêm da identificação do próprio molde no
-              acervo. Dimensões, material, condição e demais especificações
-              técnicas são conferidas e enviadas sob consulta.
+              {d.disclaimer}
             </p>
           </section>
 
@@ -131,11 +147,12 @@ export default async function MoldPage({ params }: { params: Promise<{ slug: str
               label={item.shortTitle}
               moldImages={item.moldImages}
               resultImages={item.resultImages}
+              dict={dict}
             />
           </div>
 
           <div className="mt-20">
-            <StockContactCTA item={item} />
+            <StockContactCTA item={item} dict={dict} />
           </div>
 
           {related.length > 0 && (
@@ -144,12 +161,12 @@ export default async function MoldPage({ params }: { params: Promise<{ slug: str
                 id="relacionados"
                 className="font-body text-xs uppercase tracking-[0.24em] text-white/40"
               >
-                Outros moldes no estoque
+                {d.related}
               </h2>
               <ul className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4 md:gap-x-6">
                 {related.map((other) => (
                   <li key={other.slug}>
-                    <Link href={stockItemPath(other.slug)} className="group block">
+                    <Link href={stockItemPath(locale, other.slug)} className="group block">
                       <div className="relative aspect-4/5 overflow-hidden rounded-lg border border-white/10 bg-navy-soft">
                         <StockPhoto
                           image={other.cover}
@@ -170,11 +187,11 @@ export default async function MoldPage({ params }: { params: Promise<{ slug: str
 
           <div className="py-16">
             <Link
-              href={STOCK_PATH}
+              href={stockPath(locale)}
               className="inline-flex items-center gap-2 font-body text-[14px] text-white/55 transition-colors hover:text-teal"
             >
               <ArrowLeft size={15} strokeWidth={1.75} aria-hidden />
-              Voltar para o estoque
+              {d.back}
             </Link>
           </div>
         </Container>
@@ -184,7 +201,10 @@ export default async function MoldPage({ params }: { params: Promise<{ slug: str
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify([productJsonLd(item), breadcrumbJsonLd(crumbs)]),
+          __html: JSON.stringify([
+            productJsonLd(locale, dict, item),
+            breadcrumbJsonLd(crumbs),
+          ]),
         }}
       />
     </>

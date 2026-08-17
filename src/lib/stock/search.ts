@@ -6,6 +6,7 @@
  * tecla sem debounce perceptível.
  */
 
+import type { CategoryKey } from "./taxonomy";
 import type { StockItem } from "./types";
 
 /** "2 Cavidades" e "cavidade" precisam bater no mesmo item. */
@@ -13,12 +14,8 @@ export function normalizeQuery(value: string): string {
   return value
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("pt-BR")
+    .toLowerCase()
     .trim();
-}
-
-function normalizeHaystack(item: StockItem): string {
-  return normalizeQuery(item.searchText);
 }
 
 const HAYSTACK = new WeakMap<StockItem, string>();
@@ -26,7 +23,7 @@ const HAYSTACK = new WeakMap<StockItem, string>();
 function haystackFor(item: StockItem): string {
   let value = HAYSTACK.get(item);
   if (value === undefined) {
-    value = normalizeHaystack(item);
+    value = normalizeQuery(item.searchText);
     HAYSTACK.set(item, value);
   }
   return value;
@@ -45,7 +42,8 @@ export function searchStock(items: StockItem[], query: string): StockItem[] {
   });
 }
 
-export function filterByCategory(items: StockItem[], category: string | null): StockItem[] {
+/** Filtra pela chave estável, não pelo nome traduzido. */
+export function filterByCategory(items: StockItem[], category: CategoryKey | null): StockItem[] {
   if (!category) return items;
-  return items.filter((item) => item.category === category);
+  return items.filter((item) => item.categoryKey === category);
 }

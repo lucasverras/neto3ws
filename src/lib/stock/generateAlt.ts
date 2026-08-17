@@ -1,16 +1,18 @@
 /**
  * Textos alternativos das fotos do estoque.
  *
- * Regras: descrever o que a foto mostra, em português corrido, usando só o que
- * o acervo realmente informa (tipo de peça, volume, cavidades). Sem "imagem",
- * sem "foto molde", sem repetir a mesma frase em todas as fotos de um item e
- * sem empilhar palavra-chave.
+ * Regras: descrever o que a foto mostra, em texto corrido no idioma da página,
+ * usando só o que o acervo informa (tipo de peça, volume, cavidades). Sem
+ * "imagem", sem "foto molde", sem repetir a mesma frase em todas as fotos de um
+ * item e sem empilhar palavra-chave.
  */
 
+import { t, type Dictionary } from "@/lib/i18n";
 import { cavityLabelLower } from "./normalizeTitle";
 import type { StockItemKind } from "./types";
 
 interface AltInput {
+  dict: Dictionary;
   subject: string;
   kind: StockItemKind;
   cavities: number | null;
@@ -18,28 +20,34 @@ interface AltInput {
   position: number;
 }
 
-export function generateMoldAlt({ subject, kind, cavities, position }: AltInput): string {
+export function generateMoldAlt({ dict, subject, kind, cavities, position }: AltInput): string {
+  const tpl = dict.stock.templates;
+
   if (kind === "collection") {
-    if (position === 1) {
-      return `Moldes de injeção plástica para ${subject} no estoque da 3WS Moldes`;
-    }
-    return `Molde de injeção para ${subject} — item ${position} do acervo da 3WS`;
+    return position === 1
+      ? t(tpl.altCollectionFirst, { subject })
+      : t(tpl.altCollectionNth, { subject, n: position });
   }
 
-  const cavitySuffix = cavities ? ` com ${cavityLabelLower(cavities)}` : "";
-
   if (position === 1) {
-    return `Molde de injeção plástica para ${subject}${cavitySuffix}`;
+    const cavitySuffix = cavities
+      ? t(tpl.altMoldCavitySuffix, { cavities: cavityLabelLower(dict, cavities) })
+      : "";
+    return t(tpl.altMoldFirst, { subject, cavities: cavitySuffix });
   }
   if (position === 2) {
-    return `Detalhe do molde de injeção para ${subject} no estoque da 3WS Moldes`;
+    return t(tpl.altMoldSecond, { subject });
   }
-  return `Molde de injeção para ${subject} — vista ${position}`;
+  return t(tpl.altMoldNth, { subject, n: position });
 }
 
-export function generateResultAlt({ subject, position }: Omit<AltInput, "kind" | "cavities">): string {
-  if (position === 1) {
-    return `Peça plástica produzida pelo molde para ${subject}`;
-  }
-  return `Peça plástica injetada a partir do molde para ${subject} — detalhe ${position}`;
+export function generateResultAlt({
+  dict,
+  subject,
+  position,
+}: Omit<AltInput, "kind" | "cavities">): string {
+  const tpl = dict.stock.templates;
+  return position === 1
+    ? t(tpl.altResultFirst, { subject })
+    : t(tpl.altResultNth, { subject, n: position });
 }

@@ -7,78 +7,54 @@ import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { PhotoImage } from "@/components/ui/PhotoImage";
 import { SectionDivider } from "@/components/ui/SectionDivider";
+import { useI18n } from "@/lib/i18n/context";
 
-const SERVICES = [
+const SERVICE_KEYS = [
+  { key: "buy", icon: Wrench, image: "/images/gallery/01-compra-moldes-e-equipamentos.webp" },
+  { key: "sell", icon: Boxes, image: "/images/gallery/02-venda-moldes-e-equipamentos.webp" },
+  { key: "broker", icon: Handshake, image: "/images/gallery/03-intermediacao-comercial.webp" },
+  { key: "weight", icon: Scale, image: "/images/gallery/04-compra-ferramentas-por-peso.webp" },
   {
-    icon: Wrench,
-    title: "Compra de moldes e equipamentos",
-    description:
-      "Adquirimos moldes, equipamentos e ferramentas industriais parados, dando novo destino a ativos de valor.",
-    features: [
-      "Moldes novos, usados ou desativados",
-      "Equipamentos e ferramentas industriais",
-    ],
-    image: "/images/gallery/01-compra-moldes-e-equipamentos.png",
-  },
-  {
-    icon: Boxes,
-    title: "Venda de moldes e equipamentos",
-    description:
-      "Disponibilizamos moldes e equipamentos avaliados tecnicamente para empresas que buscam reduzir custos e prazos.",
-    features: [
-      "Ativos avaliados tecnicamente",
-      "Redução de custos e prazos",
-    ],
-    image: "/images/gallery/02-venda-moldes-e-equipamentos.png",
-  },
-  {
-    icon: Handshake,
-    title: "Intermediação comercial",
-    description:
-      "Conectamos vendedores e compradores, conduzindo negociações seguras do início ao fim do processo.",
-    features: [
-      "Negociação conduzida do início ao fim",
-      "Segurança para as duas partes",
-    ],
-    image: "/images/gallery/03-intermediacao-comercial.png",
-  },
-  {
-    icon: Scale,
-    title: "Compra de ferramentas por peso",
-    description:
-      "Avaliamos e adquirimos ferramentas industriais por peso, mesmo aquelas fora de operação.",
-    features: [
-      "Avaliação por peso especializada",
-      "Ferramentas dentro ou fora de operação",
-    ],
-    image: "/images/gallery/04-compra-ferramentas-por-peso.png",
-  },
-  {
+    key: "consulting",
     icon: ClipboardCheck,
-    title: "Avaliação e consultoria técnica",
-    description:
-      "Realizamos avaliação técnica especializada para orientar decisões de compra, venda ou reaproveitamento.",
-    features: [
-      "Avaliação técnica e comercial",
-      "Suporte à decisão de reaproveitamento",
-    ],
-    image: "/images/gallery/05-avaliacao-consultoria-tecnica.png",
+    image: "/images/gallery/05-avaliacao-consultoria-tecnica.webp",
   },
-];
+] as const;
 
-const COUNT = SERVICES.length;
+interface Service {
+  icon: typeof Wrench;
+  image: string;
+  title: string;
+  description: string;
+  features: string[];
+}
+
+const COUNT = SERVICE_KEYS.length;
 
 function ServiceRow({
   service,
   isActive,
+  highlightsLabel,
+  onActivate,
 }: {
-  service: (typeof SERVICES)[number];
+  service: Service;
   isActive: boolean;
+  highlightsLabel: string;
+  onActivate: () => void;
 }) {
   const Icon = service.icon;
   return (
     <div className="border-b border-white/12">
-      <div className="flex w-full items-center gap-6 py-3 text-left md:gap-8">
+      {/* Botão de verdade: além do mouse, dá para chegar de Tab e abrir com
+          o teclado, o que não existia quando só o scroll comandava. */}
+      <button
+        type="button"
+        aria-current={isActive}
+        onMouseEnter={onActivate}
+        onFocus={onActivate}
+        onClick={onActivate}
+        className="flex w-full cursor-default items-center gap-6 py-3 text-left outline-none ring-teal focus-visible:ring-2 md:gap-8"
+      >
         <span
           className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ring-1 transition-colors duration-300 ${
             isActive ? "bg-white text-ink ring-white" : "text-white/45 ring-white/20"
@@ -120,8 +96,8 @@ function ServiceRow({
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           className="hidden shrink-0 flex-col gap-2 overflow-hidden xl:flex xl:w-56"
         >
-          <span className="font-body text-[10px] uppercase tracking-[0.16em] text-white/30">
-            Destaques
+          <span className="font-body text-[11px] uppercase tracking-[0.16em] text-white/30">
+            {highlightsLabel}
           </span>
           {service.features.map((feature) => (
             <li key={feature} className="flex items-start gap-2.5 font-body text-sm text-white/60">
@@ -130,14 +106,31 @@ function ServiceRow({
             </li>
           ))}
         </motion.ul>
-      </div>
+      </button>
     </div>
   );
 }
 
 export function Services() {
+  const { dict } = useI18n();
+  // Duas fontes independentes para o item ativo, compostas na renderização.
+  // Quem agiu por último vence: apontar o mouse fixa o item; voltar a rolar
+  // devolve o comando ao scroll. Sem isso, os dois disputariam o mesmo estado
+  // e a lista piscaria a cada evento.
+  const [pointerActive, setPointerActive] = useState<number | null>(null);
+  const services: Service[] = SERVICE_KEYS.map(({ key, icon, image }) => {
+    const copy = dict.services.items[key];
+    return {
+      icon,
+      image,
+      title: copy.title,
+      description: copy.description,
+      features: [copy.feature1, copy.feature2],
+    };
+  });
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
+  const [scrollActive, setScrollActive] = useState(0);
+  const active = pointerActive ?? scrollActive;
 
   useEffect(() => {
     const onScroll = () => {
@@ -147,7 +140,9 @@ export function Services() {
       const total = el.offsetHeight - window.innerHeight;
       const scrolled = -rect.top;
       const p = total > 0 ? Math.min(Math.max(scrolled / total, 0), 1) : 0;
-      setActive(Math.min(COUNT - 1, Math.floor(p * COUNT)));
+      setScrollActive(Math.min(COUNT - 1, Math.floor(p * COUNT)));
+      // Rolar retoma o controle de quem estava com o mouse parado sobre a lista.
+      setPointerActive(null);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -164,14 +159,23 @@ export function Services() {
       <div ref={wrapperRef} className="hidden lg:block" style={{ height: `${COUNT * 55}vh` }}>
         <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden pt-28 pb-10">
           <Container>
-            <SectionLabel index="01" label="Serviços" />
+            <SectionLabel index="01" label={dict.services.label} />
             <h2 className="mt-6 max-w-2xl font-display text-3xl font-bold leading-[1.05] tracking-tight text-white sm:text-4xl">
-              Cinco formas de transformar ativos parados em oportunidade.
+              {dict.services.heading}
             </h2>
 
-            <div className="mt-10 border-t border-white/12">
-              {SERVICES.map((service, i) => (
-                <ServiceRow key={service.title} service={service} isActive={active === i} />
+            <div
+              className="mt-10 border-t border-white/12"
+              onMouseLeave={() => setPointerActive(null)}
+            >
+              {services.map((service, i) => (
+                <ServiceRow
+                  key={service.title}
+                  service={service}
+                  isActive={active === i}
+                  highlightsLabel={dict.services.highlights}
+                  onActivate={() => setPointerActive(i)}
+                />
               ))}
             </div>
           </Container>
@@ -180,13 +184,13 @@ export function Services() {
 
       {/* Mobile: simple static list */}
       <Container className="py-24 lg:hidden">
-        <SectionLabel index="01" label="Serviços" />
+        <SectionLabel index="01" label={dict.services.label} />
         <h2 className="mt-8 max-w-3xl font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl">
-          Cinco formas de transformar ativos parados em oportunidade.
+          {dict.services.heading}
         </h2>
 
         <div className="mt-14 flex flex-col gap-10">
-          {SERVICES.map((service) => (
+          {services.map((service) => (
             <div key={service.title} className="flex gap-4 border-t border-white/12 pt-6">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-teal/15 text-teal">
                 <service.icon size={18} strokeWidth={1.5} />

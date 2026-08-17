@@ -3,10 +3,8 @@ import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { StockPhoto } from "./StockPhoto";
 import { whatsappUrl } from "@/lib/site";
+import { localePath, type Dictionary, type Locale } from "@/lib/i18n";
 import type { StockImage } from "@/lib/stock/types";
-
-const HERO_MESSAGE =
-  "Olá, gostaria de falar sobre um molde do estoque da 3WS.";
 
 /**
  * Abertura do estoque. Server component: o H1 e o texto saem no HTML inicial,
@@ -15,50 +13,54 @@ const HERO_MESSAGE =
 export function StockHero({
   photo,
   totals,
+  locale,
+  dict,
 }: {
   photo: StockImage | null;
   totals: { items: number; photos: number; categories: number };
+  locale: Locale;
+  dict: Dictionary;
 }) {
+  const d = dict.stock;
+
   return (
     <section className="relative overflow-hidden bg-ink pt-8 md:pt-10">
       <Container>
         <div className="grid grid-cols-1 items-end gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7">
-            <SectionLabel label="Estoque de moldes" />
+            <SectionLabel label={d.label} />
 
             <h1 className="mt-6 max-w-3xl font-display text-[8vw] font-light leading-[1.04] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-[3.4rem]">
-              Moldes disponíveis para diferentes{" "}
-              <span className="font-medium">segmentos da indústria</span>.
+              {d.headingBefore}{" "}
+              <span className="font-medium">{d.headingHighlight}</span>.
             </h1>
 
             <p className="mt-7 max-w-xl font-body text-[15px] leading-relaxed text-white/65 md:text-base">
-              A 3WS compra, vende e intermedeia moldes industriais novos e
-              usados. Nosso acervo passa de{" "}
-              <span className="text-white">1.500 toneladas</span> em ferramentas
-              — abaixo está uma parte dele, catalogada molde a molde.
+              {d.intro1} <span className="text-white">{d.introTons}</span>{" "}
+              {d.intro2}
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-4">
               <a
-                href={whatsappUrl(HERO_MESSAGE)}
+                href={whatsappUrl(d.heroCtaMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center rounded-xl bg-teal px-7 py-3.5 font-body text-[13px] font-medium uppercase tracking-[0.16em] text-white shadow-[0_4px_20px_rgba(44,141,255,0.35)] outline-none ring-teal ring-offset-2 ring-offset-ink transition-colors duration-300 hover:bg-teal-deep focus-visible:ring-2"
               >
-                Falar sobre um molde
+                {d.heroCta}
               </a>
               <Link
-                href="/#categorias"
+                href={`${localePath(locale)}#categorias`}
                 className="font-body text-[14px] text-white/60 underline-offset-4 transition-colors hover:text-teal hover:underline"
               >
-                Ver categorias de ativos
+                {d.heroSecondary}
               </Link>
             </div>
 
             <dl className="mt-12 grid grid-cols-3 gap-6 border-t border-white/10 pt-8">
-              <Stat value={totals.items} label="moldes catalogados" />
-              <Stat value={totals.photos} label="fotos do acervo" />
-              <Stat value={totals.categories} label="categorias" />
+              <Stat value={totals.items} label={d.stats.items} />
+              <Stat value={totals.photos} label={d.stats.photos} />
+              <Stat value={totals.categories} label={d.stats.categories} />
             </dl>
           </div>
 

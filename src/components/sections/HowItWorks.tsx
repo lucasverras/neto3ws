@@ -5,42 +5,28 @@ import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { SectionDivider } from "@/components/ui/SectionDivider";
+import { useI18n } from "@/lib/i18n/context";
 
-const STEPS = [
-  {
-    title: "Envio das informações",
-    description: "Você envia as informações, imagens e especificações do ativo.",
-  },
-  {
-    title: "Avaliação técnica",
-    description: "Nossa equipe realiza uma avaliação técnica e comercial.",
-  },
-  {
-    title: "Proposta e negociação",
-    description:
-      "Apresentamos uma proposta de compra ou definimos a estratégia de intermediação.",
-  },
-  {
-    title: "Conclusão do processo",
-    description: "Acompanhamos a negociação, retirada e conclusão do processo.",
-  },
-];
+const STEP_KEYS = ["submit", "evaluate", "propose", "close"] as const;
 
 export function HowItWorks() {
+  const { dict } = useI18n();
+  const steps = STEP_KEYS.map((key) => dict.howItWorks.steps[key]);
+
   return (
     <section id="como-funciona" className="relative bg-alabaster py-24 md:py-32">
       <Container>
-        <SectionLabel index="04" label="Como Funciona" tone="onLight" />
+        <SectionLabel index="04" label={dict.howItWorks.label} tone="onLight" />
 
         <Reveal className="mt-8 max-w-2xl md:mt-10">
           <h2 className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl">
-            Linha do tempo de uma negociação com a 3WS.
+            {dict.howItWorks.heading}
           </h2>
         </Reveal>
 
         {/* Mobile: zigzag timeline, everything on one screen, no scroll */}
         <RevealGroup className="mt-16 grid grid-cols-4 md:hidden">
-          {STEPS.map((step, i) => (
+          {steps.map((step, i) => (
             <div
               key={`top-${step.title}`}
               style={{ gridColumn: i + 1, gridRow: 1 }}
@@ -55,7 +41,7 @@ export function HowItWorks() {
 
           <div className="relative col-span-4 row-start-2 flex items-center py-3">
             <div className="pointer-events-none absolute inset-x-[12%] top-1/2 h-px -translate-y-1/2 bg-ink/15" />
-            {STEPS.map((_, i) => (
+            {steps.map((_, i) => (
               <RevealItem
                 key={`dot-${i}`}
                 className="relative z-10 flex flex-1 items-center justify-center"
@@ -67,7 +53,7 @@ export function HowItWorks() {
             ))}
           </div>
 
-          {STEPS.map((step, i) => (
+          {steps.map((step, i) => (
             <div
               key={`bottom-${step.title}`}
               style={{ gridColumn: i + 1, gridRow: 3 }}
@@ -85,7 +71,7 @@ export function HowItWorks() {
         <RevealGroup className="relative mt-24 hidden md:grid md:grid-cols-4 md:gap-8">
           <div className="pointer-events-none absolute left-0 right-0 top-[1.6rem] h-px bg-ink/15" />
 
-          {STEPS.map((step, i) => (
+          {steps.map((step, i) => (
             <RevealItem key={step.title} className="relative">
               <motion.div
                 className="group flex h-full cursor-default flex-col gap-6"

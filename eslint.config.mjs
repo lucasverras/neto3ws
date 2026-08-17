@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Fora do lint: nada aqui é código-fonte. `public/acervo` tem ~1.400
+    // derivativos gerados e `3ws-images` tem as 418 fotos originais —
+    // percorrê-los fazia o eslint levar mais de dez minutos.
+    "public/**",
+    "3ws-images/**",
   ]),
 ]);
 

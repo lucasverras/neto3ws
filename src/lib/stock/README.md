@@ -17,8 +17,8 @@ npm run build      # o prebuild gera derivativos + manifest
 
 O molde passa a existir em:
 
-- `/estoque` (card no grid, contando na categoria e na busca)
-- `/estoque/balde-20-litros-2-cavidades` (página própria, estática)
+- `/pt/estoque`, `/en/estoque`, `/es/estoque` (card no grid, na categoria e na busca)
+- `/{pt,en,es}/estoque/balde-20-litros-2-cavidades` (3 páginas estáticas, com hreflang)
 - `sitemap.xml`, com todas as fotos no image sitemap
 - breadcrumb, JSON-LD e links internos
 
@@ -33,8 +33,17 @@ O que é deduzido do nome da pasta, sem nenhuma intervenção:
 | Categoria | regra de `taxonomy.ts` (`/balde/`) | `Vasos, Baldes e Cestos` |
 | Alt das fotos | `generateAlt.ts` | contextual, um por foto |
 
-Para uma **categoria nova**, acrescente uma regra em `taxonomy.ts` e o rótulo em
-`CATEGORY_ORDER`. Sem regra, o item cai em `Diversos` — nunca quebra.
+Para uma **categoria nova**, acrescente uma regra em `taxonomy.ts`, o rótulo em
+`CATEGORY_ORDER` e o nome nos três dicionários (`stock.categories`). Sem regra,
+o item cai em `diversos` — nunca quebra.
+
+## Idiomas
+
+Sem `name`/`title` traduzidos, o nome derivado do slug (em português) é
+reaproveitado nos três idiomas. É proposital: mostrar o nome original é melhor
+do que arriscar uma tradução automática errada. Os textos de interface vivem em
+`src/lib/i18n/dictionaries/` e o typecheck falha se `en.ts` ou `es.ts`
+esquecerem uma chave.
 
 ## Curadoria opcional — `curation.json`
 
@@ -43,8 +52,9 @@ expressar. Por slug:
 
 | Campo | Uso |
 | --- | --- |
-| `title` | sobrescreve o H1 quando o slug não vira um título bom |
-| `subject` | trecho minúsculo usado nos alts (`copo de 250 ml`) |
+| `name` | `{ pt, en, es }` — nome da peça, encaixado em "Molde para {name}" |
+| `title` | `{ pt, en, es }` — título completo, quando o modelo não serve |
+| `subject` | `{ pt, en, es }` — trecho minúsculo usado nos alts (`copo de 250 ml`) |
 | `kind` | `"collection"` para pastas que são galerias, não um molde único |
 | `category` | força a categoria |
 | `result` | **nomes de arquivo que mostram a peça produzida** (ver abaixo) |
@@ -81,11 +91,11 @@ motivo o JSON-LD emite `Product` sem `offers`, `sku`, `brand`, `gtin`,
 
 ## Pipeline de imagens
 
-`scripts/build-stock.mjs` lê o acervo e escreve `public/estoque/<slug>/NN-<w>.webp`
+`scripts/build-stock.mjs` lê o acervo e escreve `public/acervo/<slug>/NN-<w>.webp`
 nas larguras 400 / 600 / 800 / 1400 (nunca amplia o original).
 
 - os originais em `3ws-images/imagens/` **nunca são tocados**;
-- `public/estoque/` é 100% gerado e está no `.gitignore` — o `prebuild` recria
+- `public/acervo/` é 100% gerado e está no `.gitignore` — o `prebuild` recria
   no deploy, e derivativos órfãos são removidos automaticamente;
 - é incremental: derivativo mais novo que o original é pulado;
 - **`3ws-images/` precisa estar versionado**, senão o build não tem fonte.

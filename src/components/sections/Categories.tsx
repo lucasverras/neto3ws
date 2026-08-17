@@ -7,45 +7,30 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
 import { PhotoImage } from "@/components/ui/PhotoImage";
 import { SectionDivider } from "@/components/ui/SectionDivider";
+import { useI18n } from "@/lib/i18n/context";
 
-const CATEGORIES = [
-  {
-    title: "Moldes para injeção plástica",
-    description:
-      "Moldes utilizados na fabricação de peças plásticas por injeção, avaliados quanto ao estado de conservação e à viabilidade de reaproveitamento.",
-    image: "/images/gallery/06-moldes-injecao-plastica.png",
-  },
-  {
-    title: "Porta-moldes",
-    description:
-      "Estruturas responsáveis por fixar e posicionar moldes durante o processo produtivo, negociadas separadamente ou como parte de um lote.",
-    image: "/images/gallery/07-porta-moldes.png",
-  },
-  {
-    title: "Bases para estampos",
-    description:
-      "Bases utilizadas em processos de estampagem, essenciais para a precisão e a estabilidade das ferramentas industriais.",
-    image: "/images/gallery/08-bases-para-estampos.png",
-  },
-  {
-    title: "Equipamentos industriais",
-    description:
-      "Máquinas e equipamentos de linha de produção, avaliados tecnicamente para compra, venda ou intermediação em todo o Brasil.",
-    image: "/images/gallery/09-equipamentos-industriais.png",
-  },
-  {
-    title: "Ferramentas especiais",
-    description:
-      "Ferramentas desenvolvidas para aplicações específicas, com potencial de reaproveitamento em novos projetos industriais.",
-    image: "/images/gallery/10-ferramentas-especiais.png",
-  },
-];
+const CATEGORY_KEYS = [
+  { key: "injection", image: "/images/gallery/06-moldes-injecao-plastica.webp" },
+  { key: "moldBases", image: "/images/gallery/07-porta-moldes.webp" },
+  { key: "stampBases", image: "/images/gallery/08-bases-para-estampos.webp" },
+  { key: "equipment", image: "/images/gallery/09-equipamentos-industriais.webp" },
+  { key: "specialTools", image: "/images/gallery/10-ferramentas-especiais.webp" },
+] as const;
 
-const COUNT = CATEGORIES.length;
+const COUNT = CATEGORY_KEYS.length;
 
 export function Categories() {
+  const { dict } = useI18n();
+  // Mesmo arranjo de Serviços: mouse e scroll são fontes separadas e a última
+  // ação vence, então não há disputa pelo mesmo estado.
+  const [pointerActive, setPointerActive] = useState<number | null>(null);
+  const categories = CATEGORY_KEYS.map(({ key, image }) => ({
+    image,
+    ...dict.categories.items[key],
+  }));
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
+  const [scrollActive, setScrollActive] = useState(0);
+  const active = pointerActive ?? scrollActive;
 
   useEffect(() => {
     const onScroll = () => {
@@ -55,7 +40,8 @@ export function Categories() {
       const total = el.offsetHeight - window.innerHeight;
       const scrolled = -rect.top;
       const p = total > 0 ? Math.min(Math.max(scrolled / total, 0), 1) : 0;
-      setActive(Math.min(COUNT - 1, Math.floor(p * COUNT)));
+      setScrollActive(Math.min(COUNT - 1, Math.floor(p * COUNT)));
+      setPointerActive(null);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -72,26 +58,34 @@ export function Categories() {
       <div ref={wrapperRef} className="hidden lg:block" style={{ height: `${COUNT * 48}vh` }}>
         <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden pt-28 pb-36">
           <Container>
-            <SectionLabel index="03" label="Categorias" className="justify-center" />
+            <SectionLabel index="03" label={dict.categories.label} className="justify-center" />
             <h2 className="mx-auto mt-6 max-w-3xl text-center font-display text-4xl font-bold leading-[1.05] tracking-tight text-white">
-              Categorias dos ativos que a 3WS compra, vende ou intermedeia.
+              {dict.categories.heading}
             </h2>
 
             <div className="mt-12 grid grid-cols-12 items-stretch gap-16">
-              <div className="col-span-7 flex flex-col justify-center">
-                {CATEGORIES.map((category, i) => {
+              <div
+                className="col-span-7 flex flex-col justify-center"
+                onMouseLeave={() => setPointerActive(null)}
+              >
+                {categories.map((category, i) => {
                   const isActive = active === i;
                   return (
-                    <div
+                    <button
                       key={category.title}
-                      className="flex flex-col justify-center gap-2 border-b border-white/12 py-4"
+                      type="button"
+                      aria-current={isActive}
+                      onMouseEnter={() => setPointerActive(i)}
+                      onFocus={() => setPointerActive(i)}
+                      onClick={() => setPointerActive(i)}
+                      className="flex cursor-default flex-col justify-center gap-2 border-b border-white/12 py-4 text-left outline-none ring-teal focus-visible:ring-2"
                     >
                       <span
                         className={`font-body text-xs uppercase tracking-[0.24em] transition-colors duration-500 ${
                           isActive ? "text-teal" : "text-white/20"
                         }`}
                       >
-                        Categoria 0{i + 1}
+                        {dict.categories.categoryPrefix} 0{i + 1}
                       </span>
                       <h3
                         className={`font-display text-2xl font-medium leading-[1.1] tracking-tight transition-colors duration-500 sm:text-3xl ${
@@ -108,14 +102,14 @@ export function Categories() {
                       >
                         {category.description}
                       </motion.p>
-                    </div>
+                    </button>
                   );
                 })}
               </div>
 
               <div className="col-span-5">
                 <div className="relative h-full w-full overflow-hidden rounded-lg">
-                  {CATEGORIES.map((category, i) => (
+                  {categories.map((category, i) => (
                     <motion.div
                       key={category.title}
                       className="absolute inset-0"
@@ -134,19 +128,19 @@ export function Categories() {
 
       {/* Mobile: simple static list */}
       <Container className="py-24 lg:hidden">
-        <SectionLabel index="03" label="Categorias" className="justify-center" />
+        <SectionLabel index="03" label={dict.categories.label} className="justify-center" />
         <Reveal className="mx-auto mt-8 max-w-3xl text-center">
           <h2 className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl">
-            Categorias dos ativos que a 3WS compra, vende ou intermedeia.
+            {dict.categories.heading}
           </h2>
         </Reveal>
 
         <div className="mt-14 flex flex-col gap-10">
-          {CATEGORIES.map((category, i) => (
+          {categories.map((category, i) => (
             <Reveal key={category.title} delay={i * 0.05}>
               <div className="flex flex-col gap-3 border-t border-white/12 pt-6">
                 <span className="font-body text-xs uppercase tracking-[0.24em] text-teal">
-                  Categoria 0{i + 1}
+                  {dict.categories.categoryPrefix} 0{i + 1}
                 </span>
                 <h3 className="font-display text-2xl font-medium leading-[1.1] tracking-tight text-white">
                   {category.title}

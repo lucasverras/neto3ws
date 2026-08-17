@@ -1,11 +1,17 @@
 /**
- * Slug de pasta → texto legível em português.
+ * Slug de pasta → texto legível.
  *
- * O acervo nomeia as pastas sem acento e sem espaço
- * ("copo-250ml-2-cavidades"), então tudo que aparece na interface é
- * reconstruído aqui. Nada além do que está escrito no próprio slug é
- * extraído: tipo de peça, volume, peso da peça e número de cavidades.
+ * O acervo nomeia as pastas sem acento e sem espaço ("copo-250ml-2-cavidades").
+ * `parseSlug` extrai apenas o que o nome realmente declara: tipo de peça,
+ * volume, peso da peça e número de cavidades. Nada é inferido das fotos.
+ *
+ * O nome renderizado aqui é sempre em português — é a língua do acervo. As
+ * versões em inglês e espanhol vêm de curation.json; quando faltam, o nome
+ * português é reaproveitado, porque mostrar o original é melhor do que
+ * arriscar uma tradução automática errada.
  */
+
+import { t, type Dictionary } from "@/lib/i18n";
 
 /** Palavras do acervo que perdem acento no slug. */
 const ACCENTED: Record<string, string> = {
@@ -26,7 +32,7 @@ const ACCENTED: Record<string, string> = {
   utilidades: "Utilidades",
 };
 
-/** Ficam em minúscula no meio do título. */
+/** Ficam em minúscula no meio do nome. */
 const CONNECTORS = new Set(["de", "do", "da", "dos", "das", "e", "com", "para", "em", "no", "na", "ou"]);
 
 /** Escritas fixas que não seguem a capitalização normal. */
@@ -43,7 +49,7 @@ const VOLUME_RE = /^(\d+(?:[.,]\d+)?)(ml|l|lt|litros?)$/i;
 const WEIGHT_RE = /^(\d+(?:[.,]\d+)?)(g|kg)$/i;
 
 export interface ParsedSlug {
-  /** Nome legível sem o prefixo "Molde para" e sem as cavidades. */
+  /** Nome em português, sem prefixo e sem as cavidades. */
   base: string;
   cavities: number | null;
   volume: string | null;
@@ -107,52 +113,52 @@ export function parseSlug(slug: string): ParsedSlug {
   };
 }
 
-export function cavityLabel(cavities: number) {
-  return `${cavities} ${cavities === 1 ? "Cavidade" : "Cavidades"}`;
+export function cavityLabel(dict: Dictionary, cavities: number) {
+  const template =
+    cavities === 1 ? dict.stock.templates.cavityOne : dict.stock.templates.cavityMany;
+  return t(template, { n: cavities });
 }
 
-export function cavityLabelLower(cavities: number) {
-  return `${cavities} ${cavities === 1 ? "cavidade" : "cavidades"}`;
-}
-
-/**
- * Título completo (H1 / nome do card).
- * "copo-250ml-2-cavidades" → "Molde para Copo 250 ml – 2 Cavidades"
- */
-export function buildTitle(parsed: ParsedSlug, kind: "mold" | "collection"): string {
-  const prefix = kind === "collection" ? "Moldes para" : "Molde para";
-  if (parsed.cavities === null) return `${prefix} ${parsed.base}`;
-  return `${prefix} ${parsed.base} – ${cavityLabel(parsed.cavities)}`;
+export function cavityLabelLower(dict: Dictionary, cavities: number) {
+  const template =
+    cavities === 1 ? dict.stock.templates.cavityLowerOne : dict.stock.templates.cavityLowerMany;
+  return t(template, { n: cavities });
 }
 
 /**
- * Trecho em minúsculas para alts e frases corridas.
- * "Copo 250 ml" → "copo de 250 ml"
+ * Monta o título a partir do modelo do idioma.
+ * pt: "Molde para Copo 250 ml – 2 Cavidades"
+ * en: "250 ml Cup Mold – 2 Cavities"
  */
-export function buildSubject(parsed: ParsedSlug): string {
-  const lower = parsed.base.toLocaleLowerCase("pt-BR");
-  if (parsed.volume) {
-    const measure = parsed.volume.toLocaleLowerCase("pt-BR");
-    return lower.replace(measure, `de ${measure}`);
-  }
-  if (parsed.partWeight) {
-    const measure = parsed.partWeight.toLocaleLowerCase("pt-BR");
-    return lower.replace(measure, `com peça de ${measure}`);
-  }
-  return lower;
+export function buildTitle(
+  dict: Dictionary,
+  name: string,
+  kind: "mold" | "collection",
+  cavities: number | null
+): string {
+  const template =
+    kind === "collection" ? dict.stock.templates.moldsFor : dict.stock.templates.moldFor;
+  const prefix = t(template, { name });
+  if (cavities === null) return prefix;
+  return t(dict.stock.templates.titleWithCavities, {
+    prefix,
+    cavities: cavityLabel(dict, cavities),
+  });
 }
 
-/** Remove o prefixo "Molde para " / "Moldes para " para o card. */
-export function toShortTitle(title: string): string {
-  return title.replace(/^Moldes?\s+para\s+/i, "");
-}
-
-/** "Vasos, Baldes e Cestos" → "vasos-baldes-e-cestos" */
-export function toSlug(value: string): string {
-  return value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
+/**
+ * Nome curto para card, breadcrumb e mensagem de CTA — o nome da peça com as
+ * cavidades, sem o prefixo "Molde para". Vem do `name` em vez de recortar o
+ * título, que dependeria da forma do modelo em cada idioma.
+ */
+export function buildShortTitle(
+  dict: Dictionary,
+  name: string,
+  cavities: number | null
+): string {
+  if (cavities === null) return name;
+  return t(dict.stock.templates.titleWithCavities, {
+    prefix: name,
+    cavities: cavityLabel(dict, cavities),
+  });
 }

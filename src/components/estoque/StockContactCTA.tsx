@@ -1,12 +1,14 @@
 "use client";
 
 import { trackEvent } from "@/lib/analytics";
+import { t, type Dictionary } from "@/lib/i18n";
 import { whatsappUrl } from "@/lib/site";
 import type { StockItem } from "@/lib/stock/types";
 
 /** CTA da página do molde, com a mensagem do WhatsApp já preenchida. */
-export function StockContactCTA({ item }: { item: StockItem }) {
-  const message = `Olá, gostaria de mais informações sobre o molde “${item.shortTitle}” que vi no estoque da 3WS.`;
+export function StockContactCTA({ item, dict }: { item: StockItem; dict: Dictionary }) {
+  const d = dict.stock.detail;
+  const message = t(d.ctaMessage, { title: item.shortTitle });
 
   return (
     <section
@@ -17,11 +19,10 @@ export function StockContactCTA({ item }: { item: StockItem }) {
         id="cta-molde"
         className="font-display text-2xl font-medium leading-tight tracking-tight text-white md:text-3xl"
       >
-        Interessado neste molde?
+        {d.ctaHeading}
       </h2>
       <p className="mt-3 max-w-xl font-body text-[15px] leading-relaxed text-white/60">
-        Entre em contato com a 3WS para consultar disponibilidade,
-        especificações e condições comerciais.
+        {d.ctaText}
       </p>
       <a
         href={whatsappUrl(message)}
@@ -30,7 +31,7 @@ export function StockContactCTA({ item }: { item: StockItem }) {
         onClick={() => trackEvent("stock_contact_click", { slug: item.slug, source: "detalhe" })}
         className="mt-8 inline-flex items-center rounded-xl bg-teal px-8 py-4 font-body text-[13px] font-medium uppercase tracking-[0.16em] text-white shadow-[0_4px_20px_rgba(44,141,255,0.35)] outline-none ring-teal ring-offset-2 ring-offset-ink transition-colors duration-300 hover:bg-teal-deep focus-visible:ring-2"
       >
-        Consultar este molde
+        {d.cta}
       </a>
     </section>
   );

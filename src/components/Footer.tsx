@@ -6,17 +6,10 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { SITE } from "@/lib/site";
+import { localePath, stripLocale } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/context";
 import { scrollToId } from "@/lib/scrollTo";
-
-function handleAnchorClick(
-  e: React.MouseEvent<HTMLAnchorElement>,
-  href: string,
-  onHome: boolean
-) {
-  if (!href.startsWith("#") || !onHome) return;
-  e.preventDefault();
-  scrollToId(href.slice(1));
-}
 
 function InstagramIcon() {
   return (
@@ -41,167 +34,167 @@ function LinkedinIcon() {
 }
 
 const QUICK_LINKS = [
-  { href: "#servicos", label: "Serviços" },
-  { href: "#categorias", label: "Categorias" },
-  { href: "/estoque", label: "Estoque de moldes" },
-  { href: "#como-funciona", label: "Como Funciona" },
-  { href: "#sobre", label: "Sobre" },
-  { href: "#faq", label: "FAQ" },
-];
+  { anchor: "servicos", key: "services" },
+  { anchor: "categorias", key: "categories" },
+  { anchor: null, path: "/estoque", key: "stock" },
+  { anchor: "como-funciona", key: "howItWorks" },
+  { anchor: "sobre", key: "about" },
+  { anchor: "faq", key: "faq" },
+] as const;
 
-const SERVICES = [
-  "Compra de moldes e equipamentos",
-  "Venda de moldes e equipamentos",
-  "Intermediação comercial",
-  "Compra de ferramentas por peso",
-  "Avaliação e consultoria técnica",
-];
+const SERVICE_KEYS = ["buy", "sell", "broker", "weight", "consulting"] as const;
 
 export function Footer() {
+  const { locale, dict } = useI18n();
   const pathname = usePathname();
-  const onHome = pathname === "/";
-  // Fora da home as âncoras precisam virar "/#secao" para ter destino.
-  const resolveHref = (href: string) => (href.startsWith("#") && !onHome ? `/${href}` : href);
+  const isHome = stripLocale(pathname ?? "/") === "/";
+
+  const hrefFor = (item: (typeof QUICK_LINKS)[number]) =>
+    item.anchor === null
+      ? localePath(locale, item.path)
+      : `${localePath(locale)}#${item.anchor}`;
+
+  // Na home a âncora rola suavemente; fora dela precisa navegar de verdade.
+  const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>, anchor: string) => {
+    if (!isHome) return;
+    e.preventDefault();
+    scrollToId(anchor);
+  };
 
   return (
     <footer className="bg-ink text-white">
       <Container>
-      <Reveal className="grid grid-cols-1 gap-14 py-20 md:grid-cols-12 md:gap-8 md:py-24">
-        <div className="flex flex-col gap-6 md:col-span-4">
-          <Image
-            src="/images/logo.webp"
-            alt="3WS Moldes"
-            width={150}
-            height={50}
-            className="h-9 w-auto self-start"
-          />
-          <p className="max-w-xs font-body text-sm leading-relaxed text-white/50">
-            Compra, venda e intermediação de moldes e equipamentos
-            industriais. Três gerações transformando ativos parados em
-            oportunidade, em todo o Brasil.
-          </p>
-          <div className="flex items-center gap-4 pt-2">
-            <motion.a
-              href="#"
-              aria-label="Instagram da 3WS"
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-white/20 transition-colors hover:bg-teal hover:text-white hover:ring-teal"
-            >
-              <InstagramIcon />
-            </motion.a>
-            <motion.a
-              href="#"
-              aria-label="LinkedIn da 3WS"
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-white/20 transition-colors hover:bg-teal hover:text-white hover:ring-teal"
-            >
-              <LinkedinIcon />
-            </motion.a>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-8 md:col-span-4 md:grid-cols-2">
-          <div className="flex flex-col gap-4">
-            <span className="font-body text-xs uppercase tracking-[0.18em] text-white/40">
-              Links rápidos
-            </span>
-            <ul className="flex flex-col gap-3">
-              {QUICK_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={resolveHref(link.href)}
-                    onClick={(e) => handleAnchorClick(e, link.href, onHome)}
-                    className="font-body text-sm text-white/65 transition-colors hover:text-teal"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <span className="font-body text-xs uppercase tracking-[0.18em] text-white/40">
-              Serviços
-            </span>
-            <ul className="flex flex-col gap-3">
-              {SERVICES.map((service) => (
-                <li key={service}>
-                  <Link
-                    href={resolveHref("#servicos")}
-                    onClick={(e) => handleAnchorClick(e, "#servicos", onHome)}
-                    className="font-body text-sm text-white/65 transition-colors hover:text-teal"
-                  >
-                    {service}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-8 md:col-span-4 md:grid md:grid-cols-2 md:gap-8">
-          <div className="flex flex-col gap-4">
-            <span className="font-body text-xs uppercase tracking-[0.18em] text-white/40">
-              Contato
-            </span>
-            <ul className="flex flex-col gap-3 font-body text-sm text-white/65">
-              <li>
-                <a href="mailto:comercial@3wsmoldes.com.br" className="hover:text-teal">
-                  comercial@3wsmoldes.com.br
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://wa.me/5511973692861"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-teal"
-                >
-                  (11) 97369-2861
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <span className="font-body text-xs uppercase tracking-[0.18em] text-white/40">
-              Endereço
-            </span>
-            <p className="font-body text-sm leading-relaxed text-white/65">
-              Rua Dr. Edgard Magalhães Noronha, 789 — Vila Nova York
-              <br />
-              São Paulo/SP — CEP 03480-000
+        <Reveal className="grid grid-cols-1 gap-14 py-20 md:grid-cols-12 md:gap-8 md:py-24">
+          <div className="flex flex-col gap-6 md:col-span-4">
+            <Image
+              src="/images/logo.webp"
+              alt="3WS Moldes"
+              width={150}
+              height={50}
+              className="h-9 w-auto self-start"
+            />
+            <p className="max-w-xs font-body text-sm leading-relaxed text-white/50">
+              {dict.footer.description}
             </p>
+            <div className="flex items-center gap-4 pt-2">
+              <motion.a
+                href="#"
+                aria-label={dict.footer.instagram}
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-white/20 transition-colors hover:bg-teal hover:text-white hover:ring-teal"
+              >
+                <InstagramIcon />
+              </motion.a>
+              <motion.a
+                href="#"
+                aria-label={dict.footer.linkedin}
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-white/20 transition-colors hover:bg-teal hover:text-white hover:ring-teal"
+              >
+                <LinkedinIcon />
+              </motion.a>
+            </div>
           </div>
-        </div>
-      </Reveal>
-      </Container>
 
-      <Container>
-        <p className="border-t border-white/10 py-6 text-center font-body text-sm text-white/70">
-          Desenvolvido by{" "}
-          <a
-            href="https://www.ergonagencia.com.br"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors hover:text-teal"
-          >
-            Ergon Digital Product Studio
-          </a>
-          .
-        </p>
+          <div className="grid grid-cols-2 gap-8 md:col-span-4 md:grid-cols-2">
+            <div className="flex flex-col gap-4">
+              <span className="font-body text-xs uppercase tracking-[0.18em] text-white/40">
+                {dict.footer.quickLinks}
+              </span>
+              <ul className="flex flex-col gap-3">
+                {QUICK_LINKS.map((link) => (
+                  <li key={link.key}>
+                    <Link
+                      href={hrefFor(link)}
+                      onClick={(e) => link.anchor && handleAnchor(e, link.anchor)}
+                      className="font-body text-sm text-white/65 transition-colors hover:text-teal"
+                    >
+                      {dict.header.nav[link.key]}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <span className="font-body text-xs uppercase tracking-[0.18em] text-white/40">
+                {dict.footer.services}
+              </span>
+              <ul className="flex flex-col gap-3">
+                {SERVICE_KEYS.map((key) => (
+                  <li key={key}>
+                    <Link
+                      href={`${localePath(locale)}#servicos`}
+                      onClick={(e) => handleAnchor(e, "servicos")}
+                      className="font-body text-sm text-white/65 transition-colors hover:text-teal"
+                    >
+                      {dict.footer.serviceList[key]}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-8 md:col-span-4 md:grid md:grid-cols-2 md:gap-8">
+            <div className="flex flex-col gap-4">
+              <span className="font-body text-xs uppercase tracking-[0.18em] text-white/40">
+                {dict.footer.contact}
+              </span>
+              <ul className="flex flex-col gap-3 font-body text-sm text-white/65">
+                <li>
+                  <a href={`mailto:${SITE.email}`} className="hover:text-teal">
+                    {SITE.email}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={`https://wa.me/${SITE.whatsapp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-teal"
+                  >
+                    {SITE.phoneLabel}
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <span className="font-body text-xs uppercase tracking-[0.18em] text-white/40">
+                {dict.footer.address}
+              </span>
+              <p className="font-body text-sm leading-relaxed text-white/65">
+                {SITE.address.street}
+                <br />
+                {SITE.address.locality}/{SITE.address.region} — CEP {SITE.address.postalCode}
+              </p>
+            </div>
+          </div>
+        </Reveal>
       </Container>
 
       <div className="border-t border-white/10">
         <Container className="flex flex-col-reverse items-start gap-4 py-6 font-body text-xs text-white/40 md:flex-row md:items-center md:justify-between">
-          <span>© {new Date().getFullYear()} 3WS Moldes e Equipamentos. Todos os direitos reservados.</span>
+          <span>
+            © {new Date().getFullYear()} {SITE.legalName}. {dict.footer.rights}{" "}
+            {dict.footer.developedBy}{" "}
+            <a
+              href="https://www.ergonagencia.com.br"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-white/70"
+            >
+              Ergon Digital Product Studio
+            </a>
+            .
+          </span>
           <a href="#" className="transition-colors hover:text-white/70">
-            Política de Privacidade
+            {dict.footer.privacy}
           </a>
         </Container>
       </div>

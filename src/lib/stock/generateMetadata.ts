@@ -9,55 +9,94 @@
 
 import type { Metadata } from "next";
 import { SITE, absoluteUrl } from "@/lib/site";
+import {
+  LOCALES,
+  LOCALE_TAGS,
+  OG_LOCALES,
+  localePath,
+  t,
+  type Dictionary,
+  type Locale,
+} from "@/lib/i18n";
 import { largestVariant } from "./imageUrl";
 import { cavityLabelLower } from "./normalizeTitle";
 import type { StockItem } from "./types";
 
-export const STOCK_PATH = "/estoque";
+export const STOCK_SEGMENT = "/estoque";
 
-export function stockItemPath(slug: string) {
-  return `${STOCK_PATH}/${slug}`;
+export function stockPath(locale: Locale) {
+  return localePath(locale, STOCK_SEGMENT);
+}
+
+export function stockItemPath(locale: Locale, slug: string) {
+  return localePath(locale, `${STOCK_SEGMENT}/${slug}`);
+}
+
+/**
+ * hreflang para os três idiomas do mesmo conteúdo, mais x-default apontando
+ * para o português — o idioma principal do negócio.
+ */
+export function languageAlternates(pathBuilder: (locale: Locale) => string) {
+  const languages: Record<string, string> = {};
+  for (const locale of LOCALES) {
+    languages[LOCALE_TAGS[locale]] = pathBuilder(locale);
+  }
+  languages["x-default"] = pathBuilder("pt");
+  return languages;
 }
 
 /** Descrição da página do molde: só fatos vindos da pasta. */
-export function itemDescription(item: StockItem): string {
+export function itemDescription(dict: Dictionary, item: StockItem): string {
+  const tpl = dict.stock.templates;
   const parts: string[] = [];
 
-  if (item.kind === "collection") {
-    parts.push(`Acervo de moldes de injeção plástica para ${item.subject} disponível na 3WS`);
-  } else {
-    parts.push(`Molde de injeção plástica para ${item.subject} no estoque da 3WS`);
-  }
-
-  if (item.cavities) parts.push(`com ${cavityLabelLower(item.cavities)}`);
-
-  const photos = `${item.images.length} ${item.images.length === 1 ? "foto" : "fotos"}`;
   parts.push(
-    item.resultImages.length > 0
-      ? `${photos} do molde e da peça produzida`
-      : `${photos} do molde`
+    item.kind === "collection"
+      ? t(tpl.descCollection, { subject: item.subject })
+      : t(tpl.descMold, { subject: item.subject })
   );
 
-  return `${parts.join(", ")}. Consulte disponibilidade e condições comerciais.`;
+  if (item.cavities) {
+    parts.push(t(tpl.descCavities, { cavities: cavityLabelLower(dict, item.cavities) }));
+  }
+
+  const count = item.images.length;
+  const photos = `${count} ${
+    count === 1 ? dict.stock.detail.photoCountOne : dict.stock.detail.photoCountMany
+  }`;
+  parts.push(
+    item.resultImages.length > 0
+      ? t(tpl.descPhotosBoth, { photos })
+      : t(tpl.descPhotosMold, { photos })
+  );
+
+  return `${parts.join(", ")}. ${tpl.descTail}`;
 }
 
-export function buildItemMetadata(item: StockItem): Metadata {
+export function buildItemMetadata(
+  locale: Locale,
+  dict: Dictionary,
+  item: StockItem
+): Metadata {
   const title = `${item.title} | ${SITE.name}`;
-  const description = itemDescription(item);
-  const path = stockItemPath(item.slug);
+  const description = itemDescription(dict, item);
+  const path = stockItemPath(locale, item.slug);
   const image = absoluteUrl(largestVariant(item.cover));
 
   return {
     title,
     description,
-    alternates: { canonical: path },
+    alternates: {
+      canonical: path,
+      languages: languageAlternates((l) => stockItemPath(l, item.slug)),
+    },
     openGraph: {
       type: "article",
       title,
       description,
       url: absoluteUrl(path),
       siteName: SITE.name,
-      locale: "pt_BR",
+      locale: OG_LOCALES[locale],
       images: [{ url: image, alt: item.cover.alt }],
     },
     twitter: {
@@ -74,12 +113,16 @@ export interface Crumb {
   path: string;
 }
 
-export function itemBreadcrumbs(item: StockItem): Crumb[] {
+export function itemBreadcrumbs(
+  locale: Locale,
+  dict: Dictionary,
+  item: StockItem
+): Crumb[] {
   return [
-    { name: "Início", path: "/" },
-    { name: "Estoque", path: STOCK_PATH },
-    { name: item.category, path: `${STOCK_PATH}?categoria=${item.categorySlug}` },
-    { name: item.shortTitle, path: stockItemPath(item.slug) },
+    { name: dict.common.home, path: localePath(locale) },
+    { name: dict.header.nav.stock, path: stockPath(locale) },
+    { name: item.category, path: `${stockPath(locale)}?categoria=${item.categoryKey}` },
+    { name: item.shortTitle, path: stockItemPath(locale, item.slug) },
   ];
 }
 
@@ -117,14 +160,19 @@ export function organizationJsonLd() {
   };
 }
 
-export function collectionJsonLd(items: StockItem[], description: string) {
+export function collectionJsonLd(
+  locale: Locale,
+  dict: Dictionary,
+  items: StockItem[],
+  description: string
+) {
   return {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: `Estoque de moldes de injeção plástica — ${SITE.name}`,
+    name: dict.stock.templates.seoCollectionName,
     description,
-    url: absoluteUrl(STOCK_PATH),
-    inLanguage: "pt-BR",
+    url: absoluteUrl(stockPath(locale)),
+    inLanguage: LOCALE_TAGS[locale],
     isPartOf: { "@type": "WebSite", name: SITE.name, url: SITE.url },
     mainEntity: {
       "@type": "ItemList",
@@ -133,21 +181,21 @@ export function collectionJsonLd(items: StockItem[], description: string) {
         "@type": "ListItem",
         position: index + 1,
         name: item.title,
-        url: absoluteUrl(stockItemPath(item.slug)),
+        url: absoluteUrl(stockItemPath(locale, item.slug)),
       })),
     },
   };
 }
 
 /** Product sem oferta: nome, fotos, categoria e descrição — nada inventado. */
-export function productJsonLd(item: StockItem) {
+export function productJsonLd(locale: Locale, dict: Dictionary, item: StockItem) {
   return {
     "@context": "https://schema.org",
     "@type": "Product",
     name: item.title,
-    description: itemDescription(item),
+    description: itemDescription(dict, item),
     category: item.category,
-    url: absoluteUrl(stockItemPath(item.slug)),
+    url: absoluteUrl(stockItemPath(locale, item.slug)),
     image: item.images.map((image) => ({
       "@type": "ImageObject",
       contentUrl: absoluteUrl(largestVariant(image)),
@@ -159,7 +207,7 @@ export function productJsonLd(item: StockItem) {
           additionalProperty: [
             {
               "@type": "PropertyValue",
-              name: "Número de cavidades",
+              name: dict.stock.templates.cavityProperty,
               value: String(item.cavities),
             },
           ],

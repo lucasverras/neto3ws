@@ -4,8 +4,12 @@ import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { Highlight } from "@/components/ui/Highlight";
+import { useI18n } from "@/lib/i18n/context";
+import { whatsappUrl } from "@/lib/site";
 
 export function Hero() {
+  const { dict } = useI18n();
+
   return (
     <section id="top" className="relative flex min-h-[100svh] items-end overflow-hidden bg-ink text-white">
       <div className="absolute inset-0">
@@ -33,7 +37,7 @@ export function Hero() {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="font-body text-xs uppercase tracking-[0.32em] text-white/60"
             >
-              Ativos Industriais de Alto Valor
+              {dict.hero.eyebrow}
             </motion.p>
 
             <motion.h1
@@ -42,15 +46,15 @@ export function Hero() {
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
               className="mt-6 max-w-3xl font-display text-[9vw] font-light leading-[1.02] tracking-tight sm:text-5xl md:text-5xl lg:text-[3.6rem]"
             >
-              Mais de{" "}
+              {dict.hero.titleBefore}{" "}
               <Highlight delay={0.9}>
-                <span className="font-medium">1.500 toneladas</span>
+                <span className="font-medium">{dict.hero.titleHighlight1}</span>
               </Highlight>{" "}
-              em{" "}
+              {dict.hero.titleMiddle}{" "}
               <Highlight delay={1.1}>
-                <span className="font-medium">moldes e oportunidades</span>
-              </Highlight>{" "}
-              industriais.
+                <span className="font-medium">{dict.hero.titleHighlight2}</span>
+              </Highlight>
+              {dict.hero.titleAfter}
             </motion.h1>
           </div>
 
@@ -61,10 +65,7 @@ export function Hero() {
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
               className="max-w-sm font-body text-sm leading-relaxed text-white/70 md:text-base"
             >
-              Compra, venda e intermediação de moldes para injeção plástica,
-              porta-moldes, bases para estampos e equipamentos industriais. A
-              3WS conecta ativos disponíveis a empresas que buscam reduzir
-              custos e acelerar projetos em todo o Brasil.
+              {dict.hero.description}
             </motion.p>
 
             <motion.div
@@ -73,12 +74,12 @@ export function Hero() {
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.45 }}
             >
               <a
-                href="https://wa.me/5511973692861?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20uma%20avalia%C3%A7%C3%A3o%20de%20moldes%2Fequipamentos."
+                href={whatsappUrl(dict.header.ctaMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center rounded-xl bg-teal px-7 py-3.5 font-body text-[13px] font-medium uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-teal-deep"
               >
-                Solicitar Avaliação
+                {dict.hero.cta}
               </a>
             </motion.div>
           </div>

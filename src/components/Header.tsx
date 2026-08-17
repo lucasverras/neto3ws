@@ -7,25 +7,26 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { scrollToId } from "@/lib/scrollTo";
+import { whatsappUrl } from "@/lib/site";
+import { localePath, stripLocale } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n/context";
 
-const NAV_LINKS = [
-  { href: "#servicos", label: "Serviços" },
-  { href: "#categorias", label: "Categorias" },
-  { href: "/estoque", label: "Estoque" },
-  { href: "#como-funciona", label: "Como Funciona" },
-  { href: "#sobre", label: "Sobre" },
-  { href: "#faq", label: "FAQ" },
-];
+/** `anchor` vira link para a home do idioma quando não estamos nela. */
+const NAV = [
+  { anchor: "servicos", key: "services" },
+  { anchor: "categorias", key: "categories" },
+  { anchor: null, path: "/estoque", key: "stock" },
+  { anchor: "como-funciona", key: "howItWorks" },
+  { anchor: "sobre", key: "about" },
+  { anchor: "faq", key: "faq" },
+] as const;
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { locale, dict } = useI18n();
   const pathname = usePathname();
-  const onHome = pathname === "/";
-
-  // Fora da home as âncoras da landing viram links reais para "/#secao",
-  // senão o clique não teria alvo para rolar.
-  const resolveHref = (href: string) => (href.startsWith("#") && !onHome ? `/${href}` : href);
+  const isHome = stripLocale(pathname ?? "/") === "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -41,30 +42,36 @@ export function Header() {
     };
   }, [open]);
 
-  const handleAnchorClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (!href.startsWith("#") || !onHome) return;
-    e.preventDefault();
-    scrollToId(href.slice(1));
+  // Na home a âncora rola suavemente; fora dela vira navegação normal para
+  // /{idioma}#secao, que o navegador resolve ao carregar a página.
+  const handleAnchor = (event: MouseEvent<HTMLAnchorElement>, anchor: string) => {
+    if (!isHome) return;
+    event.preventDefault();
+    scrollToId(anchor);
   };
+
+  const hrefFor = (item: (typeof NAV)[number]) =>
+    item.anchor === null
+      ? localePath(locale, item.path)
+      : `${localePath(locale)}#${item.anchor}`;
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[padding] duration-500 ease-out ${
+      className={`pointer-events-none fixed inset-x-0 top-0 z-50 transition-[padding] duration-500 ease-out ${
         scrolled ? "px-4 pt-4 md:px-6 md:pt-6" : "px-0 pt-0"
       }`}
     >
       <div
-        className={`mx-auto flex h-16 items-center justify-between border backdrop-blur-xl backdrop-saturate-150 transition-all duration-500 ease-out pl-5 pr-2 md:h-[4.25rem] md:pl-6 md:pr-2.5 ${
+        className={`pointer-events-auto mx-auto flex h-16 items-center justify-between border backdrop-blur-xl backdrop-saturate-150 transition-all duration-500 ease-out pl-5 pr-2 md:h-[4.25rem] md:pl-6 md:pr-2.5 ${
           scrolled
-            ? "max-w-4xl rounded-2xl border-white/15 bg-ink/45 shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
+            ? "max-w-5xl rounded-2xl border-white/15 bg-ink/45 shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
             : "max-w-full rounded-none border-transparent border-b-white/10 bg-ink/80 shadow-none"
         }`}
       >
         <Link
-          href={onHome ? "#top" : "/"}
-          onClick={(e) => handleAnchorClick(e, "#top")}
+          href={localePath(locale)}
           className="relative z-10 flex shrink-0 items-center"
-          aria-label="3WS — início"
+          aria-label={dict.header.logoAria}
         >
           <Image
             src="/images/logo.webp"
@@ -76,38 +83,35 @@ export function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex">
-          {NAV_LINKS.map((link) => (
+        <nav className="hidden items-center gap-7 lg:flex">
+          {NAV.map((item) => (
             <Link
-              key={link.href}
-              href={resolveHref(link.href)}
-              onClick={(e) => handleAnchorClick(e, link.href)}
-              aria-current={pathname === link.href ? "page" : undefined}
-              className={`font-body text-[14px] tracking-[0.01em] transition-colors hover:text-teal ${
-                pathname === link.href ? "text-teal" : "text-white/70"
-              }`}
+              key={item.key}
+              href={hrefFor(item)}
+              onClick={(e) => item.anchor && handleAnchor(e, item.anchor)}
+              className="font-body text-[14px] tracking-[0.01em] text-white/70 transition-colors hover:text-teal"
             >
-              {link.label}
+              {dict.header.nav[item.key]}
             </Link>
           ))}
         </nav>
 
         <div className="flex items-center gap-2">
           <motion.a
-            href="https://wa.me/5511973692861?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20uma%20avalia%C3%A7%C3%A3o%20de%20moldes%2Fequipamentos."
+            href={whatsappUrl(dict.header.ctaMessage)}
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.035 }}
             whileTap={{ scale: 0.97 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="hidden shrink-0 items-center rounded-full bg-teal px-6 py-2.5 font-body text-[14px] font-medium tracking-[0.01em] text-white shadow-[0_4px_20px_rgba(44,141,255,0.35)] transition-colors duration-300 hover:bg-teal-deep hover:shadow-[0_6px_24px_rgba(44,141,255,0.5)] lg:inline-flex"
+            className="hidden shrink-0 items-center rounded-full bg-teal px-5 py-2.5 font-body text-[13px] font-medium tracking-[0.01em] text-white shadow-[0_4px_20px_rgba(44,141,255,0.35)] transition-colors duration-300 hover:bg-teal-deep hover:shadow-[0_6px_24px_rgba(44,141,255,0.5)] lg:inline-flex"
           >
-            Solicitar Avaliação
+            {dict.header.cta}
           </motion.a>
 
           <button
             type="button"
-            aria-label={open ? "Fechar menu" : "Abrir menu"}
+            aria-label={open ? dict.header.closeMenu : dict.header.openMenu}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
             className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white transition-colors hover:bg-white/10 lg:hidden"
@@ -124,31 +128,31 @@ export function Header() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="mx-auto mt-2 max-w-4xl overflow-hidden rounded-2xl border border-white/15 bg-ink/70 backdrop-blur-xl backdrop-saturate-150 lg:hidden"
+            className="pointer-events-auto mx-auto mt-2 max-w-5xl overflow-hidden rounded-2xl border border-white/15 bg-ink/70 backdrop-blur-xl backdrop-saturate-150 lg:hidden"
           >
             <div className="flex flex-col gap-6 px-7 py-8">
-              {NAV_LINKS.map((link) => (
+              {NAV.map((item) => (
                 <Link
-                  key={link.href}
-                  href={resolveHref(link.href)}
+                  key={item.key}
+                  href={hrefFor(item)}
                   onClick={(e) => {
                     setOpen(false);
-                    handleAnchorClick(e, link.href);
+                    if (item.anchor) handleAnchor(e, item.anchor);
                   }}
-                  aria-current={pathname === link.href ? "page" : undefined}
                   className="font-display text-2xl font-semibold tracking-tight text-white"
                 >
-                  {link.label}
+                  {dict.header.nav[item.key]}
                 </Link>
               ))}
+
               <a
-                href="https://wa.me/5511973692861?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20uma%20avalia%C3%A7%C3%A3o%20de%20moldes%2Fequipamentos."
+                href={whatsappUrl(dict.header.ctaMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
                 className="mt-2 inline-flex w-fit items-center rounded-full bg-teal px-6 py-3 font-body text-[14px] font-medium tracking-[0.01em] text-white shadow-[0_4px_20px_rgba(44,141,255,0.35)]"
               >
-                Solicitar Avaliação
+                {dict.header.cta}
               </a>
             </div>
           </motion.div>

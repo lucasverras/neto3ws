@@ -1,228 +1,728 @@
 {
   "$comment": [
-    "Curadoria manual do estoque. TUDO aqui é OPCIONAL — uma pasta nova em",
-    "3ws-images/imagens/<segmento>/<slug>/ entra no catálogo automaticamente com",
-    "título, categoria e alt derivados do próprio slug. Este arquivo só existe",
-    "para (a) refinar títulos que o gerador automático não teria como acertar e",
-    "(b) registrar quais fotos mostram a PEÇA PRODUZIDA em vez do molde.",
+    "Curadoria do estoque. TUDO aqui é OPCIONAL — uma pasta nova em",
+    "3ws-images/imagens/<segmento>/<slug>/ entra no catálogo automaticamente.",
     "",
-    "'result' lista os nomes de arquivo (sem extensão) que mostram a peça injetada.",
-    "Foi preenchido por inspeção visual foto a foto — não por heurística. Pastas",
-    "ausentes desta lista ficam com galeria única de molde, que é o padrão seguro.",
+    "Campos por slug:",
+    "  name    { pt, en, es }  nome da peça, encaixado no modelo 'Molde para {name}'",
+    "  title   { pt, en, es }  título completo, quando o modelo não serve",
+    "  subject { pt, en, es }  trecho em minúsculas usado nos alts e descrições",
+    "  kind    'mold' | 'collection'",
+    "  category  chave de categoria (ver taxonomy.ts)",
+    "  result  nomes de arquivo que mostram a PEÇA PRODUZIDA",
+    "  cover   arquivo de capa",
+    "  summary { pt, en, es }  parágrafo extra na página do molde",
     "",
-    "Campos aceitos por slug: title, subject, kind ('mold' | 'collection'),",
-    "category, result[], cover, summary."
+    "Sem 'name'/'title', o nome é derivado do slug em português e reaproveitado",
+    "nos três idiomas — traduzir errado seria pior do que mostrar o original.",
+    "",
+    "'result' foi preenchido por inspeção visual foto a foto, não por heurística:",
+    "os arquivos se chamam 01.jpg, 02.jpg… e não carregam nenhum sinal de qual é",
+    "molde e qual é peça. Pasta ausente daqui fica com galeria única do molde."
   ],
-
   "exclude": [
     "estampos/estampos-base-para-estampo/08.jpg"
   ],
-
   "excludeReasons": {
     "estampos/estampos-base-para-estampo/08.jpg": "Card promocional com telefone/CTA, não é foto do ativo. Arquivo preservado no acervo original."
   },
-
   "institutional": "acervo-geral-do-estoque",
-
   "items": {
     "alca-caixao-2-cavidades": {
-      "title": "Molde para Alça de Caixão – 2 Cavidades",
-      "subject": "alça de caixão",
-      "result": ["08"]
+      "name": {
+        "pt": "Alça de Caixão",
+        "en": "Coffin Handle",
+        "es": "Asa de Ataúd"
+      },
+      "subject": {
+        "pt": "alça de caixão",
+        "en": "a coffin handle",
+        "es": "un asa de ataúd"
+      },
+      "result": [
+        "08"
+      ]
     },
     "bandeja-1-cavidade": {
-      "subject": "bandeja",
-      "result": ["03", "12", "13", "14", "15", "16"]
+      "name": {
+        "pt": "Bandeja",
+        "en": "Tray",
+        "es": "Bandeja"
+      },
+      "subject": {
+        "pt": "bandeja",
+        "en": "a tray",
+        "es": "una bandeja"
+      },
+      "result": [
+        "03",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16"
+      ]
     },
     "bandeja-decorada-1-cavidade": {
-      "subject": "bandeja decorada",
-      "result": ["04"]
+      "name": {
+        "pt": "Bandeja Decorada",
+        "en": "Decorated Tray",
+        "es": "Bandeja Decorada"
+      },
+      "subject": {
+        "pt": "bandeja decorada",
+        "en": "a decorated tray",
+        "es": "una bandeja decorada"
+      },
+      "result": [
+        "04"
+      ]
     },
     "bandeja-oval-1-cavidade": {
-      "subject": "bandeja oval",
-      "result": ["05"]
+      "name": {
+        "pt": "Bandeja Oval",
+        "en": "Oval Tray",
+        "es": "Bandeja Ovalada"
+      },
+      "subject": {
+        "pt": "bandeja oval",
+        "en": "an oval tray",
+        "es": "una bandeja ovalada"
+      },
+      "result": [
+        "05"
+      ]
     },
     "caneca-uvas-2-cavidades": {
-      "title": "Molde para Caneca com Relevo de Uvas – 2 Cavidades",
-      "subject": "caneca com relevo de uvas",
-      "result": ["07", "08"]
+      "name": {
+        "pt": "Caneca com Relevo de Uvas",
+        "en": "Mug with Grape Relief",
+        "es": "Taza con Relieve de Uvas"
+      },
+      "subject": {
+        "pt": "caneca com relevo de uvas",
+        "en": "a mug with grape relief",
+        "es": "una taza con relieve de uvas"
+      },
+      "result": [
+        "07",
+        "08"
+      ]
     },
     "cinzeiro-1-cavidade": {
-      "subject": "cinzeiro",
-      "result": ["04", "05", "06"]
+      "name": {
+        "pt": "Cinzeiro",
+        "en": "Ashtray",
+        "es": "Cenicero"
+      },
+      "subject": {
+        "pt": "cinzeiro",
+        "en": "an ashtray",
+        "es": "un cenicero"
+      },
+      "result": [
+        "04",
+        "05",
+        "06"
+      ]
     },
     "copo-250ml-2-cavidades": {
-      "subject": "copo de 250 ml",
-      "result": ["05"]
+      "name": {
+        "pt": "Copo 250 ml",
+        "en": "250 ml Cup",
+        "es": "Vaso 250 ml"
+      },
+      "subject": {
+        "pt": "copo de 250 ml",
+        "en": "a 250 ml cup",
+        "es": "un vaso de 250 ml"
+      },
+      "result": [
+        "05"
+      ]
     },
     "copo-4-cavidades-peca-40g": {
-      "title": "Molde para Copo 40 g – 4 Cavidades",
-      "subject": "copo com peça de 40 g",
-      "result": ["04", "05", "06"]
+      "name": {
+        "pt": "Copo 40 g",
+        "en": "40 g Cup",
+        "es": "Vaso 40 g"
+      },
+      "subject": {
+        "pt": "copo com peça de 40 g",
+        "en": "a cup with a 40 g part",
+        "es": "un vaso con pieza de 40 g"
+      },
+      "result": [
+        "04",
+        "05",
+        "06"
+      ]
     },
     "copo-4-cavidades-peca-60g": {
-      "title": "Molde para Copo 60 g – 4 Cavidades",
-      "subject": "copo com peça de 60 g",
-      "result": ["06", "07"]
+      "name": {
+        "pt": "Copo 60 g",
+        "en": "60 g Cup",
+        "es": "Vaso 60 g"
+      },
+      "subject": {
+        "pt": "copo com peça de 60 g",
+        "en": "a cup with a 60 g part",
+        "es": "un vaso con pieza de 60 g"
+      },
+      "result": [
+        "06",
+        "07"
+      ]
     },
     "copo-660ml-tampa-sobretampa-2-cavidades": {
-      "title": "Molde para Copo 660 ml com Tampa e Sobretampa – 2 Cavidades",
-      "subject": "copo de 660 ml com tampa e sobretampa",
-      "result": ["05", "06", "07", "08", "09"]
+      "name": {
+        "pt": "Copo 660 ml com Tampa e Sobretampa",
+        "en": "660 ml Cup with Lid and Overcap",
+        "es": "Vaso 660 ml con Tapa y Sobretapa"
+      },
+      "subject": {
+        "pt": "copo de 660 ml com tampa e sobretampa",
+        "en": "a 660 ml cup with lid and overcap",
+        "es": "un vaso de 660 ml con tapa y sobretapa"
+      },
+      "result": [
+        "05",
+        "06",
+        "07",
+        "08",
+        "09"
+      ]
     },
     "copo-azul-decorado-4-cavidades": {
-      "subject": "copo decorado",
-      "result": ["06"]
+      "name": {
+        "pt": "Copo Azul Decorado",
+        "en": "Blue Decorated Cup",
+        "es": "Vaso Azul Decorado"
+      },
+      "subject": {
+        "pt": "copo decorado",
+        "en": "a decorated cup",
+        "es": "un vaso decorado"
+      },
+      "result": [
+        "06"
+      ]
     },
     "copo-decorado-4-cavidades": {
-      "subject": "copo decorado",
-      "result": ["05"]
+      "name": {
+        "pt": "Copo Decorado",
+        "en": "Decorated Cup",
+        "es": "Vaso Decorado"
+      },
+      "subject": {
+        "pt": "copo decorado",
+        "en": "a decorated cup",
+        "es": "un vaso decorado"
+      },
+      "result": [
+        "05"
+      ]
     },
     "forma-de-pudim-1-cavidade": {
-      "subject": "forma de pudim",
-      "result": ["03", "04"]
+      "name": {
+        "pt": "Forma de Pudim",
+        "en": "Pudding Pan",
+        "es": "Flanera"
+      },
+      "subject": {
+        "pt": "forma de pudim",
+        "en": "a pudding pan",
+        "es": "una flanera"
+      },
+      "result": [
+        "03",
+        "04"
+      ]
     },
     "jarra-2l-tampa-copo": {
-      "title": "Molde para Jarra 2 L com Tampa e Copos",
-      "subject": "jarra de 2 litros com tampa e copos",
-      "result": ["08", "09"]
+      "name": {
+        "pt": "Jarra 2 L com Tampa e Copos",
+        "en": "2 L Pitcher with Lid and Cups",
+        "es": "Jarra 2 L con Tapa y Vasos"
+      },
+      "subject": {
+        "pt": "jarra de 2 litros com tampa e copos",
+        "en": "a 2-litre pitcher with lid and cups",
+        "es": "una jarra de 2 litros con tapa y vasos"
+      },
+      "result": [
+        "08",
+        "09"
+      ]
     },
     "manteigueira-base-tampa-4-cavidades": {
-      "title": "Molde para Manteigueira, Base e Tampa – 4 Cavidades",
-      "subject": "manteigueira com base e tampa",
-      "result": ["14", "15", "16", "17", "18"]
+      "name": {
+        "pt": "Manteigueira, Base e Tampa",
+        "en": "Butter Dish, Base and Lid",
+        "es": "Mantequera, Base y Tapa"
+      },
+      "subject": {
+        "pt": "manteigueira com base e tampa",
+        "en": "a butter dish with base and lid",
+        "es": "una mantequera con base y tapa"
+      },
+      "result": [
+        "14",
+        "15",
+        "16",
+        "17",
+        "18"
+      ]
     },
     "pes-de-moveis-4-cavidades": {
-      "subject": "pés de móveis",
-      "result": ["09", "10", "11"]
+      "name": {
+        "pt": "Pés de Móveis",
+        "en": "Furniture Legs",
+        "es": "Patas de Muebles"
+      },
+      "subject": {
+        "pt": "pés de móveis",
+        "en": "furniture legs",
+        "es": "patas de muebles"
+      },
+      "result": [
+        "09",
+        "10",
+        "11"
+      ]
     },
     "prato-4-cavidades-peca-100g": {
-      "title": "Molde para Prato 100 g – 4 Cavidades",
-      "subject": "prato com peça de 100 g",
-      "result": ["03", "04", "05", "06"]
+      "name": {
+        "pt": "Prato 100 g",
+        "en": "100 g Plate",
+        "es": "Plato 100 g"
+      },
+      "subject": {
+        "pt": "prato com peça de 100 g",
+        "en": "a plate with a 100 g part",
+        "es": "un plato con pieza de 100 g"
+      },
+      "result": [
+        "03",
+        "04",
+        "05",
+        "06"
+      ]
     },
     "prato-4-cavidades-peca-95g": {
-      "title": "Molde para Prato 95 g – 4 Cavidades",
-      "subject": "prato com peça de 95 g",
-      "result": ["03", "04"]
+      "name": {
+        "pt": "Prato 95 g",
+        "en": "95 g Plate",
+        "es": "Plato 95 g"
+      },
+      "subject": {
+        "pt": "prato com peça de 95 g",
+        "en": "a plate with a 95 g part",
+        "es": "un plato con pieza de 95 g"
+      },
+      "result": [
+        "03",
+        "04"
+      ]
     },
     "prato-elegance-2-cavidades": {
-      "subject": "prato Elegance",
-      "result": ["04", "06", "07", "08"]
+      "name": {
+        "pt": "Prato Elegance",
+        "en": "Elegance Plate",
+        "es": "Plato Elegance"
+      },
+      "subject": {
+        "pt": "prato Elegance",
+        "en": "an Elegance plate",
+        "es": "un plato Elegance"
+      },
+      "result": [
+        "04",
+        "06",
+        "07",
+        "08"
+      ]
     },
     "prato-quadrado-4-cavidades": {
-      "subject": "prato quadrado",
-      "result": ["05", "06"]
+      "name": {
+        "pt": "Prato Quadrado",
+        "en": "Square Plate",
+        "es": "Plato Cuadrado"
+      },
+      "subject": {
+        "pt": "prato quadrado",
+        "en": "a square plate",
+        "es": "un plato cuadrado"
+      },
+      "result": [
+        "05",
+        "06"
+      ]
     },
     "saboneteira-4-cavidades": {
-      "subject": "saboneteira",
-      "result": ["04", "05", "06", "07", "08"]
+      "name": {
+        "pt": "Saboneteira",
+        "en": "Soap Dish",
+        "es": "Jabonera"
+      },
+      "subject": {
+        "pt": "saboneteira",
+        "en": "a soap dish",
+        "es": "una jabonera"
+      },
+      "result": [
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ]
     },
     "saladeira-1-cavidade": {
-      "subject": "saladeira",
-      "result": ["03", "04", "05", "06", "07"]
+      "name": {
+        "pt": "Saladeira",
+        "en": "Salad Bowl",
+        "es": "Ensaladera"
+      },
+      "subject": {
+        "pt": "saladeira",
+        "en": "a salad bowl",
+        "es": "una ensaladera"
+      },
+      "result": [
+        "03",
+        "04",
+        "05",
+        "06",
+        "07"
+      ]
     },
     "saladeira-sopeira-1-cavidade": {
-      "title": "Molde para Saladeira / Sopeira – 1 Cavidade",
-      "subject": "saladeira ou sopeira",
-      "result": ["01"]
+      "name": {
+        "pt": "Saladeira / Sopeira",
+        "en": "Salad Bowl / Soup Tureen",
+        "es": "Ensaladera / Sopera"
+      },
+      "subject": {
+        "pt": "saladeira ou sopeira",
+        "en": "a salad bowl or soup tureen",
+        "es": "una ensaladera o sopera"
+      },
+      "result": [
+        "01"
+      ]
     },
     "tabua-1-cavidade": {
-      "subject": "tábua",
-      "result": ["03", "04", "05", "07"]
+      "name": {
+        "pt": "Tábua",
+        "en": "Board",
+        "es": "Tabla"
+      },
+      "subject": {
+        "pt": "tábua",
+        "en": "a board",
+        "es": "una tabla"
+      },
+      "result": [
+        "03",
+        "04",
+        "05",
+        "07"
+      ]
     },
     "taca-300ml-2-cavidades": {
-      "subject": "taça de 300 ml",
-      "result": ["07", "08"]
+      "name": {
+        "pt": "Taça 300 ml",
+        "en": "300 ml Goblet",
+        "es": "Copa 300 ml"
+      },
+      "subject": {
+        "pt": "taça de 300 ml",
+        "en": "a 300 ml goblet",
+        "es": "una copa de 300 ml"
+      },
+      "result": [
+        "07",
+        "08"
+      ]
     },
     "tampa-flip-top": {
-      "subject": "tampa flip top",
-      "result": ["05", "06", "07"]
+      "name": {
+        "pt": "Tampa Flip Top",
+        "en": "Flip Top Cap",
+        "es": "Tapa Flip Top"
+      },
+      "subject": {
+        "pt": "tampa flip top",
+        "en": "a flip top cap",
+        "es": "una tapa flip top"
+      },
+      "result": [
+        "05",
+        "06",
+        "07"
+      ]
     },
     "vasilha-4-cavidades": {
-      "subject": "vasilha",
-      "result": ["03", "04", "05"]
+      "name": {
+        "pt": "Vasilha",
+        "en": "Container",
+        "es": "Recipiente"
+      },
+      "subject": {
+        "pt": "vasilha",
+        "en": "a container",
+        "es": "un recipiente"
+      },
+      "result": [
+        "03",
+        "04",
+        "05"
+      ]
     },
     "vasilha-grande-2-cavidades": {
-      "subject": "vasilha grande",
-      "result": ["06"]
+      "name": {
+        "pt": "Vasilha Grande",
+        "en": "Large Container",
+        "es": "Recipiente Grande"
+      },
+      "subject": {
+        "pt": "vasilha grande",
+        "en": "a large container",
+        "es": "un recipiente grande"
+      },
+      "result": [
+        "06"
+      ]
     },
     "vasilha-pequena-4-cavidades": {
-      "subject": "vasilha pequena",
-      "result": ["07", "08", "09", "10", "11"]
+      "name": {
+        "pt": "Vasilha Pequena",
+        "en": "Small Container",
+        "es": "Recipiente Pequeño"
+      },
+      "subject": {
+        "pt": "vasilha pequena",
+        "en": "a small container",
+        "es": "un recipiente pequeño"
+      },
+      "result": [
+        "07",
+        "08",
+        "09",
+        "10",
+        "11"
+      ]
     },
     "vaso-1-cavidade": {
-      "subject": "vaso"
+      "name": {
+        "pt": "Vaso",
+        "en": "Pot",
+        "es": "Maceta"
+      },
+      "subject": {
+        "pt": "vaso",
+        "en": "a pot",
+        "es": "una maceta"
+      }
     },
-
     "automotivos": {
       "kind": "collection",
-      "title": "Moldes para Peças Automotivas",
-      "subject": "peças automotivas",
-      "category": "Automotivos",
-      "summary": "Conjunto de moldes de injeção destinados a componentes plásticos do setor automotivo, fotografados individualmente no acervo."
+      "name": {
+        "pt": "Peças Automotivas",
+        "en": "Automotive Parts",
+        "es": "Piezas de Automoción"
+      },
+      "subject": {
+        "pt": "peças automotivas",
+        "en": "automotive parts",
+        "es": "piezas de automoción"
+      },
+      "category": "automotivos",
+      "summary": {
+        "pt": "Conjunto de moldes de injeção destinados a componentes plásticos do setor automotivo, fotografados individualmente no acervo.",
+        "en": "A set of injection molds for plastic components in the automotive sector, each photographed individually in the archive.",
+        "es": "Conjunto de moldes de inyección destinados a componentes plásticos del sector de automoción, fotografiados individualmente en el acervo."
+      }
     },
     "brinquedos": {
       "kind": "collection",
-      "title": "Moldes para Brinquedos",
-      "subject": "brinquedos plásticos",
-      "category": "Brinquedos"
+      "name": {
+        "pt": "Brinquedos",
+        "en": "Toys",
+        "es": "Juguetes"
+      },
+      "subject": {
+        "pt": "brinquedos plásticos",
+        "en": "plastic toys",
+        "es": "juguetes de plástico"
+      },
+      "category": "brinquedos"
     },
     "copos-diversos": {
       "kind": "collection",
-      "title": "Moldes para Copos — Modelos Diversos",
-      "subject": "copos plásticos de modelos diversos",
-      "category": "Copos e Taças"
+      "name": {
+        "pt": "Copos — Modelos Diversos",
+        "en": "Cups — Assorted Models",
+        "es": "Vasos — Modelos Diversos"
+      },
+      "subject": {
+        "pt": "copos plásticos de modelos diversos",
+        "en": "plastic cups in assorted models",
+        "es": "vasos de plástico de modelos diversos"
+      },
+      "category": "copos-tacas"
     },
     "diversos": {
       "kind": "collection",
-      "title": "Moldes de Injeção — Acervo Diversos",
-      "subject": "moldes de injeção de aplicações diversas",
-      "category": "Diversos",
-      "summary": "Registro amplo do acervo: lotes de moldes de injeção de diferentes segmentos armazenados no galpão da 3WS."
+      "title": {
+        "pt": "Moldes de Injeção — Acervo Diversos",
+        "en": "Injection Molds — Miscellaneous Archive",
+        "es": "Moldes de Inyección — Acervo Diversos"
+      },
+      "name": {
+        "pt": "Moldes Diversos",
+        "en": "Miscellaneous Molds",
+        "es": "Moldes Diversos"
+      },
+      "subject": {
+        "pt": "moldes de injeção de aplicações diversas",
+        "en": "injection molds for a range of applications",
+        "es": "moldes de inyección de aplicaciones diversas"
+      },
+      "category": "diversos",
+      "summary": {
+        "pt": "Registro amplo do acervo: lotes de moldes de injeção de diferentes segmentos armazenados no galpão da 3WS.",
+        "en": "A broad record of the archive: lots of injection molds from different segments stored in the 3WS warehouse.",
+        "es": "Registro amplio del acervo: lotes de moldes de inyección de distintos segmentos almacenados en la nave de 3WS."
+      }
     },
     "potes-hermeticos": {
       "kind": "collection",
-      "title": "Moldes para Potes Herméticos",
-      "subject": "potes herméticos",
-      "category": "Vasilhas e Potes"
+      "name": {
+        "pt": "Potes Herméticos",
+        "en": "Airtight Containers",
+        "es": "Envases Herméticos"
+      },
+      "subject": {
+        "pt": "potes herméticos",
+        "en": "airtight containers",
+        "es": "envases herméticos"
+      },
+      "category": "vasilhas-potes"
     },
     "utilidades-domesticas": {
       "kind": "collection",
-      "title": "Moldes para Utilidades Domésticas",
-      "subject": "utilidades domésticas",
-      "category": "Utilidades Domésticas"
+      "name": {
+        "pt": "Utilidades Domésticas",
+        "en": "Housewares",
+        "es": "Menaje del Hogar"
+      },
+      "subject": {
+        "pt": "utilidades domésticas",
+        "en": "housewares",
+        "es": "menaje del hogar"
+      },
+      "category": "utilidades-domesticas"
     },
     "vasos-baldes-cestos": {
       "kind": "collection",
-      "title": "Moldes para Vasos, Baldes e Cestos",
-      "subject": "vasos, baldes e cestos",
-      "category": "Vasos, Baldes e Cestos"
+      "name": {
+        "pt": "Vasos, Baldes e Cestos",
+        "en": "Pots, Buckets and Baskets",
+        "es": "Macetas, Cubos y Cestos"
+      },
+      "subject": {
+        "pt": "vasos, baldes e cestos",
+        "en": "pots, buckets and baskets",
+        "es": "macetas, cubos y cestos"
+      },
+      "category": "vasos-baldes-cestos"
     },
     "porta-moldes-posticados": {
       "kind": "collection",
-      "title": "Porta-Moldes Postiçados",
-      "subject": "porta-moldes postiçados",
-      "category": "Porta-Moldes",
-      "summary": "Porta-moldes postiçados disponíveis para reaproveitamento em novos projetos de ferramentaria."
+      "title": {
+        "pt": "Porta-Moldes Postiçados",
+        "en": "Insert-Type Mold Bases",
+        "es": "Portamoldes con Postizos"
+      },
+      "name": {
+        "pt": "Porta-Moldes Postiçados",
+        "en": "Insert-Type Mold Bases",
+        "es": "Portamoldes con Postizos"
+      },
+      "subject": {
+        "pt": "porta-moldes postiçados",
+        "en": "insert-type mold bases",
+        "es": "portamoldes con postizos"
+      },
+      "category": "porta-moldes",
+      "summary": {
+        "pt": "Porta-moldes postiçados disponíveis para reaproveitamento em novos projetos de ferramentaria.",
+        "en": "Insert-type mold bases available for reuse in new tooling projects.",
+        "es": "Portamoldes con postizos disponibles para su reutilización en nuevos proyectos de herramental."
+      }
     },
     "estampos-base-para-estampo": {
       "kind": "collection",
-      "title": "Bases para Estampo",
-      "subject": "bases para estampo",
-      "category": "Bases para Estampos",
-      "summary": "Porta-estampos, bases de estampos e ferramentas de corte e repuxo, comercializados no varejo, no atacado e por quilo."
+      "title": {
+        "pt": "Bases para Estampo",
+        "en": "Stamping Die Bases",
+        "es": "Bases para Troquel"
+      },
+      "name": {
+        "pt": "Bases para Estampo",
+        "en": "Stamping Die Bases",
+        "es": "Bases para Troquel"
+      },
+      "subject": {
+        "pt": "bases para estampo",
+        "en": "stamping die bases",
+        "es": "bases para troquel"
+      },
+      "category": "bases-estampos",
+      "summary": {
+        "pt": "Porta-estampos, bases de estampos e ferramentas de corte e repuxo, comercializados no varejo, no atacado e por quilo.",
+        "en": "Die holders, stamping die bases and cutting and drawing tools, sold retail, wholesale and by the kilo.",
+        "es": "Portatroqueles, bases de troqueles y herramientas de corte y embutición, comercializados al por menor, al por mayor y por kilo."
+      }
     },
     "molde-para-sopro": {
-      "title": "Molde para Sopro",
-      "subject": "sopro de embalagens plásticas",
-      "category": "Moldes de Sopro"
+      "title": {
+        "pt": "Molde para Sopro",
+        "en": "Blow Mold",
+        "es": "Molde de Soplado"
+      },
+      "name": {
+        "pt": "Molde para Sopro",
+        "en": "Blow Mold",
+        "es": "Molde de Soplado"
+      },
+      "subject": {
+        "pt": "sopro de embalagens plásticas",
+        "en": "blow molding of plastic packaging",
+        "es": "soplado de envases plásticos"
+      },
+      "category": "moldes-sopro"
     },
     "acervo-geral-do-estoque": {
       "kind": "collection",
-      "title": "Acervo Geral do Estoque",
-      "subject": "o acervo geral de moldes da 3WS",
-      "category": "Diversos"
+      "title": {
+        "pt": "Acervo Geral do Estoque",
+        "en": "General Stock Archive",
+        "es": "Acervo General del Stock"
+      },
+      "name": {
+        "pt": "Acervo Geral do Estoque",
+        "en": "General Stock Archive",
+        "es": "Acervo General del Stock"
+      },
+      "subject": {
+        "pt": "o acervo geral de moldes da 3WS",
+        "en": "the general 3WS mold archive",
+        "es": "el acervo general de moldes de 3WS"
+      },
+      "category": "diversos"
     }
   }
 }

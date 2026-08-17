@@ -5,7 +5,7 @@
     800,
     1400
   ],
-  "basePath": "/estoque",
+  "basePath": "/acervo",
   "items": [
     {
       "slug": "estampos-base-para-estampo",

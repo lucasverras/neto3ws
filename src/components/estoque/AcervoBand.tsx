@@ -1,13 +1,15 @@
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { StockPhoto } from "./StockPhoto";
+import type { Dictionary } from "@/lib/i18n";
 import type { StockImage } from "@/lib/stock/types";
 
 /**
  * Prova visual do estoque, montada com as fotos do acervo geral. Não é um
  * produto e por isso não tem URL própria — é contexto para o catálogo abaixo.
  */
-export function AcervoBand({ photos }: { photos: StockImage[] }) {
+export function AcervoBand({ photos, dict }: { photos: StockImage[]; dict: Dictionary }) {
+  const d = dict.stock.acervo;
   if (photos.length === 0) return null;
   const [lead, ...rest] = photos.slice(0, 5);
 
@@ -16,17 +18,15 @@ export function AcervoBand({ photos }: { photos: StockImage[] }) {
       <Container>
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-4">
-            <SectionLabel label="O acervo" />
+            <SectionLabel label={d.label} />
             <h2
               id="acervo-heading"
               className="mt-6 font-display text-3xl font-medium leading-[1.1] tracking-tight text-white md:text-4xl"
             >
-              Um galpão inteiro de ferramentas prontas para um novo ciclo.
+              {d.heading}
             </h2>
             <p className="mt-5 font-body text-[15px] leading-relaxed text-white/60">
-              Moldes de injeção, porta-moldes e bases para estampos armazenados,
-              identificados e avaliados. Cada item do catálogo abaixo sai deste
-              acervo.
+              {d.text}
             </p>
           </div>
 

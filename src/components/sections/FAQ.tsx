@@ -7,48 +7,30 @@ import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { SectionDivider } from "@/components/ui/SectionDivider";
+import { useI18n } from "@/lib/i18n/context";
 
-const FAQS = [
-  {
-    q: "Quais tipos de moldes vocês compram?",
-    a: "Compramos moldes para injeção plástica, porta-moldes, bases para estampos e ferramentas especiais — novos, usados, desativados ou ainda em operação.",
-  },
-  {
-    q: "Vocês compram lotes completos?",
-    a: "Sim. Temos capacidade técnica e financeira para negociar lotes completos de moldes e equipamentos industriais.",
-  },
-  {
-    q: "Atendem todo o Brasil?",
-    a: "Sim, atendemos empresas em todo o território nacional, do primeiro contato à retirada dos ativos.",
-  },
-  {
-    q: "Como funciona a avaliação?",
-    a: "Você envia as informações e especificações do ativo, nossa equipe realiza uma avaliação técnica e comercial e apresentamos uma proposta.",
-  },
-  {
-    q: "Também fazem intermediação?",
-    a: "Sim. Conectamos empresas que desejam vender ou adquirir moldes e equipamentos, conduzindo toda a negociação com segurança.",
-  },
-];
+const FAQ_KEYS = ["types", "lots", "coverage", "appraisal", "broker"] as const;
 
 export function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
+  const { dict } = useI18n();
+  const faqs = FAQ_KEYS.map((key) => dict.faq.items[key]);
 
   return (
     <section id="faq" className="relative bg-ink py-24 md:py-32">
       <Container>
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-4">
-            <SectionLabel index="07" label="FAQ" />
+            <SectionLabel index="07" label={dict.faq.label} />
             <Reveal className="mt-8 md:mt-10">
               <h2 className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl">
-                Perguntas frequentes.
+                {dict.faq.heading}
               </h2>
             </Reveal>
           </div>
 
           <RevealGroup className="lg:col-span-8">
-            {FAQS.map((item, i) => {
+            {faqs.map((item, i) => {
               const isOpen = open === i;
               return (
                 <RevealItem key={item.q}>

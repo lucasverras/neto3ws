@@ -2,9 +2,9 @@ import Link from "next/link";
 import type { Crumb } from "@/lib/stock/generateMetadata";
 
 /** Breadcrumb navegável e rastreável — o último item não vira link. */
-export function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
+export function Breadcrumbs({ crumbs, label }: { crumbs: Crumb[]; label: string }) {
   return (
-    <nav aria-label="Você está em">
+    <nav aria-label={label}>
       <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 font-body text-[13px] text-white/45">
         {crumbs.map((crumb, index) => {
           const isLast = index === crumbs.length - 1;

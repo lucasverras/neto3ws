@@ -5,7 +5,9 @@ import { Search, X } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { StockCard } from "./StockCard";
 import { trackEvent } from "@/lib/analytics";
+import { t, type Dictionary, type Locale } from "@/lib/i18n";
 import { filterByCategory, searchStock } from "@/lib/stock/search";
+import type { CategoryKey } from "@/lib/stock/taxonomy";
 import type { StockCategory, StockItem } from "@/lib/stock/types";
 
 const PAGE_SIZE = 24;
@@ -22,7 +24,7 @@ function subscribeToUrl(onChange: () => void) {
   return () => window.removeEventListener("popstate", onChange);
 }
 
-function useCategoryFromUrl(categories: StockCategory[]): string | null {
+function useCategoryFromUrl(categories: StockCategory[]): CategoryKey | null {
   const search = useSyncExternalStore(
     subscribeToUrl,
     () => window.location.search,
@@ -31,20 +33,25 @@ function useCategoryFromUrl(categories: StockCategory[]): string | null {
   return useMemo(() => {
     const slug = new URLSearchParams(search).get("categoria");
     if (!slug) return null;
-    return categories.find((entry) => entry.slug === slug)?.name ?? null;
+    return categories.find((entry) => entry.key === slug)?.key ?? null;
   }, [search, categories]);
 }
 
 export function StockBrowser({
   items,
   categories,
+  locale,
+  dict,
 }: {
   items: StockItem[];
   categories: StockCategory[];
+  locale: Locale;
+  dict: Dictionary;
 }) {
+  const d = dict.stock.browser;
   const [query, setQuery] = useState("");
   // `undefined` = ainda vale o que veio na URL; `null` = usuário escolheu "Todos".
-  const [chosenCategory, setChosenCategory] = useState<string | null | undefined>(undefined);
+  const [chosenCategory, setChosenCategory] = useState<CategoryKey | null | undefined>(undefined);
   const urlCategory = useCategoryFromUrl(categories);
   const category = chosenCategory === undefined ? urlCategory : chosenCategory;
 
@@ -74,9 +81,9 @@ export function StockBrowser({
     };
   }, [query, filtered.length]);
 
-  const onSelectCategory = useCallback((name: string | null) => {
-    setChosenCategory(name);
-    trackEvent("stock_filter", { category: name ?? "todos" });
+  const onSelectCategory = useCallback((key: CategoryKey | null) => {
+    setChosenCategory(key);
+    trackEvent("stock_filter", { category: key ?? "todos" });
   }, []);
 
   const shown = filtered.slice(0, visible);
@@ -86,7 +93,7 @@ export function StockBrowser({
     <section aria-labelledby="catalogo-heading" className="relative bg-ink pb-24 md:pb-32">
       <Container>
         <h2 id="catalogo-heading" className="sr-only">
-          Catálogo de moldes disponíveis
+          {d.srHeading}
         </h2>
 
         {/* Bloco de controles fixo no fluxo, não sticky: o header do site é
@@ -94,7 +101,7 @@ export function StockBrowser({
         <div className="border-y border-white/10 py-6">
           <div className="flex flex-col gap-5">
             <label className="relative block w-full lg:max-w-md">
-              <span className="sr-only">Buscar molde no estoque</span>
+              <span className="sr-only">{d.searchLabel}</span>
               <Search
                 size={16}
                 strokeWidth={1.75}
@@ -105,7 +112,7 @@ export function StockBrowser({
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Buscar: copo, bandeja, 4 cavidades…"
+                placeholder={d.searchPlaceholder}
                 enterKeyHint="search"
                 className="h-12 w-full rounded-full border border-white/15 bg-white/[0.04] pl-11 pr-11 font-body text-[15px] text-white outline-none transition-colors placeholder:text-white/35 focus:border-teal focus-visible:ring-1 focus-visible:ring-teal"
               />
@@ -113,7 +120,7 @@ export function StockBrowser({
                 <button
                   type="button"
                   onClick={() => setQuery("")}
-                  aria-label="Limpar busca"
+                  aria-label={d.clearSearch}
                   className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-white/50 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   <X size={15} strokeWidth={1.75} />
@@ -125,22 +132,22 @@ export function StockBrowser({
                 lg quebra em linhas alinhadas à esquerda. */}
             <div
               role="group"
-              aria-label="Filtrar por categoria"
+              aria-label={d.filterLabel}
               className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-1 [scrollbar-width:none] md:-mx-10 md:px-10 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0 lg:pb-0 [&::-webkit-scrollbar]:hidden"
             >
               <CategoryChip
-                label="Todos"
+                label={d.all}
                 count={items.length}
                 active={category === null}
                 onClick={() => onSelectCategory(null)}
               />
               {categories.map((entry) => (
                 <CategoryChip
-                  key={entry.slug}
+                  key={entry.key}
                   label={entry.name}
                   count={entry.count}
-                  active={category === entry.name}
-                  onClick={() => onSelectCategory(entry.name)}
+                  active={category === entry.key}
+                  onClick={() => onSelectCategory(entry.key)}
                 />
               ))}
             </div>
@@ -149,20 +156,21 @@ export function StockBrowser({
 
         <p aria-live="polite" className="pt-8 font-body text-[13px] text-white/45">
           {filtered.length === 0
-            ? "Nenhum molde encontrado com esses termos."
-            : `${filtered.length} ${filtered.length === 1 ? "item" : "itens"} no catálogo${
-                category ? ` · ${category}` : ""
+            ? d.empty
+            : `${filtered.length} ${filtered.length === 1 ? d.countOne : d.countMany}${
+                category
+                  ? ` · ${categories.find((entry) => entry.key === category)?.name ?? ""}`
+                  : ""
               }`}
         </p>
 
         {filtered.length === 0 ? (
           <div className="mt-6 rounded-lg border border-white/10 bg-white/[0.02] px-6 py-14 text-center">
             <p className="font-display text-xl font-medium text-white">
-              Não achou o molde que procura?
+              {d.emptyTitle}
             </p>
             <p className="mx-auto mt-3 max-w-md font-body text-[15px] leading-relaxed text-white/55">
-              O acervo da 3WS é maior do que o publicado aqui e muda com
-              frequência. Fale com a equipe e consultamos o estoque completo.
+              {d.emptyText}
             </p>
             <button
               type="button"
@@ -172,13 +180,19 @@ export function StockBrowser({
               }}
               className="mt-6 inline-flex items-center rounded-full border border-white/20 px-6 py-2.5 font-body text-[13px] text-white transition-colors hover:border-teal hover:text-teal"
             >
-              Limpar filtros
+              {d.clearFilters}
             </button>
           </div>
         ) : (
           <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-6 md:gap-y-12 xl:grid-cols-4">
             {shown.map((item, index) => (
-              <StockCard key={item.slug} item={item} priority={index < PRIORITY_COUNT} />
+              <StockCard
+                key={item.slug}
+                item={item}
+                locale={locale}
+                dict={dict}
+                priority={index < PRIORITY_COUNT}
+              />
             ))}
           </div>
         )}
@@ -190,10 +204,10 @@ export function StockBrowser({
               onClick={() => setPage({ key: filterKey, size: visible + PAGE_SIZE })}
               className="inline-flex items-center rounded-xl border border-white/20 px-8 py-4 font-body text-[13px] font-medium uppercase tracking-[0.16em] text-white outline-none ring-teal ring-offset-2 ring-offset-ink transition-colors duration-300 hover:border-teal hover:bg-teal hover:text-white focus-visible:ring-2"
             >
-              Carregar mais
+              {d.loadMore}
             </button>
             <span className="font-body text-[13px] text-white/40">
-              Mostrando {shown.length} de {filtered.length}
+              {t(d.showing, { shown: shown.length, total: filtered.length })}
             </span>
           </div>
         )}

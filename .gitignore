@@ -46,4 +46,4 @@ next-env.d.ts
 # derivativos do estoque — 100% gerados por scripts/build-stock.mjs a partir de
 # 3ws-images/imagens/ (que é a fonte e precisa estar versionada). Rodam no
 # prebuild, então o deploy os recria sozinho.
-/public/estoque
+/public/acervo

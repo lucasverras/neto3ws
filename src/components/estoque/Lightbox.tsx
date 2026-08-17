@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { StockPhoto } from "./StockPhoto";
+import { t, type Dictionary } from "@/lib/i18n";
 import type { StockImage } from "@/lib/stock/types";
 
 /** Distância mínima do swipe para trocar de foto (px). */
@@ -15,13 +16,16 @@ export function Lightbox({
   onClose,
   onIndexChange,
   label,
+  dict,
 }: {
   images: StockImage[];
   index: number;
   onClose: () => void;
   onIndexChange: (next: number) => void;
   label: string;
+  dict: Dictionary;
 }) {
+  const d = dict.stock.lightbox;
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
@@ -93,7 +97,7 @@ export function Lightbox({
       ref={dialogRef}
       role="dialog"
       aria-modal="true"
-      aria-label={`Galeria de ${label}`}
+      aria-label={t(d.galleryOf, { label })}
       className="fixed inset-0 z-[100] flex flex-col bg-ink/97 backdrop-blur-sm"
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose();
@@ -116,17 +120,17 @@ export function Lightbox({
     >
       <div className="flex shrink-0 items-center justify-between px-4 py-4 md:px-6">
         <p className="font-body text-[13px] text-white/60">
-          <span className="sr-only">Foto </span>
+          <span className="sr-only">{d.photo} </span>
           {index + 1} <span className="text-white/30">/ {total}</span>
           <span className="ml-3 hidden text-white/40 sm:inline">
-            {current.type === "result" ? "Peça produzida" : "Molde"}
+            {current.type === "result" ? d.typeResult : d.typeMold}
           </span>
         </p>
         <button
           ref={closeRef}
           type="button"
           onClick={onClose}
-          aria-label="Fechar galeria"
+          aria-label={d.close}
           className="flex h-11 w-11 items-center justify-center rounded-full text-white/70 outline-none ring-teal transition-colors hover:bg-white/10 hover:text-white focus-visible:ring-2"
         >
           <X size={20} strokeWidth={1.5} />
@@ -138,7 +142,7 @@ export function Lightbox({
           <button
             type="button"
             onClick={() => goTo(index - 1)}
-            aria-label="Foto anterior"
+            aria-label={d.previous}
             className="absolute left-2 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-ink/70 text-white outline-none ring-teal transition-colors hover:border-teal hover:bg-teal focus-visible:ring-2 md:left-5"
           >
             <ChevronLeft size={22} strokeWidth={1.5} />
@@ -159,7 +163,7 @@ export function Lightbox({
           <button
             type="button"
             onClick={() => goTo(index + 1)}
-            aria-label="Próxima foto"
+            aria-label={d.next}
             className="absolute right-2 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-ink/70 text-white outline-none ring-teal transition-colors hover:border-teal hover:bg-teal focus-visible:ring-2 md:right-5"
           >
             <ChevronRight size={22} strokeWidth={1.5} />
@@ -179,7 +183,7 @@ export function Lightbox({
                 key={image.base}
                 type="button"
                 onClick={() => onIndexChange(i)}
-                aria-label={`Ver foto ${i + 1}`}
+                aria-label={t(d.goTo, { n: i + 1 })}
                 aria-current={i === index}
                 className={`h-14 w-14 shrink-0 overflow-hidden rounded border outline-none ring-teal transition-opacity focus-visible:ring-2 ${
                   i === index ? "border-teal opacity-100" : "border-white/15 opacity-45 hover:opacity-80"

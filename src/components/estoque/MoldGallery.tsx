@@ -5,6 +5,7 @@ import { Expand } from "lucide-react";
 import { Lightbox } from "./Lightbox";
 import { StockPhoto } from "./StockPhoto";
 import { trackEvent } from "@/lib/analytics";
+import type { Dictionary } from "@/lib/i18n";
 import type { StockImage } from "@/lib/stock/types";
 
 // A grade é de 2 colunas no celular e 3 a partir de md — o `sizes` precisa
@@ -23,12 +24,15 @@ export function MoldGallery({
   label,
   moldImages,
   resultImages,
+  dict,
 }: {
   slug: string;
   label: string;
   moldImages: StockImage[];
   resultImages: StockImage[];
+  dict: Dictionary;
 }) {
+  const d = dict.stock.detail;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const all = [...moldImages, ...resultImages];
 
@@ -44,13 +48,13 @@ export function MoldGallery({
           id="galeria-molde"
           className="font-display text-2xl font-medium tracking-tight text-white md:text-3xl"
         >
-          {resultImages.length > 0 ? "Molde" : "Galeria do molde"}
+          {resultImages.length > 0 ? d.galleryMold : d.galleryOnly}
         </h2>
         <p className="mt-2 font-body text-[15px] text-white/50">
-          {moldImages.length} {moldImages.length === 1 ? "foto" : "fotos"} — clique para
-          ampliar
+          {moldImages.length}{" "}
+          {moldImages.length === 1 ? d.photoCountOne : d.photoCountMany} — {d.clickToZoom}
         </p>
-        <PhotoGrid images={moldImages} onOpen={open} priorityCount={2} />
+        <PhotoGrid images={moldImages} onOpen={open} priorityCount={2} zoomLabel={d.zoomAria} />
       </section>
 
       {resultImages.length > 0 && (
@@ -59,12 +63,12 @@ export function MoldGallery({
             id="galeria-peca"
             className="font-display text-2xl font-medium tracking-tight text-white md:text-3xl"
           >
-            Peça produzida
+            {d.galleryResult}
           </h2>
           <p className="mt-2 max-w-2xl font-body text-[15px] leading-relaxed text-white/50">
-            Peças injetadas neste molde, registradas pela equipe da 3WS.
+            {d.galleryResultText}
           </p>
-          <PhotoGrid images={resultImages} onOpen={open} priorityCount={0} />
+          <PhotoGrid images={resultImages} onOpen={open} priorityCount={0} zoomLabel={d.zoomAria} />
         </section>
       )}
 
@@ -73,6 +77,7 @@ export function MoldGallery({
           images={all}
           index={openIndex}
           label={label}
+          dict={dict}
           onIndexChange={setOpenIndex}
           onClose={() => setOpenIndex(null)}
         />
@@ -85,10 +90,12 @@ function PhotoGrid({
   images,
   onOpen,
   priorityCount,
+  zoomLabel,
 }: {
   images: StockImage[];
   onOpen: (image: StockImage) => void;
   priorityCount: number;
+  zoomLabel: string;
 }) {
   return (
     <ul className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
@@ -97,7 +104,7 @@ function PhotoGrid({
           <button
             type="button"
             onClick={() => onOpen(image)}
-            aria-label={`Ampliar: ${image.alt}`}
+            aria-label={`${zoomLabel}: ${image.alt}`}
             className="group relative block aspect-square w-full overflow-hidden rounded-lg border border-white/10 bg-navy-soft outline-none ring-teal focus-visible:ring-2"
           >
             <StockPhoto

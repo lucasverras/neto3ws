@@ -4,7 +4,7 @@
  *
  *   3ws-images/imagens/<segmento>/<slug>/NN.jpg   (originais — nunca tocados)
  *        ↓
- *   public/estoque/<slug>/NN-{400,600,800,1400}.webp  (derivativos servidos)
+ *   public/acervo/<slug>/NN-{400,600,800,1400}.webp   (derivativos servidos)
  *   src/lib/stock/catalog.generated.json          (manifest lido pelo app)
  *
  * Roda no `prebuild`, então basta soltar uma pasta nova no acervo e buildar.
@@ -20,7 +20,7 @@ import sharp from "sharp";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SRC_DIR = path.join(ROOT, "3ws-images", "imagens");
-const OUT_IMG_DIR = path.join(ROOT, "public", "estoque");
+const OUT_IMG_DIR = path.join(ROOT, "public", "acervo");
 const OUT_MANIFEST = path.join(ROOT, "src", "lib", "stock", "catalog.generated.json");
 const CURATION = path.join(ROOT, "src", "lib", "stock", "curation.json");
 
@@ -91,7 +91,7 @@ function targetWidthsFor(width) {
 
 /**
  * Remove derivativos órfãos: fotos apagadas do acervo, larguras que deixaram de
- * ser geradas, pastas renomeadas. Age apenas dentro de public/estoque, que é
+ * ser geradas, pastas renomeadas. Age apenas dentro de public/acervo, que é
  * 100% gerado — o acervo original nunca é tocado.
  */
 function pruneOrphans(expected) {
@@ -216,7 +216,7 @@ async function main() {
     // Sem timestamp de propósito: o manifest só muda quando o acervo muda,
     // o que mantém o diff limpo e as URLs estáveis para o Google Imagens.
     widths: WIDTHS,
-    basePath: "/estoque",
+    basePath: "/acervo",
     items,
   };
 
