@@ -4,10 +4,13 @@ export const SITE = {
   name: "3WS Moldes",
   legalName: "3WS Moldes e Equipamentos",
   /**
-   * Ajuste via NEXT_PUBLIC_SITE_URL no deploy. O padrão segue o domínio do
-   * e-mail comercial já publicado no rodapé do site.
+   * Origem usada em canonical, hreflang, Open Graph e sitemap.
+   *
+   * O padrão é o endereço que hoje realmente serve o site. Quando o domínio
+   * próprio for ligado no Vercel, basta atualizar NEXT_PUBLIC_SITE_URL — usar
+   * um domínio que ainda não responde faria o canonical apontar para o vazio.
    */
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.3wsmoldes.com.br").replace(/\/$/, ""),
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://neto3ws.vercel.app").replace(/\/$/, ""),
   email: "comercial@3wsmoldes.com.br",
   whatsapp: "5511973692861",
   phoneLabel: "(11) 97369-2861",
