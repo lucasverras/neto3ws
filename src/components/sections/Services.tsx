@@ -50,7 +50,10 @@ function ServiceRow({
       <button
         type="button"
         aria-current={isActive}
-        onMouseEnter={onActivate}
+        // `onMouseMove` em vez de `onMouseEnter`: rolar faz outra linha deslizar
+        // sob o cursor parado e disparar `mouseenter`, fazendo a seleção seguir
+        // a rolagem. `mousemove` só dispara com movimento real do ponteiro.
+        onMouseMove={onActivate}
         onFocus={onActivate}
         onClick={onActivate}
         className="flex w-full cursor-default items-center gap-6 py-3 text-left outline-none ring-teal focus-visible:ring-2 md:gap-8"
@@ -114,9 +117,9 @@ function ServiceRow({
 export function Services() {
   const { dict } = useI18n();
   // Duas fontes independentes para o item ativo, compostas na renderização.
-  // Quem agiu por último vence: apontar o mouse fixa o item; voltar a rolar
-  // devolve o comando ao scroll. Sem isso, os dois disputariam o mesmo estado
-  // e a lista piscaria a cada evento.
+  // Com o ponteiro sobre a lista, ele detém o controle e a rolagem não troca o
+  // item; ao sair, o scroll volta a comandar. Deixar os dois agirem ao mesmo
+  // tempo faria a lista passar direto enquanto o mouse estivesse parado nela.
   const [pointerActive, setPointerActive] = useState<number | null>(null);
   const services: Service[] = SERVICE_KEYS.map(({ key, icon, image }) => {
     const copy = dict.services.items[key];
@@ -141,8 +144,6 @@ export function Services() {
       const scrolled = -rect.top;
       const p = total > 0 ? Math.min(Math.max(scrolled / total, 0), 1) : 0;
       setScrollActive(Math.min(COUNT - 1, Math.floor(p * COUNT)));
-      // Rolar retoma o controle de quem estava com o mouse parado sobre a lista.
-      setPointerActive(null);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });

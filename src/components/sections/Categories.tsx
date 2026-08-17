@@ -21,8 +21,10 @@ const COUNT = CATEGORY_KEYS.length;
 
 export function Categories() {
   const { dict } = useI18n();
-  // Mesmo arranjo de Serviços: mouse e scroll são fontes separadas e a última
-  // ação vence, então não há disputa pelo mesmo estado.
+  // Mouse e scroll são fontes separadas, compostas na renderização. Enquanto o
+  // ponteiro está sobre a lista ele detém o controle e a rolagem não troca o
+  // item — senão os dois avançariam juntos e a lista passaria direto. O scroll
+  // volta a comandar quando o ponteiro sai.
   const [pointerActive, setPointerActive] = useState<number | null>(null);
   const categories = CATEGORY_KEYS.map(({ key, image }) => ({
     image,
@@ -41,7 +43,6 @@ export function Categories() {
       const scrolled = -rect.top;
       const p = total > 0 ? Math.min(Math.max(scrolled / total, 0), 1) : 0;
       setScrollActive(Math.min(COUNT - 1, Math.floor(p * COUNT)));
-      setPointerActive(null);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -75,18 +76,16 @@ export function Categories() {
                       key={category.title}
                       type="button"
                       aria-current={isActive}
-                      onMouseEnter={() => setPointerActive(i)}
+                      // `onMouseMove` em vez de `onMouseEnter`: rolar a página faz
+                      // outra linha deslizar sob o cursor parado e disparar
+                      // `mouseenter`, o que fazia a seleção acompanhar a rolagem
+                      // mesmo com o mouse imóvel. `mousemove` só dispara quando o
+                      // ponteiro realmente se move.
+                      onMouseMove={() => setPointerActive(i)}
                       onFocus={() => setPointerActive(i)}
                       onClick={() => setPointerActive(i)}
                       className="flex cursor-default flex-col justify-center gap-2 border-b border-white/12 py-4 text-left outline-none ring-teal focus-visible:ring-2"
                     >
-                      <span
-                        className={`font-body text-xs uppercase tracking-[0.24em] transition-colors duration-500 ${
-                          isActive ? "text-teal" : "text-white/20"
-                        }`}
-                      >
-                        {dict.categories.categoryPrefix} 0{i + 1}
-                      </span>
                       <h3
                         className={`font-display text-2xl font-medium leading-[1.1] tracking-tight transition-colors duration-500 sm:text-3xl ${
                           isActive ? "text-white" : "text-white/25"
@@ -139,9 +138,6 @@ export function Categories() {
           {categories.map((category, i) => (
             <Reveal key={category.title} delay={i * 0.05}>
               <div className="flex flex-col gap-3 border-t border-white/12 pt-6">
-                <span className="font-body text-xs uppercase tracking-[0.24em] text-teal">
-                  {dict.categories.categoryPrefix} 0{i + 1}
-                </span>
                 <h3 className="font-display text-2xl font-medium leading-[1.1] tracking-tight text-white">
                   {category.title}
                 </h3>
