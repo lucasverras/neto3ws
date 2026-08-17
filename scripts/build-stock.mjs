@@ -35,6 +35,12 @@ const CURATION = path.join(ROOT, "src", "lib", "stock", "curation.json");
 const WIDTHS = [400, 600, 800, 1400];
 const QUALITY = { 400: 72, 600: 72, 800: 72, 1400: 74 };
 const IMAGE_RE = /\.(jpe?g|png|webp)$/i;
+/**
+ * Duplicatas de sincronização: iCloud e Finder criam "05 2.jpg" ao lado de
+ * "05.jpg". Ingeri-las dobraria as galerias e geraria URL com espaço. Ficam
+ * fora do catálogo e são relatadas no fim do build.
+ */
+const SYNC_DUPLICATE_RE = /\s\d+\.(jpe?g|png|webp)$/i;
 
 const FORCE = process.argv.includes("--force");
 const QUIET = process.argv.includes("--quiet");
@@ -176,13 +182,18 @@ async function main() {
 
   const items = [];
   const expected = new Map();
+  const syncDuplicates = [];
   let totalImages = 0;
   let totalWritten = 0;
 
   for (const { segment, slug, folderPath } of folders) {
-    const files = fs
-      .readdirSync(folderPath)
-      .filter((f) => IMAGE_RE.test(f))
+    const allImages = fs.readdirSync(folderPath).filter((f) => IMAGE_RE.test(f));
+    for (const f of allImages) {
+      if (SYNC_DUPLICATE_RE.test(f)) syncDuplicates.push(`${segment}/${slug}/${f}`);
+    }
+
+    const files = allImages
+      .filter((f) => !SYNC_DUPLICATE_RE.test(f))
       .filter((f) => !excluded.has(`${segment}/${slug}/${f}`))
       .sort((a, b) => a.localeCompare(b, "en", { numeric: true }));
 
@@ -228,6 +239,18 @@ async function main() {
       (pruned > 0 ? ` · ${pruned} órfãos removidos` : "")
   );
   log(`[estoque] manifest → ${path.relative(ROOT, OUT_MANIFEST)}`);
+
+  if (syncDuplicates.length > 0) {
+    // Aviso, não erro: os arquivos são do usuário e a limpeza é decisão dele.
+    console.warn(
+      `\n[estoque] ${syncDuplicates.length} duplicata(s) de sincronização ignorada(s) ` +
+        `(padrão "NN 2.jpg" do iCloud/Finder). Nenhuma entrou no catálogo:`
+    );
+    for (const f of syncDuplicates.slice(0, 5)) console.warn(`[estoque]   ${f}`);
+    if (syncDuplicates.length > 5) {
+      console.warn(`[estoque]   … e outras ${syncDuplicates.length - 5}`);
+    }
+  }
 }
 
 main().catch((err) => {
