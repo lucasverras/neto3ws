@@ -3,9 +3,25 @@ import type { Dictionary } from "./pt";
 export const es: Dictionary = {
   meta: {
     home: {
-      title: "3WS | Activos Industriales de Alto Valor",
+      title: "3WS — MOLDES Y PORTAMOLDES DE ALTO VALOR",
       description:
-        "Compra, venta e intermediación de moldes de inyección de plástico, portamoldes, bases para troqueles y equipos industriales en todo Brasil.",
+        "3WS — moldes y portamoldes de alto valor. Conozca nuestros servicios, categorías, stock disponible, sostenibilidad, cómo funciona y quiénes somos. Compra, venta e intermediación de moldes de inyección de plástico, portamoldes, bases para troqueles y equipos industriales en todo Brasil.",
+      keywords: [
+        "3WS",
+        "3WS Moldes",
+        "moldes y portamoldes de alto valor",
+        "servicios",
+        "categorías",
+        "sostenibilidad",
+        "stock disponible",
+        "cómo funciona",
+        "quiénes somos",
+        "moldes de inyección de plástico",
+        "portamoldes",
+        "bases para troqueles",
+        "equipos industriales",
+        "compra y venta de moldes",
+      ],
     },
     stock: {
       title: "Stock de Moldes de Inyección de Plástico | 3WS Moldes",
@@ -38,7 +54,7 @@ export const es: Dictionary = {
   },
 
   hero: {
-    eyebrow: "Activos Industriales de Alto Valor",
+    eyebrow: "Moldes y Portamoldes de Alto Valor",
     titleBefore: "Más de",
     titleHighlight1: "1.500 toneladas",
     titleMiddle: "en",
@@ -67,13 +83,13 @@ export const es: Dictionary = {
 
   origin: {
     label: "Origen",
-    heading: "Tres Wanderleis. Tres generaciones construyendo la misma historia.",
+    heading: "Tres Wanderleys. Tres generaciones construyendo la misma historia.",
     paragraph1:
       "3WS nació de una historia que atraviesa tres generaciones. El padre inició la trayectoria negociando herramientas y activos industriales. El hijo dio continuidad al negocio, profundizando el conocimiento técnico y las relaciones construidas a lo largo de los años.",
     paragraph2:
       "Con la llegada de la tercera generación, la empresa entró en una nueva fase. El nieto amplió la actuación de 3WS, conectando décadas de experiencia en el mercado industrial con las nuevas posibilidades de internet, de la tecnología y de una operación cada vez más estructurada.",
     paragraph3:
-      "El nombre lleva a los tres Wanderleis. Y la forma de trabajar también lleva algo de cada generación: experiencia, confianza y evolución.",
+      "El nombre lleva a los tres Wanderleys. Y la forma de trabajar también lleva algo de cada generación: experiencia, confianza y evolución.",
     gen1: "El padre, que inició la trayectoria en el mercado de herramientas y activos industriales.",
     gen2: "El hijo, que dio continuidad al negocio y consolidó décadas de experiencia en el sector.",
     gen3: "El nieto, que amplió la actuación de 3WS y conectó la experiencia construida en la nave al mercado digital.",

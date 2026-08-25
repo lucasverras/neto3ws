@@ -54,6 +54,7 @@ export async function generateMetadata({
     metadataBase: new URL(SITE.url),
     title: dict.meta.home.title,
     description: dict.meta.home.description,
+    keywords: dict.meta.home.keywords,
     alternates: {
       canonical: localePath(locale),
       languages: languageAlternates((l) => localePath(l)),

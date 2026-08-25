@@ -3,9 +3,25 @@ import type { Dictionary } from "./pt";
 export const en: Dictionary = {
   meta: {
     home: {
-      title: "3WS | High-Value Industrial Assets",
+      title: "3WS — HIGH-VALUE MOLDS & MOLD BASES",
       description:
-        "Purchase, sale and brokerage of plastic injection molds, mold bases, stamping die bases and industrial equipment throughout Brazil.",
+        "3WS — high-value molds and mold bases. Discover our services, categories, available stock, sustainability, how it works and who we are. Purchase, sale and brokerage of plastic injection molds, mold bases, stamping die bases and industrial equipment throughout Brazil.",
+      keywords: [
+        "3WS",
+        "3WS Moldes",
+        "high-value molds and mold bases",
+        "services",
+        "categories",
+        "sustainability",
+        "available stock",
+        "how it works",
+        "who we are",
+        "plastic injection molds",
+        "mold bases",
+        "stamping die bases",
+        "industrial equipment",
+        "buy and sell molds",
+      ],
     },
     stock: {
       title: "Plastic Injection Mold Stock | 3WS Moldes",
@@ -38,7 +54,7 @@ export const en: Dictionary = {
   },
 
   hero: {
-    eyebrow: "High-Value Industrial Assets",
+    eyebrow: "High-Value Molds & Mold Bases",
     titleBefore: "More than",
     titleHighlight1: "1,500 tonnes",
     titleMiddle: "in industrial",
@@ -67,13 +83,13 @@ export const en: Dictionary = {
 
   origin: {
     label: "Origins",
-    heading: "Three Wanderleis. Three generations building the same story.",
+    heading: "Three Wanderleys. Three generations building the same story.",
     paragraph1:
       "3WS grew out of a story that spans three generations. The father began the journey trading industrial tools and assets. The son carried the business forward, deepening the technical expertise and the relationships built over the years.",
     paragraph2:
       "With the arrival of the third generation, the company entered a new phase. The grandson widened the reach of 3WS, connecting decades of experience in the industrial market to the new possibilities of the internet, of technology and of an increasingly structured operation.",
     paragraph3:
-      "The name carries the three Wanderleis. And so does the way we work — something from each generation: experience, trust and evolution.",
+      "The name carries the three Wanderleys. And so does the way we work — something from each generation: experience, trust and evolution.",
     gen1: "The father, who began the journey in the industrial tools and assets market.",
     gen2: "The son, who carried the business forward and consolidated decades of experience in the sector.",
     gen3: "The grandson, who widened the reach of 3WS and connected the experience built in the warehouse to the digital market.",
