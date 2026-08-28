@@ -189,7 +189,7 @@ export function Footer() {
               rel="noopener noreferrer"
               className="transition-colors hover:text-white/70"
             >
-              Ergon Digital Product Studio
+              Ergon Product Studio
             </a>
             .
           </span>
