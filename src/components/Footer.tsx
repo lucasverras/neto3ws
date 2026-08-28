@@ -184,7 +184,7 @@ export function Footer() {
             © {new Date().getFullYear()} {SITE.legalName}. {dict.footer.rights}{" "}
             {dict.footer.developedBy}{" "}
             <a
-              href="https://www.ergonagencia.com.br"
+              href="https://www.ergonstudio.com.br"
               target="_blank"
               rel="noopener noreferrer"
               className="transition-colors hover:text-white/70"
