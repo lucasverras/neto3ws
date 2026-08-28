@@ -54,7 +54,6 @@ export async function generateMetadata({
     metadataBase: new URL(SITE.url),
     title: dict.meta.home.title,
     description: dict.meta.home.description,
-    keywords: dict.meta.home.keywords,
     alternates: {
       canonical: localePath(locale),
       languages: languageAlternates((l) => localePath(l)),
@@ -67,6 +66,14 @@ export async function generateMetadata({
       siteName: SITE.name,
       locale: OG_LOCALES[locale],
     },
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      ],
+      apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    },
+    manifest: "/site.webmanifest",
   };
 }
 

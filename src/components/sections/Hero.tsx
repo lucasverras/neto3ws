@@ -49,8 +49,8 @@ export function Hero() {
               {dict.hero.titleBefore}{" "}
               <Highlight delay={0.9}>
                 <span className="font-medium">{dict.hero.titleHighlight1}</span>
-              </Highlight>{" "}
-              {dict.hero.titleMiddle}{" "}
+              </Highlight>
+              {dict.hero.titleMiddle}
               <Highlight delay={1.1}>
                 <span className="font-medium">{dict.hero.titleHighlight2}</span>
               </Highlight>

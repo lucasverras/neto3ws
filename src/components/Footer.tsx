@@ -34,12 +34,12 @@ function LinkedinIcon() {
 }
 
 const QUICK_LINKS = [
-  { anchor: "servicos", key: "services" },
-  { anchor: "categorias", key: "categories" },
+  { anchor: null, path: "/quem-somos", key: "about" },
+  { anchor: null, path: "/servicos", key: "services" },
   { anchor: null, path: "/estoque", key: "stock" },
-  { anchor: "como-funciona", key: "howItWorks" },
-  { anchor: "sobre", key: "about" },
+  { anchor: "categorias", key: "categories" },
   { anchor: "faq", key: "faq" },
+  { anchor: null, path: "/contato", key: "contact" },
 ] as const;
 
 const SERVICE_KEYS = ["buy", "sell", "broker", "weight", "consulting"] as const;

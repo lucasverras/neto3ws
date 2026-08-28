@@ -3,30 +3,43 @@ import type { Dictionary } from "./pt";
 export const en: Dictionary = {
   meta: {
     home: {
-      title: "3WS — HIGH-VALUE MOLDS & MOLD BASES",
+      title: "3WS Moldes | Purchase & Sale of Molds and Mold Bases",
       description:
-        "3WS — high-value molds and mold bases. Discover our services, categories, available stock, sustainability, how it works and who we are. Purchase, sale and brokerage of plastic injection molds, mold bases, stamping die bases and industrial equipment throughout Brazil.",
+        "3WS buys, sells and brokers plastic injection molds, mold bases, stamping die bases and industrial lots throughout Brazil. Over 1,500 tonnes in appraised tooling.",
       keywords: [
-        "3WS",
         "3WS Moldes",
-        "high-value molds and mold bases",
-        "services",
-        "categories",
-        "sustainability",
-        "available stock",
-        "how it works",
-        "who we are",
+        "buy industrial molds",
+        "sell industrial molds",
         "plastic injection molds",
         "mold bases",
         "stamping die bases",
-        "industrial equipment",
+        "mold brokerage",
+        "mold stock",
         "buy and sell molds",
+        "mold appraisal",
+        "industrial tooling",
+        "used molds",
       ],
     },
     stock: {
       title: "Plastic Injection Mold Stock | 3WS Moldes",
       description:
         "Browse 3WS's stock of plastic injection molds. New and used molds for housewares, automotive, toys, cups, trays and other segments, with photos of the mold and the part it produces.",
+    },
+    about: {
+      title: "About Us | 3WS Moldes e Equipamentos",
+      description:
+        "Learn about 3WS Moldes e Equipamentos: three generations dedicated to the purchase, sale and brokerage of industrial molds, mold bases and equipment throughout Brazil.",
+    },
+    services: {
+      title: "Mold & Equipment Services | 3WS",
+      description:
+        "3WS offers purchase, sale, brokerage, technical appraisal and weight-based buying of plastic injection molds, mold bases, stamping die bases and industrial equipment.",
+    },
+    contact: {
+      title: "Contact | 3WS Moldes e Equipamentos",
+      description:
+        "Get in touch with 3WS Moldes e Equipamentos. Request a technical appraisal, check the mold stock or start a negotiation.",
     },
   },
 
@@ -43,8 +56,9 @@ export const en: Dictionary = {
       categories: "Categories",
       stock: "Stock",
       howItWorks: "How It Works",
-      about: "About",
+      about: "About Us",
       faq: "FAQ",
+      contact: "Contact",
     },
     cta: "Request an Appraisal",
     ctaMessage: "Hello, I would like to request an appraisal of molds/equipment.",
@@ -54,14 +68,14 @@ export const en: Dictionary = {
   },
 
   hero: {
-    eyebrow: "High-Value Molds & Mold Bases",
-    titleBefore: "More than",
-    titleHighlight1: "1,500 tonnes",
-    titleMiddle: "in industrial",
-    titleHighlight2: "molds and opportunities",
-    titleAfter: ".",
+    eyebrow: "3WS Molds & Equipment",
+    titleBefore: "Purchase, sale and brokerage of",
+    titleHighlight1: "injection molds",
+    titleMiddle: ", ",
+    titleHighlight2: "mold bases",
+    titleAfter: " and industrial equipment.",
     description:
-      "Purchase, sale and brokerage of plastic injection molds, mold bases, stamping die bases and industrial equipment. 3WS connects available assets to companies looking to cut costs and speed up projects throughout Brazil.",
+      "3WS buys, sells and brokers plastic injection molds, mold bases, stamping die bases and industrial equipment. With over 1,500 tonnes in stock, we connect available assets to companies looking to cut costs and speed up projects throughout Brazil.",
     cta: "Request an Appraisal",
   },
 
@@ -430,6 +444,7 @@ export const en: Dictionary = {
       "moldes-sopro": "Blow molds",
       outros: "Industrial assets",
     },
+    /** Label used in stock breadcrumb for home. */
     templates: {
       moldFor: "Mold for {name}",
       moldsFor: "Molds for {name}",
@@ -454,6 +469,42 @@ export const en: Dictionary = {
       descTail: "Ask us about availability and commercial terms.",
       seoCollectionName: "Plastic injection mold stock — 3WS Moldes",
       cavityProperty: "Number of cavities",
+    },
+  },
+
+  pages: {
+    about: {
+      heading: "About Us",
+      intro:
+        "3WS Moldes e Equipamentos specialises in the purchase, sale and brokerage of plastic injection molds, mold bases, stamping die bases and industrial equipment. Operating throughout Brazil, the company combines three generations of experience in the industrial sector with a structured and reliable operation.",
+      historyHeading: "Our History",
+      valuesHeading: "What drives us",
+      locationHeading: "Location",
+      locationText: "São Paulo, SP — serving the entire country.",
+      sustainabilityHeading: "Commitment to reuse",
+      sustainabilityText:
+        "Reusing industrial molds and equipment reduces waste, extends the service life of tooling and contributes to a more efficient economy. 3WS believes every idle asset can start a new productive cycle.",
+    },
+    services: {
+      heading: "Services",
+      intro:
+        "3WS offers end-to-end solutions for anyone looking to buy, sell or broker plastic injection molds, mold bases, stamping die bases and industrial equipment. Learn about each of our services.",
+      howItWorksHeading: "How a negotiation works",
+      ctaHeading: "Need a specific service?",
+      ctaText: "Get in touch and our team will guide you to the best path for your case.",
+    },
+    contact: {
+      heading: "Contact",
+      intro:
+        "Talk to the 3WS Moldes e Equipamentos team. We are ready to appraise your molds, check our stock or start a negotiation.",
+      emailLabel: "Email",
+      phoneLabel: "Phone / WhatsApp",
+      addressLabel: "Address",
+      sendMessage: "Send a message on WhatsApp",
+      sendMessageText: "Hello, I would like to talk to the 3WS Moldes team.",
+      formHeading: "How can we help?",
+      formText:
+        "Describe your need — mold type, quantity, condition, segment — and our team will get back to you with an appraisal or proposal.",
     },
   },
 };

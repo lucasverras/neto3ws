@@ -12,7 +12,7 @@ import { Sustainability } from "@/components/sections/Sustainability";
 import { FAQ } from "@/components/sections/FAQ";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { getDictionary, isLocale } from "@/lib/i18n";
-import { organizationJsonLd } from "@/lib/stock/generateMetadata";
+import { organizationJsonLd, websiteJsonLd, faqJsonLd } from "@/lib/stock/generateMetadata";
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -41,12 +41,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         dangerouslySetInnerHTML={{
           __html: JSON.stringify([
             organizationJsonLd(),
-            {
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: dict.meta.home.title,
-              description: dict.meta.home.description,
-            },
+            websiteJsonLd(),
+            faqJsonLd(
+              Object.values(dict.faq.items).map((item) => ({
+                q: item.q,
+                a: item.a,
+              }))
+            ),
           ]),
         }}
       />

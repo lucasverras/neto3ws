@@ -143,10 +143,18 @@ export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${SITE.url}/#organization`,
     name: SITE.legalName,
     alternateName: SITE.name,
     url: SITE.url,
-    logo: absoluteUrl(SITE.logo),
+    logo: {
+      "@type": "ImageObject",
+      "@id": `${SITE.url}/#logo`,
+      url: absoluteUrl(SITE.logo),
+      contentUrl: absoluteUrl(SITE.logo),
+      caption: SITE.name,
+    },
+    image: absoluteUrl(SITE.logo),
     email: SITE.email,
     telephone: `+${SITE.whatsapp}`,
     address: {
@@ -157,6 +165,40 @@ export function organizationJsonLd() {
       postalCode: SITE.address.postalCode,
       addressCountry: SITE.address.country,
     },
+    areaServed: {
+      "@type": "Country",
+      name: "Brazil",
+    },
+    description:
+      "Compra, venda e intermediação de moldes de injeção plástica, porta-moldes, bases para estampos e equipamentos industriais em todo o Brasil.",
+  };
+}
+
+export function websiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE.url}/#website`,
+    url: SITE.url,
+    name: SITE.name,
+    alternateName: SITE.legalName,
+    inLanguage: "pt-BR",
+    publisher: { "@id": `${SITE.url}/#organization` },
+  };
+}
+
+export function faqJsonLd(items: { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
+    })),
   };
 }
 

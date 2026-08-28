@@ -20,6 +20,12 @@ function alternates(build: (locale: (typeof LOCALES)[number]) => string) {
   return { languages };
 }
 
+const STATIC_PAGES = [
+  { path: "/quem-somos", priority: 0.8 as const, changeFrequency: "monthly" as const },
+  { path: "/servicos", priority: 0.8 as const, changeFrequency: "monthly" as const },
+  { path: "/contato", priority: 0.7 as const, changeFrequency: "monthly" as const },
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
 
@@ -30,6 +36,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
       alternates: alternates((l) => localePath(l)),
     });
+
+    for (const page of STATIC_PAGES) {
+      entries.push({
+        url: absoluteUrl(localePath(locale, page.path)),
+        changeFrequency: page.changeFrequency,
+        priority: page.priority,
+        alternates: alternates((l) => localePath(l, page.path)),
+      });
+    }
+
     entries.push({
       url: absoluteUrl(stockPath(locale)),
       changeFrequency: "weekly",
@@ -53,7 +69,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
 
   // Confere que os três idiomas cobrem exatamente o mesmo conjunto de moldes.
-  if (entries.length !== LOCALES.length * (2 + getStockSlugs().length)) {
+  const expectedPerLocale = 1 + STATIC_PAGES.length + 1 + getStockSlugs().length;
+  if (entries.length !== LOCALES.length * expectedPerLocale) {
     throw new Error("Sitemap incompleto: os idiomas divergiram no catálogo.");
   }
 

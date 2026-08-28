@@ -8,30 +8,44 @@
 export const pt = {
   meta: {
     home: {
-      title: "3WS — MOLDES E PORTA-MOLDES DE ALTO VALOR",
+      title: "3WS Moldes | Compra e Venda de Moldes e Porta-Moldes",
       description:
-        "3WS — moldes e porta-moldes de alto valor. Conheça nossos serviços, categorias, estoque disponível, sustentabilidade, como funciona e quem somos. Compra, venda e intermediação de moldes para injeção plástica, porta-moldes, bases para estampos e equipamentos industriais em todo o Brasil.",
+        "A 3WS compra, vende e intermedeia moldes de injeção plástica, porta-moldes, bases para estampos e lotes industriais em todo o Brasil. Estoque com mais de 1.500 toneladas em ferramentas avaliadas.",
       keywords: [
-        "3WS",
         "3WS Moldes",
-        "moldes e porta-moldes de alto valor",
-        "serviços",
-        "categorias",
-        "sustentabilidade",
-        "estoque disponível",
-        "como funciona",
-        "quem somos",
-        "moldes para injeção plástica",
+        "compra de moldes industriais",
+        "venda de moldes industriais",
+        "moldes de injeção plástica",
         "porta-moldes",
+        "porta-moldes usados",
         "bases para estampos",
-        "equipamentos industriais",
+        "intermediação de moldes",
+        "estoque de moldes",
         "compra e venda de moldes",
+        "avaliação de moldes",
+        "ferramentas industriais",
+        "moldes usados",
       ],
     },
     stock: {
       title: "Estoque de Moldes de Injeção Plástica | 3WS Moldes",
       description:
         "Conheça o estoque de moldes de injeção plástica da 3WS. Moldes novos e usados para utilidades domésticas, automotivo, brinquedos, copos, bandejas e outros segmentos, com fotos do molde e da peça produzida.",
+    },
+    about: {
+      title: "Quem Somos | 3WS Moldes e Equipamentos",
+      description:
+        "Conheça a história da 3WS Moldes e Equipamentos: três gerações dedicadas à compra, venda e intermediação de moldes industriais, porta-moldes e equipamentos em todo o Brasil.",
+    },
+    services: {
+      title: "Serviços para Moldes e Equipamentos | 3WS",
+      description:
+        "A 3WS oferece compra, venda, intermediação, avaliação técnica e compra por peso de moldes de injeção plástica, porta-moldes, bases para estampos e equipamentos industriais.",
+    },
+    contact: {
+      title: "Contato | 3WS Moldes e Equipamentos",
+      description:
+        "Entre em contato com a 3WS Moldes e Equipamentos. Solicite uma avaliação técnica, consulte o estoque de moldes ou inicie uma negociação.",
     },
   },
 
@@ -48,8 +62,9 @@ export const pt = {
       categories: "Categorias",
       stock: "Estoque",
       howItWorks: "Como Funciona",
-      about: "Sobre",
+      about: "Quem Somos",
       faq: "FAQ",
+      contact: "Contato",
     },
     cta: "Solicitar Avaliação",
     ctaMessage: "Olá, gostaria de solicitar uma avaliação de moldes/equipamentos.",
@@ -59,14 +74,14 @@ export const pt = {
   },
 
   hero: {
-    eyebrow: "Moldes e Porta-Moldes de Alto Valor",
-    titleBefore: "Mais de",
-    titleHighlight1: "1.500 toneladas",
-    titleMiddle: "em",
-    titleHighlight2: "moldes e oportunidades",
-    titleAfter: " industriais.",
+    eyebrow: "3WS Moldes e Equipamentos",
+    titleBefore: "Compra, venda e intermediação de",
+    titleHighlight1: "moldes de injeção",
+    titleMiddle: ", ",
+    titleHighlight2: "porta-moldes",
+    titleAfter: " e equipamentos industriais.",
     description:
-      "Compra, venda e intermediação de moldes para injeção plástica, porta-moldes, bases para estampos e equipamentos industriais. A 3WS conecta ativos disponíveis a empresas que buscam reduzir custos e acelerar projetos em todo o Brasil.",
+      "A 3WS compra, vende e intermedeia moldes de injeção plástica, porta-moldes, bases para estampos e equipamentos industriais. Com mais de 1.500 toneladas em estoque, conectamos ativos disponíveis a empresas que buscam reduzir custos e acelerar projetos em todo o Brasil.",
     cta: "Solicitar Avaliação",
   },
 
@@ -297,7 +312,7 @@ export const pt = {
     address: "Endereço",
     instagram: "Instagram da 3WS",
     linkedin: "LinkedIn da 3WS",
-    developedBy: "Desenvolvido by",
+    developedBy: "Desenvolvido por",
     rights: "Todos os direitos reservados.",
     privacy: "Política de Privacidade",
     serviceList: {
@@ -439,6 +454,7 @@ export const pt = {
       outros: "Ativos industriais",
     },
     /** Modelos usados para montar título, descrição e alt de cada molde. */
+    /** Rótulo usado no breadcrumb do estoque para a home. */
     templates: {
       moldFor: "Molde para {name}",
       moldsFor: "Moldes para {name}",
@@ -463,6 +479,41 @@ export const pt = {
       descTail: "Consulte disponibilidade e condições comerciais.",
       seoCollectionName: "Estoque de moldes de injeção plástica — 3WS Moldes",
       cavityProperty: "Número de cavidades",
+    },
+  },
+  pages: {
+    about: {
+      heading: "Quem Somos",
+      intro:
+        "A 3WS Moldes e Equipamentos é uma empresa especializada na compra, venda e intermediação de moldes de injeção plástica, porta-moldes, bases para estampos e equipamentos industriais. Com atuação em todo o Brasil, a empresa alia três gerações de experiência no setor industrial a uma operação estruturada e confiável.",
+      historyHeading: "Nossa História",
+      valuesHeading: "O que nos move",
+      locationHeading: "Localização",
+      locationText: "São Paulo, SP — com atendimento em todo o território nacional.",
+      sustainabilityHeading: "Compromisso com o reaproveitamento",
+      sustainabilityText:
+        "O reaproveitamento de moldes e equipamentos industriais reduz desperdícios, prolonga a vida útil de ferramentas e contribui para uma economia mais eficiente. A 3WS acredita que cada ativo parado pode ter um novo ciclo produtivo.",
+    },
+    services: {
+      heading: "Serviços",
+      intro:
+        "A 3WS oferece soluções completas para quem precisa comprar, vender ou intermediar moldes de injeção plástica, porta-moldes, bases para estampos e equipamentos industriais. Conheça cada um dos nossos serviços.",
+      howItWorksHeading: "Como funciona uma negociação",
+      ctaHeading: "Precisa de um serviço específico?",
+      ctaText: "Entre em contato e nossa equipe orienta o melhor caminho para seu caso.",
+    },
+    contact: {
+      heading: "Contato",
+      intro:
+        "Fale com a equipe da 3WS Moldes e Equipamentos. Estamos prontos para avaliar seus moldes, consultar nosso estoque ou iniciar uma negociação.",
+      emailLabel: "E-mail",
+      phoneLabel: "Telefone / WhatsApp",
+      addressLabel: "Endereço",
+      sendMessage: "Enviar mensagem pelo WhatsApp",
+      sendMessageText: "Olá, gostaria de falar com a equipe da 3WS Moldes.",
+      formHeading: "Como podemos ajudar?",
+      formText:
+        "Descreva sua necessidade — tipo de molde, quantidade, condição, segmento — e nossa equipe retorna com uma avaliação ou proposta.",
     },
   },
 };

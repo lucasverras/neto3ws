@@ -52,6 +52,6 @@ export const config = {
   // Fora: assets do Next, derivativos do acervo, ícones e os metadados que
   // precisam viver na raiz (sitemap.xml, robots.txt).
   matcher: [
-    "/((?!_next|acervo/|images/|video/|fonts/|icon.png|apple-icon.png|sitemap.xml|robots.txt).*)",
+    "/((?!_next|acervo/|images/|video/|fonts/|icon.png|apple-icon.png|favicon\\.ico|favicon-.*\\.png|icon-.*\\.png|apple-touch-icon\\.png|site\\.webmanifest|sitemap.xml|robots.txt).*)",
   ],
 };

@@ -3,30 +3,43 @@ import type { Dictionary } from "./pt";
 export const es: Dictionary = {
   meta: {
     home: {
-      title: "3WS — MOLDES Y PORTAMOLDES DE ALTO VALOR",
+      title: "3WS Moldes | Compra y Venta de Moldes y Portamoldes",
       description:
-        "3WS — moldes y portamoldes de alto valor. Conozca nuestros servicios, categorías, stock disponible, sostenibilidad, cómo funciona y quiénes somos. Compra, venta e intermediación de moldes de inyección de plástico, portamoldes, bases para troqueles y equipos industriales en todo Brasil.",
+        "3WS compra, vende e intermedia moldes de inyección de plástico, portamoldes, bases para troqueles y lotes industriales en todo Brasil. Stock con más de 1.500 toneladas en herramentales tasados.",
       keywords: [
-        "3WS",
         "3WS Moldes",
-        "moldes y portamoldes de alto valor",
-        "servicios",
-        "categorías",
-        "sostenibilidad",
-        "stock disponible",
-        "cómo funciona",
-        "quiénes somos",
+        "compra de moldes industriales",
+        "venta de moldes industriales",
         "moldes de inyección de plástico",
         "portamoldes",
         "bases para troqueles",
-        "equipos industriales",
+        "intermediación de moldes",
+        "stock de moldes",
         "compra y venta de moldes",
+        "tasación de moldes",
+        "herramentales industriales",
+        "moldes usados",
       ],
     },
     stock: {
       title: "Stock de Moldes de Inyección de Plástico | 3WS Moldes",
       description:
         "Conozca el stock de moldes de inyección de plástico de 3WS. Moldes nuevos y usados para menaje del hogar, automoción, juguetes, vasos, bandejas y otros segmentos, con fotos del molde y de la pieza producida.",
+    },
+    about: {
+      title: "Quiénes Somos | 3WS Moldes e Equipamentos",
+      description:
+        "Conozca la historia de 3WS Moldes e Equipamentos: tres generaciones dedicadas a la compra, venta e intermediación de moldes industriales, portamoldes y equipos en todo Brasil.",
+    },
+    services: {
+      title: "Servicios para Moldes y Equipos | 3WS",
+      description:
+        "3WS ofrece compra, venta, intermediación, tasación técnica y compra por peso de moldes de inyección de plástico, portamoldes, bases para troqueles y equipos industriales.",
+    },
+    contact: {
+      title: "Contacto | 3WS Moldes e Equipamentos",
+      description:
+        "Póngase en contacto con 3WS Moldes e Equipamentos. Solicite una tasación técnica, consulte el stock de moldes o inicie una negociación.",
     },
   },
 
@@ -45,6 +58,7 @@ export const es: Dictionary = {
       howItWorks: "Cómo Funciona",
       about: "Nosotros",
       faq: "FAQ",
+      contact: "Contacto",
     },
     cta: "Solicitar Tasación",
     ctaMessage: "Hola, me gustaría solicitar una tasación de moldes/equipos.",
@@ -54,14 +68,14 @@ export const es: Dictionary = {
   },
 
   hero: {
-    eyebrow: "Moldes y Portamoldes de Alto Valor",
-    titleBefore: "Más de",
-    titleHighlight1: "1.500 toneladas",
-    titleMiddle: "en",
-    titleHighlight2: "moldes y oportunidades",
-    titleAfter: " industriales.",
+    eyebrow: "3WS Moldes y Equipos",
+    titleBefore: "Compra, venta e intermediación de",
+    titleHighlight1: "moldes de inyección",
+    titleMiddle: ", ",
+    titleHighlight2: "portamoldes",
+    titleAfter: " y equipos industriales.",
     description:
-      "Compra, venta e intermediación de moldes de inyección de plástico, portamoldes, bases para troqueles y equipos industriales. 3WS conecta activos disponibles con empresas que buscan reducir costes y acelerar proyectos en todo Brasil.",
+      "3WS compra, vende e intermedia moldes de inyección de plástico, portamoldes, bases para troqueles y equipos industriales. Con más de 1.500 toneladas en stock, conectamos activos disponibles con empresas que buscan reducir costes y acelerar proyectos en todo Brasil.",
     cta: "Solicitar Tasación",
   },
 
@@ -454,6 +468,42 @@ export const es: Dictionary = {
       descTail: "Consulte disponibilidad y condiciones comerciales.",
       seoCollectionName: "Stock de moldes de inyección de plástico — 3WS Moldes",
       cavityProperty: "Número de cavidades",
+    },
+  },
+
+  pages: {
+    about: {
+      heading: "Quiénes Somos",
+      intro:
+        "3WS Moldes e Equipamentos se especializa en la compra, venta e intermediación de moldes de inyección de plástico, portamoldes, bases para troqueles y equipos industriales. Con actuación en todo Brasil, la empresa combina tres generaciones de experiencia en el sector industrial con una operación estructurada y confiable.",
+      historyHeading: "Nuestra Historia",
+      valuesHeading: "Lo que nos mueve",
+      locationHeading: "Ubicación",
+      locationText: "São Paulo, SP — con atención en todo el territorio nacional.",
+      sustainabilityHeading: "Compromiso con la reutilización",
+      sustainabilityText:
+        "La reutilización de moldes y equipos industriales reduce desperdicios, prolonga la vida útil de los herramentales y contribuye a una economía más eficiente. 3WS cree que cada activo parado puede tener un nuevo ciclo productivo.",
+    },
+    services: {
+      heading: "Servicios",
+      intro:
+        "3WS ofrece soluciones completas para quien necesita comprar, vender o intermediar moldes de inyección de plástico, portamoldes, bases para troqueles y equipos industriales. Conozca cada uno de nuestros servicios.",
+      howItWorksHeading: "Cómo funciona una negociación",
+      ctaHeading: "¿Necesita un servicio específico?",
+      ctaText: "Póngase en contacto y nuestro equipo le orientará el mejor camino para su caso.",
+    },
+    contact: {
+      heading: "Contacto",
+      intro:
+        "Hable con el equipo de 3WS Moldes e Equipamentos. Estamos listos para tasar sus moldes, consultar nuestro stock o iniciar una negociación.",
+      emailLabel: "Correo electrónico",
+      phoneLabel: "Teléfono / WhatsApp",
+      addressLabel: "Dirección",
+      sendMessage: "Enviar mensaje por WhatsApp",
+      sendMessageText: "Hola, me gustaría hablar con el equipo de 3WS Moldes.",
+      formHeading: "¿Cómo podemos ayudar?",
+      formText:
+        "Describa su necesidad — tipo de molde, cantidad, condición, segmento — y nuestro equipo le responderá con una tasación o propuesta.",
     },
   },
 };
