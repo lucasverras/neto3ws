@@ -10,7 +10,7 @@ export const SITE = {
    * próprio for ligado no Vercel, basta atualizar NEXT_PUBLIC_SITE_URL — usar
    * um domínio que ainda não responde faria o canonical apontar para o vazio.
    */
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.3wsmoldes.com.br").replace(/\/$/, ""),
+  url: (process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://www.3wsmoldes.com.br").replace(/\/$/, ""),
   email: "comercial@3wsmoldes.com.br",
   whatsapp: "5511973692861",
   phoneLabel: "(11) 97369-2861",
