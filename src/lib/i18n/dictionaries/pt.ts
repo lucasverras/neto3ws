@@ -103,13 +103,13 @@ export const pt = {
 
   origin: {
     label: "Origem",
-    heading: "Três Wanderleys. Três gerações construindo a mesma história.",
+    heading: "Três Wanderley's. Três gerações construindo a mesma história.",
     paragraph1:
       "A 3WS nasceu de uma história que atravessa três gerações. O pai iniciou a trajetória negociando ferramentas e ativos industriais. O filho deu continuidade ao negócio, aprofundando o conhecimento técnico e as relações construídas ao longo dos anos.",
     paragraph2:
       "Com a chegada da terceira geração, a empresa entrou em uma nova fase. O neto ampliou a atuação da 3WS, conectando décadas de experiência no mercado industrial às novas possibilidades da internet, da tecnologia e de uma operação cada vez mais estruturada.",
     paragraph3:
-      "O nome carrega os três Wanderleys. E a forma de trabalhar também carrega algo de cada geração: experiência, confiança e evolução.",
+      "O nome carrega os três Wanderley's. E a forma de trabalhar também carrega algo de cada geração: experiência, confiança e evolução.",
     gen1: "O pai, que iniciou a trajetória no mercado de ferramentas e ativos industriais.",
     gen2: "O filho, que deu continuidade ao negócio e consolidou décadas de experiência no setor.",
     gen3: "O neto, que ampliou a atuação da 3WS e conectou a experiência construída no galpão ao mercado digital.",

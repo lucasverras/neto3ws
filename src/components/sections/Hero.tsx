@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { SectionDivider } from "@/components/ui/SectionDivider";
@@ -7,22 +8,38 @@ import { Highlight } from "@/components/ui/Highlight";
 import { useI18n } from "@/lib/i18n/context";
 import { whatsappUrl } from "@/lib/site";
 
+const HERO_VIDEO_PLAYBACK_RATE = 1;
+
 export function Hero() {
   const { dict } = useI18n();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    video.defaultPlaybackRate = HERO_VIDEO_PLAYBACK_RATE;
+    video.playbackRate = HERO_VIDEO_PLAYBACK_RATE;
+  }, []);
 
   return (
     <section id="top" className="relative flex min-h-[100svh] items-end overflow-hidden bg-ink text-white">
       <div className="absolute inset-0">
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
-          poster="/images/hero-poster.jpg"
-          className="h-full w-full object-cover"
+          poster="/images/hero-industrial-drone-poster.jpg"
+          preload="auto"
+          aria-hidden="true"
+          className="h-full w-full scale-[1.08] object-cover"
         >
-          <source src="/video/hero-metal.webm" type="video/webm" />
-          <source src="/video/hero-metal.mp4" type="video/mp4" />
+          <source src="/video/hero-industrial-drone.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 to-navy/20" />
         <div className="absolute inset-0 bg-ink/25" />

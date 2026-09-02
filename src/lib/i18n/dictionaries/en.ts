@@ -97,13 +97,13 @@ export const en: Dictionary = {
 
   origin: {
     label: "Origins",
-    heading: "Three Wanderleys. Three generations building the same story.",
+    heading: "Three Wanderley's. Three generations building the same story.",
     paragraph1:
       "3WS grew out of a story that spans three generations. The father began the journey trading industrial tools and assets. The son carried the business forward, deepening the technical expertise and the relationships built over the years.",
     paragraph2:
       "With the arrival of the third generation, the company entered a new phase. The grandson widened the reach of 3WS, connecting decades of experience in the industrial market to the new possibilities of the internet, of technology and of an increasingly structured operation.",
     paragraph3:
-      "The name carries the three Wanderleys. And so does the way we work — something from each generation: experience, trust and evolution.",
+      "The name carries the three Wanderley's. And so does the way we work — something from each generation: experience, trust and evolution.",
     gen1: "The father, who began the journey in the industrial tools and assets market.",
     gen2: "The son, who carried the business forward and consolidated decades of experience in the sector.",
     gen3: "The grandson, who widened the reach of 3WS and connected the experience built in the warehouse to the digital market.",
