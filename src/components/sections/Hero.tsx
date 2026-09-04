@@ -1,48 +1,46 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import Image from "next/image";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { Highlight } from "@/components/ui/Highlight";
 import { useI18n } from "@/lib/i18n/context";
 import { whatsappUrl } from "@/lib/site";
 
-const HERO_VIDEO_PLAYBACK_RATE = 1;
-
 export function Hero() {
   const { dict } = useI18n();
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-
-    if (!video) {
-      return;
-    }
-
-    video.defaultPlaybackRate = HERO_VIDEO_PLAYBACK_RATE;
-    video.playbackRate = HERO_VIDEO_PLAYBACK_RATE;
-  }, []);
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const backgroundScale = useTransform(scrollYProgress, [0, 1], [1.04, 1.22]);
 
   return (
-    <section id="top" className="relative flex min-h-[100svh] items-end overflow-hidden bg-ink text-white">
+    <section
+      ref={sectionRef}
+      id="top"
+      className="relative flex min-h-[100svh] items-end overflow-hidden bg-ink text-white"
+    >
       <div className="absolute inset-0">
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="/images/hero-industrial-drone-poster.jpg"
-          preload="auto"
+        <motion.div className="absolute inset-0" style={{ scale: backgroundScale }}>
+          <Image
+            src="/images/hero-industrial-hall.webp"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            aria-hidden="true"
+            className="object-cover object-[center_34%]"
+          />
+        </motion.div>
+        <div
           aria-hidden="true"
-          className="h-full w-full scale-[1.08] object-cover"
-        >
-          <source src="/video/hero-industrial-drone.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 to-navy/20" />
-        <div className="absolute inset-0 bg-ink/25" />
+          className="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 to-navy/20"
+        />
+        <div aria-hidden="true" className="absolute inset-0 bg-ink/25" />
       </div>
 
       <Container className="relative z-10 pb-24 pt-32 md:pb-32">
