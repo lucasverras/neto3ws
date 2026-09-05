@@ -6,6 +6,7 @@ export const companyLinks = {
   whatsapp: whatsappUrl(whatsappMessage),
   email: `mailto:${SITE.email}`,
   website: absoluteUrl("/pt"),
+  stock: absoluteUrl("/pt/estoque"),
   instagram: "https://www.instagram.com/3wsmoldes/",
   facebook: "https://www.facebook.com/people/3WS-Moldes-e-Equipamentos/61569574709367/",
 } as const;

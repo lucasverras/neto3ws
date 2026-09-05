@@ -4,34 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { FaLinkedinIn } from "react-icons/fa";
+import { SiInstagram } from "react-icons/si";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { SITE } from "@/lib/site";
 import { localePath, stripLocale } from "@/lib/i18n";
 import { useI18n } from "@/lib/i18n/context";
 import { scrollToId } from "@/lib/scrollTo";
-
-function InstagramIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <rect x="3" y="3" width="18" height="18" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
-function LinkedinIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-      <line x1="7.5" y1="10.5" x2="7.5" y2="16.5" />
-      <circle cx="7.5" cy="7" r="0.9" fill="currentColor" stroke="none" />
-      <path d="M11.5 16.5v-4a2.2 2.2 0 0 1 4.4 0v4" />
-      <line x1="11.5" y1="10.5" x2="11.5" y2="16.5" />
-    </svg>
-  );
-}
 
 const QUICK_LINKS = [
   { anchor: null, path: "/quem-somos", key: "about" },
@@ -85,7 +65,7 @@ export function Footer() {
                 transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                 className="flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-white/20 transition-colors hover:bg-teal hover:text-white hover:ring-teal"
               >
-                <InstagramIcon />
+                <SiInstagram size={16} aria-hidden />
               </motion.a>
               <motion.a
                 href="#"
@@ -95,7 +75,7 @@ export function Footer() {
                 transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                 className="flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-white/20 transition-colors hover:bg-teal hover:text-white hover:ring-teal"
               >
-                <LinkedinIcon />
+                <FaLinkedinIn size={16} aria-hidden />
               </motion.a>
             </div>
           </div>

@@ -4,7 +4,7 @@ import { companyLinkProfile } from "@/lib/companyLinks";
 import { SITE, absoluteUrl } from "@/lib/site";
 
 const title = `${companyLinkProfile.name} | Links e contato`;
-const description = `Acesse os canais oficiais da ${companyLinkProfile.name}: WhatsApp, site, e-mail, Instagram e Facebook.`;
+const description = `Acesse os canais oficiais da ${companyLinkProfile.name}: WhatsApp, estoque, site, e-mail, Instagram e Facebook.`;
 const canonical = absoluteUrl("/links");
 
 export const metadata: Metadata = {

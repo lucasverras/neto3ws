@@ -27,6 +27,7 @@ export type LinksEvent =
   | "links_whatsapp_click"
   | "links_email_click"
   | "links_website_click"
+  | "links_stock_click"
   | "links_instagram_click"
   | "links_facebook_click";
 

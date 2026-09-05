@@ -15,7 +15,7 @@ const satoshi = localFont({
 export default function LinksLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={`${satoshi.variable} h-full antialiased`}>
-      <body className="min-h-full bg-alabaster text-ink">{children}</body>
+      <body className="min-h-full bg-ink text-white">{children}</body>
     </html>
   );
 }
