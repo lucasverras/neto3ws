@@ -38,6 +38,8 @@ function preferredLocale(request: NextRequest) {
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  if (pathname === "/links" || pathname.startsWith("/links/")) return;
+
   const hasLocale = LOCALES.some(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
   );

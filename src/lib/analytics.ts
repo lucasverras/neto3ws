@@ -23,7 +23,16 @@ export type StockEvent =
   | "stock_gallery_open"
   | "stock_contact_click";
 
-export function trackEvent(name: StockEvent, params: EventParams = {}) {
+export type LinksEvent =
+  | "links_whatsapp_click"
+  | "links_email_click"
+  | "links_website_click"
+  | "links_instagram_click"
+  | "links_facebook_click";
+
+export type AnalyticsEvent = StockEvent | LinksEvent;
+
+export function trackEvent(name: AnalyticsEvent, params: EventParams = {}) {
   if (typeof window === "undefined") return;
   try {
     window.gtag?.("event", name, params);

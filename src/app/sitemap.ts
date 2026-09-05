@@ -27,7 +27,13 @@ const STATIC_PAGES = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const entries: MetadataRoute.Sitemap = [];
+  const entries: MetadataRoute.Sitemap = [
+    {
+      url: absoluteUrl("/links"),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+  ];
 
   for (const locale of LOCALES) {
     entries.push({
@@ -70,7 +76,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Confere que os três idiomas cobrem exatamente o mesmo conjunto de moldes.
   const expectedPerLocale = 1 + STATIC_PAGES.length + 1 + getStockSlugs().length;
-  if (entries.length !== LOCALES.length * expectedPerLocale) {
+  if (entries.length !== 1 + LOCALES.length * expectedPerLocale) {
     throw new Error("Sitemap incompleto: os idiomas divergiram no catálogo.");
   }
 
