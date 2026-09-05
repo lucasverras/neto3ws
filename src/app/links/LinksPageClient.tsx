@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ExternalLink, Globe2, Mail, PackageSearch } from "lucide-react";
 import { motion } from "framer-motion";
-import { SiFacebook, SiInstagram, SiWhatsapp } from "react-icons/si";
+import { SiFacebook, SiInstagram, SiTiktok, SiWhatsapp } from "react-icons/si";
 import { companyLinkProfile, companyLinks } from "@/lib/companyLinks";
 import { trackEvent, type LinksEvent } from "@/lib/analytics";
 
@@ -70,6 +70,14 @@ const socialLinks: LinkItem[] = [
     icon: <SiFacebook size={22} aria-hidden />,
     variant: "social",
   },
+  {
+    href: companyLinks.tiktok,
+    label: "TikTok",
+    event: "links_tiktok_click",
+    external: true,
+    icon: <SiTiktok size={22} aria-hidden />,
+    variant: "social",
+  },
 ];
 
 function LinkCard({ item }: { item: LinkItem }) {
@@ -130,14 +138,9 @@ function LinkCard({ item }: { item: LinkItem }) {
 export function LinksPageClient() {
   return (
     <main className="relative min-h-dvh overflow-hidden bg-ink text-white">
-      <Image
-        src="/images/links-industrial-background.webp"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
+      <div
         aria-hidden="true"
-        className="object-cover object-center opacity-72"
+        className="absolute inset-0 bg-[image:url('/images/links-background-mobile.webp')] bg-cover bg-center opacity-72 md:bg-[image:url('/images/links-background-desktop.webp')]"
       />
       <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-ink/80 via-ink/58 to-ink/88" />
 
@@ -191,8 +194,10 @@ export function LinksPageClient() {
               Redes sociais
             </p>
             <div className="grid grid-cols-2 gap-3">
-              {socialLinks.map((item) => (
-                <LinkCard key={item.event} item={item} />
+              {socialLinks.map((item, index) => (
+                <div key={item.event} className={index === 2 ? "col-span-2" : undefined}>
+                  <LinkCard item={item} />
+                </div>
               ))}
             </div>
           </motion.div>

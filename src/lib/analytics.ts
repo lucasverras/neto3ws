@@ -29,7 +29,8 @@ export type LinksEvent =
   | "links_website_click"
   | "links_stock_click"
   | "links_instagram_click"
-  | "links_facebook_click";
+  | "links_facebook_click"
+  | "links_tiktok_click";
 
 export type AnalyticsEvent = StockEvent | LinksEvent;
 

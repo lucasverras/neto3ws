@@ -9,6 +9,7 @@ export const companyLinks = {
   stock: absoluteUrl("/pt/estoque"),
   instagram: "https://www.instagram.com/3wsmoldes/",
   facebook: "https://www.facebook.com/people/3WS-Moldes-e-Equipamentos/61569574709367/",
+  tiktok: "https://www.tiktok.com/@3wsmoldes",
 } as const;
 
 export const companyLinkProfile = {
