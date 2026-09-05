@@ -96,6 +96,8 @@ function LinkCard({ item }: { item: LinkItem }) {
       className={
         isPrimary
           ? "group flex min-h-16 items-center gap-4 rounded-2xl bg-teal px-5 py-4 text-white shadow-[0_18px_42px_rgba(44,141,255,0.34)] outline-none transition-colors hover:bg-teal-deep focus-visible:ring-2 focus-visible:ring-white/75"
+          : isSocial
+            ? "group flex min-h-24 flex-col items-center justify-center gap-2 rounded-2xl border border-white/12 bg-white/[0.11] px-2 py-3 text-center text-white shadow-[0_16px_36px_rgba(0,0,0,0.24)] outline-none backdrop-blur-xl transition-colors hover:border-teal/45 hover:bg-white/[0.15] focus-visible:ring-2 focus-visible:ring-teal"
           : "group flex min-h-14 items-center gap-4 rounded-2xl border border-white/12 bg-white/[0.11] px-4 py-3 text-white shadow-[0_16px_36px_rgba(0,0,0,0.24)] outline-none backdrop-blur-xl transition-colors hover:border-teal/45 hover:bg-white/[0.15] focus-visible:ring-2 focus-visible:ring-teal"
       }
     >
@@ -108,11 +110,11 @@ function LinkCard({ item }: { item: LinkItem }) {
       >
         {item.icon}
       </span>
-      <span className="min-w-0 flex-1">
+      <span className={isSocial ? "min-w-0" : "min-w-0 flex-1"}>
         <span
           className={
             isSocial
-              ? "block font-body text-sm font-medium leading-tight"
+              ? "block break-words font-body text-xs font-medium leading-tight sm:text-sm"
               : "block truncate font-body text-[15px] font-medium leading-tight"
           }
         >
@@ -193,9 +195,9 @@ export function LinksPageClient() {
             <p className="mb-3 font-body text-[11px] font-medium uppercase tracking-[0.18em] text-white/42">
               Redes sociais
             </p>
-            <div className="grid grid-cols-2 gap-3">
-              {socialLinks.map((item, index) => (
-                <div key={item.event} className={index === 2 ? "col-span-2" : undefined}>
+            <div className="grid grid-cols-3 gap-3">
+              {socialLinks.map((item) => (
+                <div key={item.event}>
                   <LinkCard item={item} />
                 </div>
               ))}
