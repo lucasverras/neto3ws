@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -21,12 +21,12 @@ import {
   stockPath,
 } from "@/lib/stock/generateMetadata";
 
-/** 40 moldes × 3 idiomas = 120 páginas estáticas. Nada é gerado sob demanda. */
+/** Moldes do catálogo × 3 idiomas são pré-renderizados no build. */
 export function generateStaticParams() {
   return LOCALES.flatMap((locale) => getStockSlugs().map((slug) => ({ locale, slug })));
 }
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export async function generateMetadata({
   params,
@@ -50,7 +50,7 @@ export default async function MoldPage({
 
   const dict = getDictionary(locale);
   const item = getStockItem(locale, slug);
-  if (!item) notFound();
+  if (!item) permanentRedirect(stockPath(locale));
 
   const crumbs = itemBreadcrumbs(locale, dict, item);
   const related = getRelatedItems(locale, item);

@@ -8,29 +8,13 @@ import { DEFAULT_LOCALE, LOCALES, LOCALE_COOKIE, isLocale } from "@/lib/i18n/con
  *   /estoque         → /pt/estoque
  *   /estoque/copo-…  → /pt/estoque/copo-…   (URLs antigas continuam resolvendo)
  *
- * A ordem de decisão é: cookie gravado pelo seletor → Accept-Language → pt.
- * É redirect, e não rewrite, para que cada idioma tenha uma URL única e o
- * conteúdo não seja indexado em dois endereços.
+ * A ordem de decisão é: cookie gravado pelo seletor → pt. Quando não há cookie,
+ * o redirecionamento é permanente para que robôs consolidem sinais na URL
+ * canônica em vez de manterem variantes legadas sem idioma no índice.
  */
 function preferredLocale(request: NextRequest) {
   const fromCookie = request.cookies.get(LOCALE_COOKIE)?.value;
   if (isLocale(fromCookie)) return fromCookie;
-
-  const header = request.headers.get("accept-language");
-  if (header) {
-    const ranked = header
-      .split(",")
-      .map((part) => {
-        const [tag, q] = part.trim().split(";q=");
-        return { tag: tag.trim().toLowerCase(), q: q ? Number(q) : 1 };
-      })
-      .sort((a, b) => b.q - a.q);
-
-    for (const { tag } of ranked) {
-      const base = tag.split("-")[0];
-      if (isLocale(base)) return base;
-    }
-  }
 
   return DEFAULT_LOCALE;
 }
@@ -46,8 +30,9 @@ export function proxy(request: NextRequest) {
   if (hasLocale) return;
 
   const url = request.nextUrl.clone();
+  const fromCookie = request.cookies.get(LOCALE_COOKIE)?.value;
   url.pathname = `/${preferredLocale(request)}${pathname === "/" ? "" : pathname}`;
-  return NextResponse.redirect(url);
+  return NextResponse.redirect(url, isLocale(fromCookie) ? 307 : 308);
 }
 
 export const config = {

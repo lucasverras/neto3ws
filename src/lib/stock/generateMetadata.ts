@@ -121,7 +121,7 @@ export function itemBreadcrumbs(
   return [
     { name: dict.common.home, path: localePath(locale) },
     { name: dict.header.nav.stock, path: stockPath(locale) },
-    { name: item.category, path: `${stockPath(locale)}?categoria=${item.categoryKey}` },
+    { name: item.category, path: stockPath(locale) },
     { name: item.shortTitle, path: stockItemPath(locale, item.slug) },
   ];
 }

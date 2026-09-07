@@ -34,12 +34,10 @@ const satoshi = localFont({
   display: "swap",
 });
 
-/** Os três idiomas são pré-renderizados; nada é gerado sob demanda. */
+/** Os três idiomas conhecidos são pré-renderizados. */
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
 }
-
-export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
