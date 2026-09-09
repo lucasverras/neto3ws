@@ -164,10 +164,8 @@ export function LinksPageClient() {
                 className="h-12 w-auto"
               />
             </a>
-            <h1 className="mt-7 font-display text-3xl font-medium tracking-normal text-white">
-              {companyLinkProfile.name}
-            </h1>
-            <p className="mt-3 max-w-sm font-body text-sm leading-relaxed text-white/68">
+            <h1 className="sr-only">{companyLinkProfile.name}</h1>
+            <p className="mt-6 max-w-sm font-body text-sm leading-relaxed text-white/68">
               {companyLinkProfile.description}
             </p>
           </motion.div>
