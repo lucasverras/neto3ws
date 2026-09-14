@@ -159,7 +159,8 @@ const pt: LocaleContent = {
       {
         heading: "Reaproveitamento e adaptação",
         body: [
-          "Nem todo molde vendido por peso vira sucata. Muitas estruturas podem ser reaproveitadas, adaptadas ou canibalizadas para novos projetos. Na avaliação, orientamos quando faz mais sentido reaproveitar do que refundir.",
+          "Moldes e porta-moldes podem ser reaproveitados e adaptados para novos projetos, seja por troca de placas, postiços ou usinagem na própria placa.",
+          "Cada solução varia conforme o projeto, o produto e a ferramenta escolhida.",
         ],
       },
     ],
@@ -563,7 +564,8 @@ const en: LocaleContent = {
       {
         heading: "Reuse and adaptation",
         body: [
-          "Not every mold sold by weight becomes scrap. Many structures can be reused, adapted or cannibalized for new projects. During the appraisal we advise when reuse makes more sense than remelting.",
+          "Molds and mold bases can be reused and adapted for new projects — by swapping plates, inserts, or machining the plate itself.",
+          "Each solution varies according to the project, the product, and the chosen tooling.",
         ],
       },
     ],
@@ -938,7 +940,8 @@ const es: LocaleContent = {
       {
         heading: "Reaprovechamiento y adaptación",
         body: [
-          "No todo molde vendido por peso se convierte en chatarra. Muchas estructuras pueden reaprovecharse, adaptarse o canibalizarse para nuevos proyectos. En la evaluación orientamos cuándo tiene más sentido reaprovechar que refundir.",
+          "Los moldes y portamoldes pueden reaprovecharse y adaptarse para nuevos proyectos, ya sea por cambio de placas, postizos o mecanizado en la propia placa.",
+          "Cada solución varía según el proyecto, el producto y la herramienta elegida.",
         ],
       },
     ],
