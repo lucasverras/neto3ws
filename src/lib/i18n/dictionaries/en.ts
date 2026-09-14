@@ -195,6 +195,17 @@ export const en: Dictionary = {
     },
   },
 
+  amostras: {
+    label: "Samples",
+    heading: "Parts produced by our molds.",
+    text: "Real examples of products injected from molds that passed through 3WS — from cups and containers to trays and housewares.",
+    alt1: "Colorful plastic buckets and bins produced by injection molding",
+    alt2: "Injection-molded plastic plates and trays",
+    alt3: "Plastic cups and tumblers produced by injection molding",
+    alt4: "Injection-molded plastic containers and pots",
+    alt5: "Samples of housewares produced by 3WS molds",
+  },
+
   whatWeBuy: {
     label: "What We Buy",
     heading:

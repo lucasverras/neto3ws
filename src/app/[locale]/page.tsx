@@ -5,6 +5,7 @@ import { About } from "@/components/sections/About";
 import { Origin } from "@/components/sections/Origin";
 import { Services } from "@/components/sections/Services";
 import { WhatWeBuy } from "@/components/sections/WhatWeBuy";
+import { Amostras } from "@/components/sections/Amostras";
 import { Categories } from "@/components/sections/Categories";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { Differentials } from "@/components/sections/Differentials";
@@ -32,6 +33,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <Origin />
         <Services />
         <WhatWeBuy />
+        <Amostras />
         <Categories />
         <HowItWorks />
         <Differentials />

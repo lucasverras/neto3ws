@@ -201,6 +201,17 @@ export const pt = {
     },
   },
 
+  amostras: {
+    label: "Amostras",
+    heading: "Peças produzidas pelos nossos moldes.",
+    text: "Exemplos reais de produtos injetados a partir de moldes que passaram pela 3WS — de copos e potes a bandejas e utilidades domésticas.",
+    alt1: "Baldes e lixeiras plásticas coloridas produzidas por injeção",
+    alt2: "Pratos e bandejas plásticas injetadas",
+    alt3: "Copos e taças plásticos produzidos por injeção",
+    alt4: "Potes e recipientes plásticos injetados",
+    alt5: "Amostras de utilidades domésticas produzidas pelos moldes da 3WS",
+  },
+
   whatWeBuy: {
     label: "O que Compramos",
     heading:

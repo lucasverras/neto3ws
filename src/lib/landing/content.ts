@@ -116,7 +116,7 @@ const pt: LocaleContent = {
     metaDescription:
       "Compra e venda de moldes industriais por kg em São Paulo. Entenda como funciona a negociação de moldes, porta-moldes e ferramentais por peso e consulte o estoque da 3WS.",
     eyebrow: "Diferencial 3WS",
-    h1: "Moldes industriais usados por kg e por quilo",
+    h1: "Moldes industriais usados por kg",
     intro:
       "A venda por peso é um dos maiores diferenciais da 3WS: moldes, porta-moldes e ferramentais parados são negociados por kg, de forma simples e transparente. É o caminho mais direto para dar destino a um ativo que hoje só ocupa espaço — ou para adquirir aço e estrutura a um custo muito abaixo do ferramental novo.",
     ctaMessage:
@@ -521,7 +521,7 @@ const en: LocaleContent = {
     metaDescription:
       "Buying and selling industrial molds by the kilo in São Paulo, Brazil. Learn how mold, mold-base and tooling deals by weight work, and check 3WS stock.",
     eyebrow: "3WS advantage",
-    h1: "Used industrial molds by the kilo (per kg)",
+    h1: "Used industrial molds by the kilo",
     intro:
       "Selling by weight is one of 3WS's biggest advantages: idle molds, mold bases and tooling are traded by the kilo, simply and transparently. It is the most direct way to give a dormant asset a new destination — or to acquire steel and structure at a fraction of the cost of new tooling.",
     ctaMessage: "Hello! I'm interested in molds sold by the kilo. Could you share more information?",
@@ -896,7 +896,7 @@ const es: LocaleContent = {
     metaDescription:
       "Compra y venta de moldes industriales por kg en São Paulo. Entienda cómo funciona la negociación de moldes, portamoldes y herramentales por peso y consulte el stock de 3WS.",
     eyebrow: "Diferencial 3WS",
-    h1: "Moldes industriales usados por kg y por kilo",
+    h1: "Moldes industriales usados por kg",
     intro:
       "La venta por peso es uno de los mayores diferenciales de 3WS: moldes, portamoldes y herramentales parados se negocian por kg, de forma simple y transparente. Es el camino más directo para dar destino a un activo que hoy solo ocupa espacio — o para adquirir acero y estructura a un costo muy por debajo del herramental nuevo.",
     ctaMessage: "¡Hola! Me interesan los moldes vendidos por kg. ¿Pueden darme más información?",

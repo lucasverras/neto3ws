@@ -195,6 +195,17 @@ export const es: Dictionary = {
     },
   },
 
+  amostras: {
+    label: "Muestras",
+    heading: "Piezas producidas por nuestros moldes.",
+    text: "Ejemplos reales de productos inyectados a partir de moldes que pasaron por 3WS — de vasos y recipientes a bandejas y utilidades domésticas.",
+    alt1: "Baldes y papeleras plásticas de colores producidos por inyección",
+    alt2: "Platos y bandejas plásticas inyectadas",
+    alt3: "Vasos y copas plásticos producidos por inyección",
+    alt4: "Recipientes y potes plásticos inyectados",
+    alt5: "Muestras de utilidades domésticas producidas por los moldes de 3WS",
+  },
+
   whatWeBuy: {
     label: "Qué Compramos",
     heading:
