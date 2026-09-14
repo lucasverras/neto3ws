@@ -9,16 +9,15 @@ import { Breadcrumbs } from "@/components/estoque/Breadcrumbs";
 import { SITE, absoluteUrl, whatsappUrl } from "@/lib/site";
 import {
   LOCALES,
-  OG_LOCALES,
   getDictionary,
   isLocale,
   localePath,
 } from "@/lib/i18n";
 import {
   breadcrumbJsonLd,
-  languageAlternates,
+  institutionalMetadata,
+  localBusinessJsonLd,
   organizationJsonLd,
-  websiteJsonLd,
 } from "@/lib/stock/generateMetadata";
 
 const ABOUT_PATH = "/quem-somos";
@@ -38,23 +37,12 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {};
   const dict = getDictionary(locale);
 
-  const path = localePath(locale, ABOUT_PATH);
-  return {
-    title: dict.meta.about.title,
-    description: dict.meta.about.description,
-    alternates: {
-      canonical: path,
-      languages: languageAlternates((l) => localePath(l, ABOUT_PATH)),
-    },
-    openGraph: {
-      type: "website",
-      title: dict.meta.about.title,
-      description: dict.meta.about.description,
-      url: absoluteUrl(path),
-      siteName: SITE.name,
-      locale: OG_LOCALES[locale],
-    },
-  };
+  return institutionalMetadata(
+    locale,
+    ABOUT_PATH,
+    dict.meta.about.title,
+    dict.meta.about.description
+  );
 }
 
 export default async function AboutPage({
@@ -240,6 +228,7 @@ export default async function AboutPage({
             },
             breadcrumbJsonLd(crumbs),
             organizationJsonLd(),
+            localBusinessJsonLd(),
           ]),
         }}
       />

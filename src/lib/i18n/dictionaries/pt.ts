@@ -59,6 +59,7 @@ export const pt = {
   header: {
     nav: {
       services: "Serviços",
+      byWeight: "Moldes por kg",
       categories: "Categorias",
       stock: "Estoque",
       howItWorks: "Como Funciona",
@@ -81,7 +82,7 @@ export const pt = {
     titleHighlight2: "porta-moldes",
     titleAfter: " e equipamentos industriais.",
     description:
-      "A 3WS compra, vende e intermedeia moldes de injeção plástica, porta-moldes, bases para estampos e equipamentos industriais. Com mais de 1.500 toneladas em estoque, conectamos ativos disponíveis a empresas que buscam reduzir custos e acelerar projetos em todo o Brasil.",
+      "A 3WS compra, vende e intermedeia moldes de injeção plástica, porta-moldes, bases para estampos e equipamentos industriais. Do nosso depósito na Zona Leste de São Paulo, com mais de 1.500 toneladas em estoque, conectamos ativos disponíveis a empresas em todo o Brasil que buscam reduzir custos e acelerar projetos.",
     cta: "Solicitar Avaliação",
   },
 
@@ -161,6 +162,45 @@ export const pt = {
     },
   },
 
+  servicesBento: {
+    label: "Serviços",
+    heading: "O que a 3WS faz com moldes e ferramentais parados.",
+    weightTag: "Venda por peso · kg / quilo",
+    cta: "Saiba mais",
+    items: {
+      buy: {
+        title: "Compra de moldes industriais",
+        text: "Avaliamos lotes, moldes, porta-moldes e ferramentais disponíveis para negociação.",
+        alt: "Moldes e equipamentos industriais no depósito da 3WS em São Paulo",
+      },
+      sell: {
+        title: "Venda de moldes usados",
+        text: "Centenas de oportunidades para reaproveitamento, adaptação e novos projetos.",
+        alt: "Moldes usados disponíveis para venda no acervo da 3WS",
+      },
+      weight: {
+        title: "Moldes vendidos por kg",
+        text: "Venda por peso de moldes, porta-moldes e ferramentais. Grande variedade de aço e estruturas.",
+        alt: "Ferramentas industriais avaliadas por peso na 3WS",
+      },
+      moldBases: {
+        title: "Porta-moldes",
+        text: "Estruturas e bases usadas, avaliadas e prontas para novos ciclos produtivos.",
+        alt: "Porta-moldes usados no acervo da 3WS",
+      },
+      appraisal: {
+        title: "Localização e avaliação de moldes",
+        text: "Encontramos e avaliamos tecnicamente o ferramental certo para o seu projeto.",
+        alt: "Avaliação técnica de moldes industriais na 3WS",
+      },
+      reuse: {
+        title: "Reaproveitamento de ferramental",
+        text: "Menos investimento e menos tempo de projeto, com economia circular.",
+        alt: "Ferramental industrial preparado para reaproveitamento",
+      },
+    },
+  },
+
   whatWeBuy: {
     label: "O que Compramos",
     heading:
@@ -172,6 +212,7 @@ export const pt = {
     label: "Categorias",
     heading: "Categorias dos ativos que a 3WS compra, vende ou intermedeia.",
     categoryPrefix: "Categoria",
+    cta: "Explorar",
     items: {
       injection: {
         title: "Moldes para injeção plástica",
@@ -294,6 +335,10 @@ export const pt = {
         q: "Também fazem intermediação?",
         a: "Sim. Conectamos empresas que desejam vender ou adquirir moldes e equipamentos, conduzindo toda a negociação com segurança.",
       },
+      visit: {
+        q: "Onde fica a 3WS e é possível visitar o estoque?",
+        a: "Nosso depósito fica em São Paulo, na região da Avenida Aricanduva / Zona Leste. É possível agendar uma visita para conhecer o acervo — fale com a equipe pelo WhatsApp para combinar dia e horário.",
+      },
     },
   },
 
@@ -311,10 +356,10 @@ export const pt = {
     contact: "Contato",
     address: "Endereço",
     instagram: "Instagram da 3WS",
-    linkedin: "LinkedIn da 3WS",
+    facebook: "Facebook da 3WS",
+    tiktok: "TikTok da 3WS",
     developedBy: "Desenvolvido por",
     rights: "Todos os direitos reservados.",
-    privacy: "Política de Privacidade",
     serviceList: {
       buy: "Compra de moldes e equipamentos",
       sell: "Venda de moldes e equipamentos",
@@ -347,7 +392,7 @@ export const pt = {
     acervo: {
       label: "O acervo",
       heading: "Um galpão inteiro de ferramentas prontas para um novo ciclo.",
-      text: "Moldes de injeção, porta-moldes e bases para estampos armazenados, identificados e avaliados. Cada item do catálogo abaixo sai deste acervo.",
+      text: "Moldes de injeção, porta-moldes e bases para estampos armazenados, identificados e avaliados no nosso depósito em São Paulo. Cada item do catálogo abaixo sai deste acervo.",
     },
     browser: {
       srHeading: "Catálogo de moldes disponíveis",

@@ -15,7 +15,7 @@ import {
   localePath,
 } from "@/lib/i18n";
 import { I18nProvider } from "@/lib/i18n/context";
-import { languageAlternates } from "@/lib/stock/generateMetadata";
+import { OG_IMAGE, languageAlternates } from "@/lib/stock/generateMetadata";
 
 const satoshi = localFont({
   src: [
@@ -63,6 +63,13 @@ export async function generateMetadata({
       url: absoluteUrl(localePath(locale)),
       siteName: SITE.name,
       locale: OG_LOCALES[locale],
+      images: [OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: dict.meta.home.title,
+      description: dict.meta.home.description,
+      images: [OG_IMAGE.url],
     },
     icons: {
       icon: [

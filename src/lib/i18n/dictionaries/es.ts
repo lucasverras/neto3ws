@@ -53,6 +53,7 @@ export const es: Dictionary = {
   header: {
     nav: {
       services: "Servicios",
+      byWeight: "Moldes por kg",
       categories: "Categorías",
       stock: "Stock",
       howItWorks: "Cómo Funciona",
@@ -75,7 +76,7 @@ export const es: Dictionary = {
     titleHighlight2: "portamoldes",
     titleAfter: " y equipos industriales.",
     description:
-      "3WS compra, vende e intermedia moldes de inyección de plástico, portamoldes, bases para troqueles y equipos industriales. Con más de 1.500 toneladas en stock, conectamos activos disponibles con empresas que buscan reducir costes y acelerar proyectos en todo Brasil.",
+      "3WS compra, vende e intermedia moldes de inyección de plástico, portamoldes, bases para troqueles y equipos industriales. Desde nuestro depósito en la Zona Este de São Paulo, con más de 1.500 toneladas en stock, conectamos activos disponibles con empresas de todo Brasil que buscan reducir costes y acelerar proyectos.",
     cta: "Solicitar Tasación",
   },
 
@@ -155,6 +156,45 @@ export const es: Dictionary = {
     },
   },
 
+  servicesBento: {
+    label: "Servicios",
+    heading: "Qué hace 3WS con moldes y herramentales parados.",
+    weightTag: "Venta por peso · kg / kilo",
+    cta: "Saber más",
+    items: {
+      buy: {
+        title: "Compra de moldes industriales",
+        text: "Evaluamos lotes, moldes, portamoldes y herramentales disponibles para negociación.",
+        alt: "Moldes y equipos industriales en el depósito de 3WS en São Paulo",
+      },
+      sell: {
+        title: "Venta de moldes usados",
+        text: "Cientos de oportunidades para reaprovechamiento, adaptación y nuevos proyectos.",
+        alt: "Moldes usados disponibles para venta en el acervo de 3WS",
+      },
+      weight: {
+        title: "Moldes vendidos por kg",
+        text: "Venta por peso de moldes, portamoldes y herramentales. Gran variedad de acero y estructuras.",
+        alt: "Herramientas industriales tasadas por peso en 3WS",
+      },
+      moldBases: {
+        title: "Portamoldes",
+        text: "Estructuras y bases usadas, tasadas y listas para nuevos ciclos productivos.",
+        alt: "Portamoldes usados en el acervo de 3WS",
+      },
+      appraisal: {
+        title: "Localización y evaluación de moldes",
+        text: "Encontramos y evaluamos técnicamente el herramental adecuado para su proyecto.",
+        alt: "Evaluación técnica de moldes industriales en 3WS",
+      },
+      reuse: {
+        title: "Reaprovechamiento de herramental",
+        text: "Menos inversión y menos tiempo de proyecto, con economía circular.",
+        alt: "Herramental industrial preparado para reaprovechamiento",
+      },
+    },
+  },
+
   whatWeBuy: {
     label: "Qué Compramos",
     heading:
@@ -166,6 +206,7 @@ export const es: Dictionary = {
     label: "Categorías",
     heading: "Categorías de activos que 3WS compra, vende o intermedia.",
     categoryPrefix: "Categoría",
+    cta: "Explorar",
     items: {
       injection: {
         title: "Moldes de inyección de plástico",
@@ -287,6 +328,10 @@ export const es: Dictionary = {
         q: "¿También hacen intermediación?",
         a: "Sí. Conectamos empresas que desean vender o adquirir moldes y equipos, conduciendo toda la negociación con seguridad.",
       },
+      visit: {
+        q: "¿Dónde está 3WS y es posible visitar el stock?",
+        a: "Nuestro depósito está en São Paulo, en la región de la Avenida Aricanduva / Zona Este. Es posible agendar una visita para conocer el acervo — hable con el equipo por WhatsApp para coordinar día y horario.",
+      },
     },
   },
 
@@ -304,10 +349,10 @@ export const es: Dictionary = {
     contact: "Contacto",
     address: "Dirección",
     instagram: "Instagram de 3WS",
-    linkedin: "LinkedIn de 3WS",
+    facebook: "Facebook de 3WS",
+    tiktok: "TikTok de 3WS",
     developedBy: "Desarrollado por",
     rights: "Todos los derechos reservados.",
-    privacy: "Política de Privacidad",
     serviceList: {
       buy: "Compra de moldes y equipos",
       sell: "Venta de moldes y equipos",
@@ -340,7 +385,7 @@ export const es: Dictionary = {
     acervo: {
       label: "El acervo",
       heading: "Una nave entera de herramentales listos para un nuevo ciclo.",
-      text: "Moldes de inyección, portamoldes y bases para troqueles almacenados, identificados y tasados. Cada artículo del catálogo de abajo sale de este acervo.",
+      text: "Moldes de inyección, portamoldes y bases para troqueles almacenados, identificados y tasados en nuestro depósito en São Paulo. Cada artículo del catálogo de abajo sale de este acervo.",
     },
     browser: {
       srHeading: "Catálogo de moldes disponibles",

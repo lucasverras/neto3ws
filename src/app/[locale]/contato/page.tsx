@@ -8,14 +8,14 @@ import { Breadcrumbs } from "@/components/estoque/Breadcrumbs";
 import { SITE, absoluteUrl, whatsappUrl } from "@/lib/site";
 import {
   LOCALES,
-  OG_LOCALES,
   getDictionary,
   isLocale,
   localePath,
 } from "@/lib/i18n";
 import {
   breadcrumbJsonLd,
-  languageAlternates,
+  institutionalMetadata,
+  localBusinessJsonLd,
   organizationJsonLd,
 } from "@/lib/stock/generateMetadata";
 
@@ -36,23 +36,12 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {};
   const dict = getDictionary(locale);
 
-  const path = localePath(locale, CONTACT_PATH);
-  return {
-    title: dict.meta.contact.title,
-    description: dict.meta.contact.description,
-    alternates: {
-      canonical: path,
-      languages: languageAlternates((l) => localePath(l, CONTACT_PATH)),
-    },
-    openGraph: {
-      type: "website",
-      title: dict.meta.contact.title,
-      description: dict.meta.contact.description,
-      url: absoluteUrl(path),
-      siteName: SITE.name,
-      locale: OG_LOCALES[locale],
-    },
-  };
+  return institutionalMetadata(
+    locale,
+    CONTACT_PATH,
+    dict.meta.contact.title,
+    dict.meta.contact.description
+  );
 }
 
 export default async function ContactPage({
@@ -199,6 +188,7 @@ export default async function ContactPage({
             },
             breadcrumbJsonLd(crumbs),
             organizationJsonLd(),
+            localBusinessJsonLd(),
           ]),
         }}
       />

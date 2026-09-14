@@ -8,14 +8,13 @@ import { Breadcrumbs } from "@/components/estoque/Breadcrumbs";
 import { SITE, absoluteUrl, whatsappUrl } from "@/lib/site";
 import {
   LOCALES,
-  OG_LOCALES,
   getDictionary,
   isLocale,
   localePath,
 } from "@/lib/i18n";
 import {
   breadcrumbJsonLd,
-  languageAlternates,
+  institutionalMetadata,
   organizationJsonLd,
 } from "@/lib/stock/generateMetadata";
 
@@ -39,23 +38,12 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {};
   const dict = getDictionary(locale);
 
-  const path = localePath(locale, SERVICES_PATH);
-  return {
-    title: dict.meta.services.title,
-    description: dict.meta.services.description,
-    alternates: {
-      canonical: path,
-      languages: languageAlternates((l) => localePath(l, SERVICES_PATH)),
-    },
-    openGraph: {
-      type: "website",
-      title: dict.meta.services.title,
-      description: dict.meta.services.description,
-      url: absoluteUrl(path),
-      siteName: SITE.name,
-      locale: OG_LOCALES[locale],
-    },
-  };
+  return institutionalMetadata(
+    locale,
+    SERVICES_PATH,
+    dict.meta.services.title,
+    dict.meta.services.description
+  );
 }
 
 export default async function ServicesPage({

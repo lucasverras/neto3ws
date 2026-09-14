@@ -21,6 +21,7 @@ import {
   getStockCategories,
 } from "@/lib/stock/parseStock";
 import {
+  OG_IMAGE,
   breadcrumbJsonLd,
   collectionJsonLd,
   languageAlternates,
@@ -39,6 +40,12 @@ export async function generateMetadata({
   const dict = getDictionary(locale);
   const institutional = getCatalog(locale).institutional;
 
+  // Preferimos a foto real do acervo como cartão social; se ela não existir,
+  // caímos na imagem OG institucional para nunca renderizar cartão sem imagem.
+  const ogImage = institutional
+    ? { url: absoluteUrl(largestVariant(institutional.cover)), alt: institutional.cover.alt }
+    : { url: OG_IMAGE.url, alt: OG_IMAGE.alt };
+
   return {
     title: dict.meta.stock.title,
     description: dict.meta.stock.description,
@@ -53,19 +60,13 @@ export async function generateMetadata({
       url: absoluteUrl(stockPath(locale)),
       siteName: SITE.name,
       locale: OG_LOCALES[locale],
-      images: institutional
-        ? [
-            {
-              url: absoluteUrl(largestVariant(institutional.cover)),
-              alt: institutional.cover.alt,
-            },
-          ]
-        : undefined,
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title: dict.meta.stock.title,
       description: dict.meta.stock.description,
+      images: [ogImage.url],
     },
   };
 }

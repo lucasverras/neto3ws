@@ -1,33 +1,39 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
 import { PhotoImage } from "@/components/ui/PhotoImage";
 import { SectionDivider } from "@/components/ui/SectionDivider";
+import { localePath } from "@/lib/i18n";
 import { useI18n } from "@/lib/i18n/context";
 
+// Cada categoria aponta para o destino real: porta-moldes tem landing própria,
+// bases para estampos abre o filtro do estoque, as demais vão ao catálogo.
 const CATEGORY_KEYS = [
-  { key: "injection", image: "/images/gallery/06-moldes-injecao-plastica.webp" },
-  { key: "moldBases", image: "/images/gallery/07-porta-moldes.webp" },
-  { key: "stampBases", image: "/images/gallery/08-bases-para-estampos.webp" },
-  { key: "equipment", image: "/images/gallery/09-equipamentos-industriais.webp" },
-  { key: "specialTools", image: "/images/gallery/10-ferramentas-especiais.webp" },
+  { key: "injection", image: "/images/gallery/06-moldes-injecao-plastica.webp", href: "/estoque" },
+  { key: "moldBases", image: "/images/gallery/07-porta-moldes.webp", href: "/porta-moldes-usados" },
+  { key: "stampBases", image: "/images/gallery/08-bases-para-estampos.webp", href: "/estoque?categoria=bases-estampos" },
+  { key: "equipment", image: "/images/gallery/09-equipamentos-industriais.webp", href: "/estoque" },
+  { key: "specialTools", image: "/images/gallery/10-ferramentas-especiais.webp", href: "/estoque" },
 ] as const;
 
 const COUNT = CATEGORY_KEYS.length;
 
 export function Categories() {
-  const { dict } = useI18n();
+  const { locale, dict } = useI18n();
   // Mouse e scroll são fontes separadas, compostas na renderização. Enquanto o
   // ponteiro está sobre a lista ele detém o controle e a rolagem não troca o
   // item — senão os dois avançariam juntos e a lista passaria direto. O scroll
   // volta a comandar quando o ponteiro sai.
   const [pointerActive, setPointerActive] = useState<number | null>(null);
-  const categories = CATEGORY_KEYS.map(({ key, image }) => ({
+  const categories = CATEGORY_KEYS.map(({ key, image, href }) => ({
     image,
+    href,
     ...dict.categories.items[key],
   }));
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -114,8 +120,20 @@ export function Categories() {
                       className="absolute inset-0"
                       animate={{ opacity: active === i ? 1 : 0 }}
                       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                      style={{ pointerEvents: active === i ? "auto" : "none" }}
                     >
                       <PhotoImage src={category.image} alt={category.title} className="h-full w-full" />
+                      <Link
+                        href={localePath(locale, category.href)}
+                        className="group/cat absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full bg-white/95 px-5 py-2.5 font-body text-[12px] font-medium uppercase tracking-[0.14em] text-ink outline-none ring-teal transition-colors hover:bg-white focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                      >
+                        {dict.categories.cta}
+                        <ArrowUpRight
+                          size={14}
+                          strokeWidth={2}
+                          className="transition-transform group-hover/cat:translate-x-0.5 group-hover/cat:-translate-y-0.5"
+                        />
+                      </Link>
                     </motion.div>
                   ))}
                 </div>
@@ -144,6 +162,13 @@ export function Categories() {
                 <p className="max-w-md font-body text-[15px] leading-relaxed text-white/60">
                   {category.description}
                 </p>
+                <Link
+                  href={localePath(locale, category.href)}
+                  className="mt-1 inline-flex items-center gap-1.5 font-body text-[12px] font-medium uppercase tracking-[0.14em] text-teal"
+                >
+                  {dict.categories.cta}
+                  <ArrowUpRight size={14} strokeWidth={2} />
+                </Link>
               </div>
             </Reveal>
           ))}

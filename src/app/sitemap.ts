@@ -24,6 +24,13 @@ const STATIC_PAGES = [
   { path: "/quem-somos", priority: 0.8 as const, changeFrequency: "monthly" as const },
   { path: "/servicos", priority: 0.8 as const, changeFrequency: "monthly" as const },
   { path: "/contato", priority: 0.7 as const, changeFrequency: "monthly" as const },
+  // Landings comerciais e de categoria (venda por kg é o carro-chefe).
+  { path: "/moldes-por-quilo", priority: 0.9 as const, changeFrequency: "weekly" as const },
+  { path: "/compramos-moldes", priority: 0.8 as const, changeFrequency: "monthly" as const },
+  { path: "/venda-seu-molde", priority: 0.8 as const, changeFrequency: "monthly" as const },
+  { path: "/porta-moldes-usados", priority: 0.7 as const, changeFrequency: "weekly" as const },
+  { path: "/moldes-automotivos", priority: 0.7 as const, changeFrequency: "weekly" as const },
+  { path: "/moldes-utilidades-domesticas", priority: 0.7 as const, changeFrequency: "weekly" as const },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

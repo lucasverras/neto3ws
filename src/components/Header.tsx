@@ -15,6 +15,7 @@ import { useI18n } from "@/lib/i18n/context";
 const NAV = [
   { anchor: null, path: "/quem-somos", key: "about" },
   { anchor: null, path: "/servicos", key: "services" },
+  { anchor: null, path: "/moldes-por-quilo", key: "byWeight" },
   { anchor: null, path: "/estoque", key: "stock" },
   { anchor: "categorias", key: "categories" },
   { anchor: "faq", key: "faq" },
@@ -83,7 +84,7 @@ export function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex">
+        <nav className="hidden items-center gap-5 lg:flex xl:gap-6">
           {NAV.map((item) => (
             <Link
               key={item.key}

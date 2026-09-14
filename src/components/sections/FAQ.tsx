@@ -9,7 +9,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { useI18n } from "@/lib/i18n/context";
 
-const FAQ_KEYS = ["types", "lots", "coverage", "appraisal", "broker"] as const;
+const FAQ_KEYS = ["types", "lots", "coverage", "appraisal", "broker", "visit"] as const;
 
 export function FAQ() {
   const [open, setOpen] = useState<number | null>(0);

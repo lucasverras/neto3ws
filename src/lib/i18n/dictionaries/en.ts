@@ -53,6 +53,7 @@ export const en: Dictionary = {
   header: {
     nav: {
       services: "Services",
+      byWeight: "Molds by the kilo",
       categories: "Categories",
       stock: "Stock",
       howItWorks: "How It Works",
@@ -75,7 +76,7 @@ export const en: Dictionary = {
     titleHighlight2: "mold bases",
     titleAfter: " and industrial equipment.",
     description:
-      "3WS buys, sells and brokers plastic injection molds, mold bases, stamping die bases and industrial equipment. With over 1,500 tonnes in stock, we connect available assets to companies looking to cut costs and speed up projects throughout Brazil.",
+      "3WS buys, sells and brokers plastic injection molds, mold bases, stamping die bases and industrial equipment. From our warehouse in the East Zone of São Paulo, with over 1,500 tonnes in stock, we connect available assets to companies across Brazil looking to cut costs and speed up projects.",
     cta: "Request an Appraisal",
   },
 
@@ -155,6 +156,45 @@ export const en: Dictionary = {
     },
   },
 
+  servicesBento: {
+    label: "Services",
+    heading: "What 3WS does with idle molds and tooling.",
+    weightTag: "Sold by weight · per kg / kilo",
+    cta: "Learn more",
+    items: {
+      buy: {
+        title: "Buying industrial molds",
+        text: "We appraise lots, molds, mold bases and tooling available for negotiation.",
+        alt: "Industrial molds and equipment at the 3WS warehouse in São Paulo",
+      },
+      sell: {
+        title: "Selling used molds",
+        text: "Hundreds of opportunities for reuse, adaptation and new projects.",
+        alt: "Used molds available for sale in the 3WS archive",
+      },
+      weight: {
+        title: "Molds sold by the kilo",
+        text: "Weight-based sale of molds, mold bases and tooling. A wide variety of steel and structures.",
+        alt: "Industrial tools appraised by weight at 3WS",
+      },
+      moldBases: {
+        title: "Mold bases",
+        text: "Used structures and bases, appraised and ready for new production cycles.",
+        alt: "Used mold bases in the 3WS archive",
+      },
+      appraisal: {
+        title: "Locating and appraising molds",
+        text: "We find and technically appraise the right tooling for your project.",
+        alt: "Technical appraisal of industrial molds at 3WS",
+      },
+      reuse: {
+        title: "Tooling reuse",
+        text: "Less investment and less project time, with circular economy.",
+        alt: "Industrial tooling prepared for reuse",
+      },
+    },
+  },
+
   whatWeBuy: {
     label: "What We Buy",
     heading:
@@ -166,6 +206,7 @@ export const en: Dictionary = {
     label: "Categories",
     heading: "Categories of assets 3WS buys, sells or brokers.",
     categoryPrefix: "Category",
+    cta: "Explore",
     items: {
       injection: {
         title: "Plastic injection molds",
@@ -287,6 +328,10 @@ export const en: Dictionary = {
         q: "Do you also handle brokerage?",
         a: "Yes. We connect companies looking to sell or acquire molds and equipment, running the entire negotiation securely.",
       },
+      visit: {
+        q: "Where is 3WS located and can I visit the stock?",
+        a: "Our warehouse is in São Paulo, in the Avenida Aricanduva / East Zone area. You can schedule a visit to see the archive — message our team on WhatsApp to arrange a day and time.",
+      },
     },
   },
 
@@ -304,10 +349,10 @@ export const en: Dictionary = {
     contact: "Contact",
     address: "Address",
     instagram: "3WS on Instagram",
-    linkedin: "3WS on LinkedIn",
+    facebook: "3WS on Facebook",
+    tiktok: "3WS on TikTok",
     developedBy: "Developed by",
     rights: "All rights reserved.",
-    privacy: "Privacy Policy",
     serviceList: {
       buy: "Purchase of molds and equipment",
       sell: "Sale of molds and equipment",
@@ -340,7 +385,7 @@ export const en: Dictionary = {
     acervo: {
       label: "The archive",
       heading: "An entire warehouse of tooling ready for a new cycle.",
-      text: "Injection molds, mold bases and stamping die bases stored, identified and appraised. Every item in the catalogue below comes from this archive.",
+      text: "Injection molds, mold bases and stamping die bases stored, identified and appraised at our warehouse in São Paulo. Every item in the catalogue below comes from this archive.",
     },
     browser: {
       srHeading: "Catalogue of available molds",

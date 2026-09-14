@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { FaLinkedinIn } from "react-icons/fa";
-import { SiInstagram } from "react-icons/si";
+import { SiInstagram, SiFacebook, SiTiktok } from "react-icons/si";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { companyLinks } from "@/lib/companyLinks";
 import { SITE } from "@/lib/site";
 import { localePath, stripLocale } from "@/lib/i18n";
 import { useI18n } from "@/lib/i18n/context";
@@ -22,7 +22,15 @@ const QUICK_LINKS = [
   { anchor: null, path: "/contato", key: "contact" },
 ] as const;
 
-const SERVICE_KEYS = ["buy", "sell", "broker", "weight", "consulting"] as const;
+// Cada serviço aponta para sua página real (antes iam todos para a âncora
+// #servicos). weight → landing de venda por kg, o carro-chefe comercial.
+const SERVICE_LINKS = [
+  { key: "buy", path: "/compramos-moldes" },
+  { key: "sell", path: "/venda-seu-molde" },
+  { key: "weight", path: "/moldes-por-quilo" },
+  { key: "broker", path: "/servicos" },
+  { key: "consulting", path: "/servicos" },
+] as const;
 
 export function Footer() {
   const { locale, dict } = useI18n();
@@ -57,26 +65,25 @@ export function Footer() {
               {dict.footer.description}
             </p>
             <div className="flex items-center gap-4 pt-2">
-              <motion.a
-                href="#"
-                aria-label={dict.footer.instagram}
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                className="flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-white/20 transition-colors hover:bg-teal hover:text-white hover:ring-teal"
-              >
-                <SiInstagram size={16} aria-hidden />
-              </motion.a>
-              <motion.a
-                href="#"
-                aria-label={dict.footer.linkedin}
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                className="flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-white/20 transition-colors hover:bg-teal hover:text-white hover:ring-teal"
-              >
-                <FaLinkedinIn size={16} aria-hidden />
-              </motion.a>
+              {[
+                { href: companyLinks.instagram, label: dict.footer.instagram, Icon: SiInstagram },
+                { href: companyLinks.facebook, label: dict.footer.facebook, Icon: SiFacebook },
+                { href: companyLinks.tiktok, label: dict.footer.tiktok, Icon: SiTiktok },
+              ].map(({ href, label, Icon }) => (
+                <motion.a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-white/20 transition-colors hover:bg-teal hover:text-white hover:ring-teal"
+                >
+                  <Icon size={16} aria-hidden />
+                </motion.a>
+              ))}
             </div>
           </div>
 
@@ -105,11 +112,10 @@ export function Footer() {
                 {dict.footer.services}
               </span>
               <ul className="flex flex-col gap-3">
-                {SERVICE_KEYS.map((key) => (
+                {SERVICE_LINKS.map(({ key, path }) => (
                   <li key={key}>
                     <Link
-                      href={`${localePath(locale)}#servicos`}
-                      onClick={(e) => handleAnchor(e, "servicos")}
+                      href={localePath(locale, path)}
                       className="font-body text-sm text-white/65 transition-colors hover:text-teal"
                     >
                       {dict.footer.serviceList[key]}
@@ -173,9 +179,6 @@ export function Footer() {
             </a>
             .
           </span>
-          <a href="#" className="transition-colors hover:text-white/70">
-            {dict.footer.privacy}
-          </a>
         </Container>
       </div>
     </footer>

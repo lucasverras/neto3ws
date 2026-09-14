@@ -9,6 +9,7 @@
 
 import type { Metadata } from "next";
 import { SITE, absoluteUrl } from "@/lib/site";
+import { companyLinks } from "@/lib/companyLinks";
 import {
   LOCALES,
   LOCALE_TAGS,
@@ -23,6 +24,24 @@ import { cavityLabelLower } from "./normalizeTitle";
 import type { StockItem } from "./types";
 
 export const STOCK_SEGMENT = "/estoque";
+
+/**
+ * Imagem Open Graph padrão das páginas institucionais (1200×630, foto real do
+ * galpão). Gerada por scripts/build-og.mjs e versionada em public/images.
+ */
+export const OG_IMAGE = {
+  url: absoluteUrl("/images/og-default.jpg"),
+  width: 1200,
+  height: 630,
+  alt: "Galpão de moldes industriais e porta-moldes da 3WS em São Paulo",
+} as const;
+
+/** Perfis oficiais reais — usados em sameAs e no rodapé. Nada inventado. */
+export const SOCIAL_PROFILES = [
+  companyLinks.instagram,
+  companyLinks.facebook,
+  companyLinks.tiktok,
+] as const;
 
 export function stockPath(locale: Locale) {
   return localePath(locale, STOCK_SEGMENT);
@@ -43,6 +62,45 @@ export function languageAlternates(pathBuilder: (locale: Locale) => string) {
   }
   languages["x-default"] = pathBuilder("pt");
   return languages;
+}
+
+/**
+ * Metadata das páginas institucionais (home, serviços, quem-somos, contato,
+ * estoque e as landing comerciais). Centraliza canonical + hreflang + Open Graph
+ * com a imagem padrão + Twitter card, para todas as páginas terem cartão social
+ * completo e o mesmo padrão de marca. `segment` é o caminho após o idioma
+ * ("/servicos", "/estoque"…); vazio para a home.
+ */
+export function institutionalMetadata(
+  locale: Locale,
+  segment: string,
+  title: string,
+  description: string
+): Metadata {
+  const path = localePath(locale, segment);
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: path,
+      languages: languageAlternates((l) => localePath(l, segment)),
+    },
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      url: absoluteUrl(path),
+      siteName: SITE.name,
+      locale: OG_LOCALES[locale],
+      images: [OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [OG_IMAGE.url],
+    },
+  };
 }
 
 /** Descrição da página do molde: só fatos vindos da pasta. */
@@ -169,8 +227,47 @@ export function organizationJsonLd() {
       "@type": "Country",
       name: "Brazil",
     },
+    sameAs: [...SOCIAL_PROFILES],
     description:
       "Compra, venda e intermediação de moldes de injeção plástica, porta-moldes, bases para estampos e equipamentos industriais em todo o Brasil.",
+  };
+}
+
+/**
+ * Entidade local física da 3WS: endereço real, área atendida e perfis oficiais.
+ * Complementa a Organization com o sinal de negócio local em São Paulo (Zona
+ * Leste) que o Google usa para consultas geográficas. Sem coordenadas ou horário
+ * inventados — só o que está confirmado em src/lib/site.ts.
+ */
+export function localBusinessJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": `${SITE.url}/#localbusiness`,
+    name: SITE.legalName,
+    alternateName: SITE.name,
+    url: SITE.url,
+    image: OG_IMAGE.url,
+    logo: absoluteUrl(SITE.logo),
+    email: SITE.email,
+    telephone: `+${SITE.whatsapp}`,
+    parentOrganization: { "@id": `${SITE.url}/#organization` },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: SITE.address.street,
+      addressLocality: SITE.address.locality,
+      addressRegion: SITE.address.region,
+      postalCode: SITE.address.postalCode,
+      addressCountry: SITE.address.country,
+    },
+    areaServed: [
+      { "@type": "City", name: "São Paulo" },
+      { "@type": "AdministrativeArea", name: "Zona Leste de São Paulo" },
+      { "@type": "Country", name: "Brazil" },
+    ],
+    sameAs: [...SOCIAL_PROFILES],
+    description:
+      "Depósito de moldes industriais usados, porta-moldes e ferramentais em São Paulo, na região da Avenida Aricanduva / Zona Leste. Compra, venda e venda por kg, com atendimento em todo o Brasil.",
   };
 }
 
