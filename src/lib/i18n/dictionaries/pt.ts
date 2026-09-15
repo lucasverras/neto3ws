@@ -426,7 +426,6 @@ export const pt = {
       mold: "Molde",
       collection: "Acervo",
       hasResult: "Peça produzida",
-      featured: "Destaque",
       view: "Ver molde",
       moldPlusPart: "molde + peça",
     },

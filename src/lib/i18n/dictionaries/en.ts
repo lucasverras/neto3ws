@@ -419,7 +419,6 @@ export const en: Dictionary = {
       mold: "Mold",
       collection: "Archive",
       hasResult: "Produced part",
-      featured: "Featured",
       view: "View mold",
       moldPlusPart: "mold + part",
     },
