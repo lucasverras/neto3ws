@@ -27,7 +27,50 @@
     "estampos/estampos-base-para-estampo/08.jpg": "Card promocional com telefone/CTA, não é foto do ativo. Arquivo preservado no acervo original."
   },
   "institutional": "acervo-geral-do-estoque",
+  "featured": [
+    "jarra-2l-1-cavidade",
+    "lixeira-8l-com-pedal"
+  ],
   "items": {
+    "jarra-2l-1-cavidade": {
+      "name": {
+        "pt": "Jarra 2 L",
+        "en": "2 L Pitcher",
+        "es": "Jarra 2 L"
+      },
+      "subject": {
+        "pt": "jarra de 2 litros",
+        "en": "a 2-litre pitcher",
+        "es": "una jarra de 2 litros"
+      },
+      "cover": "09",
+      "result": [
+        "01",
+        "04",
+        "09"
+      ]
+    },
+    "lixeira-8l-com-pedal": {
+      "name": {
+        "pt": "Lixeira 8 L com Pedal",
+        "en": "8 L Pedal Bin",
+        "es": "Papelera 8 L con Pedal"
+      },
+      "subject": {
+        "pt": "lixeira de 8 litros com pedal",
+        "en": "an 8-litre pedal bin",
+        "es": "una papelera de 8 litros con pedal"
+      },
+      "cover": "02",
+      "result": [
+        "02",
+        "03",
+        "06",
+        "07",
+        "08",
+        "10"
+      ]
+    },
     "alca-caixao-2-cavidades": {
       "name": {
         "pt": "Alça de Caixão",

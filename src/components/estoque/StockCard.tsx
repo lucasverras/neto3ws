@@ -55,6 +55,12 @@ export function StockCard({
             {item.kind === "collection" ? d.card.collection : d.card.mold}
           </span>
 
+          {item.featured && (
+            <span className="absolute right-3 top-3 rounded-full bg-teal px-2.5 py-1 font-body text-[11px] font-medium uppercase tracking-[0.14em] text-white shadow-[0_2px_10px_rgba(44,141,255,0.5)] sm:px-3">
+              {d.card.featured}
+            </span>
+          )}
+
           {item.resultImages.length > 0 && (
             <span className="absolute bottom-3 left-3 rounded-full bg-teal/90 px-2.5 py-1 font-body text-[11px] font-medium uppercase tracking-[0.1em] text-white sm:px-3 sm:tracking-[0.14em]">
               {d.card.hasResult}

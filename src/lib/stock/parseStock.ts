@@ -51,11 +51,13 @@ interface ManifestItem {
 const curation = curationData as {
   exclude?: string[];
   institutional?: string;
+  featured?: string[];
   items?: Record<string, CuratedItem>;
 };
 
 const CURATED = curation.items ?? {};
 const INSTITUTIONAL_SLUG = curation.institutional ?? null;
+const FEATURED = new Set(curation.featured ?? []);
 const BASE_PATH = manifest.basePath ?? "/estoque";
 
 function pick(value: Localized | undefined, locale: Locale): string | undefined {
@@ -138,6 +140,7 @@ function buildItem(entry: ManifestItem, locale: Locale, dict: Dictionary): Stock
     cavities: parsed.cavities,
     volume: parsed.volume,
     partWeight: parsed.partWeight,
+    featured: FEATURED.has(entry.slug),
     summary: pick(curated.summary, locale) ?? null,
     cover,
     images,
@@ -165,6 +168,9 @@ function buildCatalog(locale: Locale): Catalog {
   const items = all
     .filter((item) => item.slug !== INSTITUTIONAL_SLUG)
     .sort((a, b) => {
+      // Destaques primeiro, independentemente da categoria.
+      const byFeatured = Number(b.featured) - Number(a.featured);
+      if (byFeatured !== 0) return byFeatured;
       const byCategory = categoryRank(a.categoryKey) - categoryRank(b.categoryKey);
       if (byCategory !== 0) return byCategory;
       if (a.kind !== b.kind) return a.kind === "mold" ? -1 : 1;

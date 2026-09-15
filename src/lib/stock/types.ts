@@ -52,6 +52,8 @@ export interface StockItem {
   cavities: number | null;
   volume: string | null;
   partWeight: string | null;
+  /** Item em destaque no catálogo (aparece primeiro e recebe selo). */
+  featured: boolean;
   summary: string | null;
   cover: StockImage;
   images: StockImage[];
