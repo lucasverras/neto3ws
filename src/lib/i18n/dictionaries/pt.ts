@@ -68,7 +68,7 @@ export const pt = {
       contact: "Contato",
     },
     cta: "Solicitar Avaliação",
-    ctaMessage: "Olá, gostaria de solicitar uma avaliação de moldes/equipamentos.",
+    ctaMessage: "Olá! Vim pelo site da 3WS e gostaria de mais informações sobre moldes e equipamentos.",
     openMenu: "Abrir menu",
     closeMenu: "Fechar menu",
     logoAria: "3WS — início",

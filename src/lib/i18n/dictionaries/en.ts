@@ -62,7 +62,7 @@ export const en: Dictionary = {
       contact: "Contact",
     },
     cta: "Request an Appraisal",
-    ctaMessage: "Hello, I would like to request an appraisal of molds/equipment.",
+    ctaMessage: "Hi! I came from the 3WS website and would like more information about molds and equipment.",
     openMenu: "Open menu",
     closeMenu: "Close menu",
     logoAria: "3WS — home",

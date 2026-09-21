@@ -62,7 +62,7 @@ export const es: Dictionary = {
       contact: "Contacto",
     },
     cta: "Solicitar Tasación",
-    ctaMessage: "Hola, me gustaría solicitar una tasación de moldes/equipos.",
+    ctaMessage: "¡Hola! Vine por el sitio de 3WS y me gustaría más información sobre moldes y equipos.",
     openMenu: "Abrir menú",
     closeMenu: "Cerrar menú",
     logoAria: "3WS — inicio",
