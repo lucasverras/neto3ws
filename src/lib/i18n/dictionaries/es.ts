@@ -376,6 +376,7 @@ export const es: Dictionary = {
   whatsapp: {
     tooltip: "Contáctenos por WhatsApp",
     aria: "Hablar por WhatsApp",
+    message: "¡Hola! Vine por el sitio de 3WS y me gustaría más información sobre moldes y equipos.",
   },
 
   stock: {

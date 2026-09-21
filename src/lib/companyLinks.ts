@@ -1,6 +1,6 @@
 import { SITE, absoluteUrl, whatsappUrl } from "@/lib/site";
 
-const whatsappMessage = "Olá! Vim pelo site e gostaria de falar com vocês.";
+const whatsappMessage = "Olá! Vim pelo site da 3WS e gostaria de mais informações sobre moldes e equipamentos.";
 
 export const companyLinks = {
   whatsapp: whatsappUrl(whatsappMessage),

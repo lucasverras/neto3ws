@@ -383,6 +383,7 @@ export const pt = {
   whatsapp: {
     tooltip: "Entre em contato pelo WhatsApp",
     aria: "Falar no WhatsApp",
+    message: "Olá! Vim pelo site da 3WS e gostaria de mais informações sobre moldes e equipamentos.",
   },
 
   stock: {

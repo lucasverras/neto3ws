@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { SiWhatsapp } from "react-icons/si";
 import { useI18n } from "@/lib/i18n/context";
-import { SITE } from "@/lib/site";
+import { whatsappUrl } from "@/lib/site";
 
 /** Verde oficial do WhatsApp — fora da paleta do site de propósito: o botão
  *  precisa ser reconhecido como WhatsApp antes de ser reconhecido como 3WS. */
@@ -31,7 +31,7 @@ export function WhatsAppButton() {
       </AnimatePresence>
 
       <motion.a
-        href={`https://wa.me/${SITE.whatsapp}`}
+        href={whatsappUrl(dict.whatsapp.message)}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={dict.whatsapp.aria}
