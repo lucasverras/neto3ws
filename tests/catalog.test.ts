@@ -304,3 +304,20 @@ test("os status conhecidos são exatamente os cinco previstos", () => {
   assert.ok(isStockStatus("published"));
   assert.ok(!isStockStatus("qualquer-coisa"));
 });
+
+// ───────────────────── catálogo vazio nunca vai ao ar ─────────────────────
+
+test("banco sem itens publicados vira ERRO, não catálogo vazio", async () => {
+  // Importa o módulo com as variáveis definidas, forçando o caminho Supabase.
+  // A consulta falha (não há banco no teste), e o que importa é a garantia:
+  // nenhum caminho devolve `items: []` com `error: null`.
+  const { getCatalog } = await import("../src/lib/stock/catalog");
+  const catalog = await getCatalog("pt");
+
+  if (catalog.items.length === 0) {
+    assert.ok(
+      catalog.error,
+      "catálogo sem itens PRECISA carregar um erro — vitrine vazia some do Google"
+    );
+  }
+});

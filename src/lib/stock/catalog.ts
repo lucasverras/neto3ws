@@ -90,6 +90,21 @@ export const getCatalog = cache(async (locale: Locale): Promise<Catalog> => {
   try {
     const result = await fetchPublished();
     if ("error" in result) return emptyCatalog(result.error);
+
+    // Banco acessível, porém SEM nenhum item publicado.
+    //
+    // Na prática isso significa "as variáveis foram configuradas mas a
+    // importação ainda não rodou" — e publicar um catálogo vazio apagaria da
+    // busca 42 páginas já indexadas. A 3WS tem estoque; zero não é um
+    // resultado plausível, é um sintoma. Tratar como erro mantém o catálogo
+    // anterior servido do cache e mostra o aviso em vez de uma vitrine vazia.
+    if (result.items.length === 0) {
+      return emptyCatalog(
+        "O banco respondeu sem nenhum molde publicado. Rode a importação do acervo " +
+          "(scripts/migrate-stock-to-supabase.mjs --apply) ou publique ao menos um item."
+      );
+    }
+
     return assembleCatalog(toItemSeeds(result.items, result.images), locale, "supabase");
   } catch (cause) {
     return emptyCatalog(
