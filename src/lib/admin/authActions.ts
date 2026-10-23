@@ -9,7 +9,12 @@ import { hasSupabaseEnv } from "@/lib/supabase/env";
 import { SITE } from "@/lib/site";
 import { LOGIN_MAX_ATTEMPTS } from "./constants";
 
-export type LoginState = { error: string | null };
+/**
+ * O e-mail volta no estado porque o React 19 limpa o formulário depois de
+ * cada action. Sem isto, um erro de senha apagaria também o e-mail e o dono
+ * teria de redigitar os dois.
+ */
+export type LoginState = { error: string | null; email?: string };
 export type ResetState = { error: string | null; sent: boolean };
 export type NewPasswordState = { error: string | null };
 
@@ -46,7 +51,7 @@ export async function signIn(_prev: LoginState, formData: FormData): Promise<Log
   const password = String(formData.get("password") ?? "");
   const next = safeNext(formData.get("next"));
 
-  if (!email || !password) return { error: "Preencha e-mail e senha." };
+  if (!email || !password) return { error: "Preencha e-mail e senha.", email };
 
   const supabase = await createClient();
   const identifier = await throttleIdentifier(email);
@@ -58,11 +63,12 @@ export async function signIn(_prev: LoginState, formData: FormData): Promise<Log
   if (typeof attempts === "number" && attempts > LOGIN_MAX_ATTEMPTS) {
     return {
       error: "Muitas tentativas seguidas. Aguarde alguns minutos e tente novamente.",
+      email,
     };
   }
 
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error || !data.user) return { error: GENERIC_LOGIN_ERROR };
+  if (error || !data.user) return { error: GENERIC_LOGIN_ERROR, email };
 
   // Autenticou — mas autorização é outra coisa. Sem linha em admin_users, a
   // sessão é encerrada na hora e a mensagem é a mesma de senha errada.
@@ -74,7 +80,7 @@ export async function signIn(_prev: LoginState, formData: FormData): Promise<Log
 
   if (!adminRow) {
     await supabase.auth.signOut();
-    return { error: GENERIC_LOGIN_ERROR };
+    return { error: GENERIC_LOGIN_ERROR, email };
   }
 
   await supabase.rpc("clear_login_attempts", { p_identifier: identifier });

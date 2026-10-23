@@ -36,6 +36,10 @@ export function LoginForm({ next }: { next: string }) {
           inputMode="email"
           autoCapitalize="none"
           required
+          // Repõe o que foi digitado: o React 19 limpa o formulário depois da
+          // action, e perder o e-mail a cada erro de senha seria irritante.
+          defaultValue={state.email ?? ""}
+          key={state.email ?? ""}
           className={FIELD_CLASS}
         />
       </div>

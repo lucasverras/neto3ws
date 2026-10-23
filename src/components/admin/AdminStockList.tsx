@@ -291,6 +291,9 @@ export function AdminStockList({ items }: { items: AdminItem[] }) {
     });
   }, [order, term, category, status]);
 
+  const visibleProducts = filtered.filter((item) => !item.institutional).length;
+  const visibleGalleries = filtered.length - visibleProducts;
+
   const filtering = term !== "" || category !== "todas" || status !== "ativos";
   // Arrastar com a lista filtrada gravaria uma ordem que o dono não vê
   // inteira. O modo manual só liga com a lista completa à vista.
@@ -446,9 +449,11 @@ export function AdminStockList({ items }: { items: AdminItem[] }) {
       <p aria-live="polite" className="font-body text-[13px] text-white/40">
         {filtered.length === 0
           ? "Nenhum produto encontrado com esses filtros."
-          : `${filtered.length} ${filtered.length === 1 ? "produto" : "produtos"}${
-              filtering ? ` de ${order.length}` : ""
-            }`}
+          : // A galeria do acervo é contada à parte para este número bater com
+            // o cartão "Produtos cadastrados" lá em cima.
+            `${visibleProducts} ${visibleProducts === 1 ? "produto" : "produtos"}${
+              visibleGalleries > 0 ? ` · ${visibleGalleries} galeria do acervo` : ""
+            }${filtering ? ` — de ${order.filter((item) => !item.institutional).length}` : ""}`}
       </p>
 
       {filtered.length === 0 ? (

@@ -261,6 +261,35 @@ create trigger stock_items_audit_trigger
   after insert or update or delete on public.stock_items
   for each row execute function public.stock_items_audit();
 
+-- ═══════════════════════ privilégios ═══════════════════════
+-- A RLS filtra LINHAS, mas só depois de a role ter privilégio na TABELA.
+-- Sem estes grants o Postgres responde "permission denied" antes de olhar
+-- qualquer policy — e o site veria erro em vez de catálogo. Os default
+-- privileges do Supabase não cobrem tabelas criadas por migration, então a
+-- concessão é explícita.
+--
+-- Note que isto NÃO afrouxa nada: quem pode escrever continua sendo decidido
+-- pelas policies abaixo, que exigem `is_stock_admin()`.
+
+grant usage on schema public to anon, authenticated, service_role;
+
+-- Leitura pública do catálogo (a policy limita a status = 'published').
+grant select on public.stock_items, public.stock_images to anon, authenticated;
+
+-- Escrita: liberada no nível de tabela, barrada no nível de linha para quem
+-- não é administrador.
+grant insert, update, delete on public.stock_items, public.stock_images to authenticated;
+
+grant select on public.admin_users     to authenticated;
+grant select on public.stock_audit_log to authenticated;
+
+-- A service role ignora a RLS e é usada só pelo script de importação.
+grant all on public.stock_items, public.stock_images, public.admin_users,
+             public.stock_audit_log to service_role;
+
+-- `admin_login_attempts` fica SEM grant de propósito: ninguém a acessa pela
+-- API, só as funções security definer de login.
+
 -- ═══════════════════════ RLS ═══════════════════════
 alter table public.stock_items     enable row level security;
 alter table public.stock_images    enable row level security;

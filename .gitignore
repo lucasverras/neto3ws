@@ -49,3 +49,7 @@ next-env.d.ts
 # 3ws-images/imagens/ (que é a fonte e precisa estar versionada). Rodam no
 # prebuild, então o deploy os recria sozinho.
 /public/acervo
+
+# Credenciais do Supabase LOCAL (supabase start). Nunca versionar.
+supabase/.local-credentials
+.env.local.backup-*
