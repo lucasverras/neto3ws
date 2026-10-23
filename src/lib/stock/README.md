@@ -1,8 +1,59 @@
 # Catálogo do estoque (`/estoque`)
 
+## De onde vêm os dados
+
+Existe **uma fonte por ambiente, nunca duas concorrentes**. Quem decide é a
+presença das variáveis do Supabase:
+
+```text
+NEXT_PUBLIC_SUPABASE_URL definido?
+   sim → Supabase (status = 'published')     ← fonte oficial, editável em /admin
+   não → acervo em arquivo                   ← comportamento histórico, intacto
+```
+
+`catalog.ts` é o ponto único de leitura; todo o site passa por ele. Com o
+banco ligado, o acervo em arquivo deixa de alimentar as páginas — um produto
+apagado no painel **não** ressuscita a partir dos arquivos locais.
+
+| Arquivo | Papel |
+| --- | --- |
+| `catalog.ts` | leitura unificada: escolhe a fonte e memoiza por request |
+| `buildItem.ts` | monta o `StockItem` — **um só** montador para as duas fontes |
+| `parseStock.ts` | fonte em arquivo: manifest + `curation.json` → seeds |
+| `dbCatalog.ts` | fonte Supabase: linhas do Postgres → seeds |
+
+As duas fontes produzem `ItemSeed` e passam pelo mesmo `buildItem`, o que
+garante que migrar a origem não mude uma vírgula do que é renderizado. O teste
+`migração preserva cada item` (em `tests/catalog.test.ts`) confere isso campo a
+campo, nos três idiomas.
+
+Falha de leitura preenche `catalog.error` e **nunca** vira lista vazia: a
+página mostra erro de verdade em vez de insinuar que a 3WS não tem moldes.
+
+## Fotos: duas origens convivendo
+
+```ts
+image.src       // URL servida quando o navegador ignora o srcset
+image.variants  // [{ url, width }] — SÓ o que existe de verdade
+```
+
+| Origem | Onde mora | Variantes |
+| --- | --- | --- |
+| `legacy` | `public/acervo/<slug>/NN-<w>.webp`, gerado no build | as larguras que o build gerou |
+| `storage` | bucket `estoque` no Supabase | as larguras que o upload gravou |
+
+Nenhuma largura é presumida em nenhum dos dois casos — o build não amplia o
+original, e o upload pelo painel também não. Uma foto com uma variante só sai
+sem `srcset`, que é melhor do que oferecer ao navegador uma URL que daria 404.
+
 ## Como adicionar um molde novo
 
-Crie a pasta dentro do acervo e faça o build. Não há código a editar.
+**Com o painel ligado:** `/admin` → *Adicionar novo produto*. Sem código, sem
+commit, sem rebuild. Ver `docs/painel-do-neto.md`.
+
+**Pelo acervo em arquivo** (ainda funciona, e é a entrada do importador):
+
+Crie a pasta dentro do acervo e faça o build.
 
 ```
 3ws-images/imagens/moldes-injecao-plastica/balde-20-litros-2-cavidades/
@@ -81,6 +132,11 @@ padrão seguro. Melhor mostrar tudo como "molde" do que rotular errado.
 
 O tipo já existe no modelo (`StockImage.type: "mold" | "result"`), então
 classificar uma pasta nova é só listar os arquivos em `result`.
+
+No painel a regra é a mesma, só que a escolha é feita arrastando: o formulário
+tem duas áreas separadas (*fotos do molde* e *fotos da peça produzida*) e um
+botão para mover uma foto de uma para a outra sem reenviar o arquivo. **Em
+nenhum dos dois caminhos a classificação é deduzida da aparência da foto.**
 
 ## O que nunca é inventado
 

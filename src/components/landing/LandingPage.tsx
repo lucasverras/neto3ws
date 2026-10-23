@@ -9,7 +9,7 @@ import { Breadcrumbs } from "@/components/estoque/Breadcrumbs";
 import { StockCard } from "@/components/estoque/StockCard";
 import { getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { SITE, absoluteUrl, whatsappUrl } from "@/lib/site";
-import { getStockItems } from "@/lib/stock/parseStock";
+import { getStockItems } from "@/lib/stock/catalog";
 import {
   breadcrumbJsonLd,
   faqJsonLd,
@@ -29,7 +29,7 @@ export function landingPath(locale: Locale, slug: LandingSlug) {
 }
 
 /** Página institucional/comercial montada a partir do conteúdo em content.ts. */
-export function LandingPage({ locale, slug }: { locale: Locale; slug: LandingSlug }) {
+export async function LandingPage({ locale, slug }: { locale: Locale; slug: LandingSlug }) {
   const dict = getDictionary(locale);
   const c = getLandingContent(locale, slug);
 
@@ -41,7 +41,7 @@ export function LandingPage({ locale, slug }: { locale: Locale; slug: LandingSlu
   // Páginas de categoria: itens reais do catálogo (conteúdo único + links
   // internos rastreáveis, o oposto de uma doorway page).
   const categoryItems = c.category
-    ? getStockItems(locale).filter((item) => item.categoryKey === c.category)
+    ? (await getStockItems(locale)).filter((item) => item.categoryKey === c.category)
     : [];
   const categoryHref = c.category
     ? `${stockPath(locale)}?categoria=${c.category}`

@@ -44,7 +44,7 @@ export function AcervoBand({ photos, dict }: { photos: StockImage[]; dict: Dicti
               </div>
               {rest.map((photo, index) => (
                 <div
-                  key={photo.base}
+                  key={photo.id}
                   // As duas últimas só entram a partir de md: no celular a
                   // faixa ficaria alta demais antes de o catálogo aparecer.
                   className={`relative aspect-square overflow-hidden rounded-lg border border-white/10 bg-navy-soft ${

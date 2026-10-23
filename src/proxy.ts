@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { DEFAULT_LOCALE, LOCALES, LOCALE_COOKIE, isLocale } from "@/lib/i18n/config";
+import { isAdminPath, updateAdminSession } from "@/lib/supabase/proxySession";
 
 /**
  * Manda qualquer URL sem prefixo de idioma para a versão certa.
@@ -11,6 +12,10 @@ import { DEFAULT_LOCALE, LOCALES, LOCALE_COOKIE, isLocale } from "@/lib/i18n/con
  * A ordem de decisão é: cookie gravado pelo seletor → pt. Quando não há cookie,
  * o redirecionamento é permanente para que robôs consolidem sinais na URL
  * canônica em vez de manterem variantes legadas sem idioma no índice.
+ *
+ * O painel (`/admin`) fica inteiramente fora dessa regra: é ferramenta
+ * interna, só em português, e não tem versão por idioma. Em vez de ganhar
+ * prefixo, ele passa pela renovação de sessão do Supabase.
  */
 function preferredLocale(request: NextRequest) {
   const fromCookie = request.cookies.get(LOCALE_COOKIE)?.value;
@@ -19,8 +24,11 @@ function preferredLocale(request: NextRequest) {
   return DEFAULT_LOCALE;
 }
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Antes de qualquer coisa de idioma: o painel tem o seu próprio ciclo.
+  if (isAdminPath(pathname)) return updateAdminSession(request);
 
   if (pathname === "/links" || pathname.startsWith("/links/")) return;
 

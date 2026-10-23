@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { StockPhoto } from "./StockPhoto";
+import { smallestVariant } from "@/lib/stock/imageUrl";
 import { t, type Dictionary } from "@/lib/i18n";
 import type { StockImage } from "@/lib/stock/types";
 
@@ -152,7 +153,7 @@ export function Lightbox({
         {/* key força o swap da imagem em vez de reaproveitar o <img> anterior,
             evitando a foto antiga esticada enquanto a nova decodifica. */}
         <StockPhoto
-          key={current.base}
+          key={current.id}
           image={current}
           sizes="(min-width: 768px) 90vw, 100vw"
           priority
@@ -180,7 +181,7 @@ export function Lightbox({
           <div className="mx-auto flex w-max gap-2">
             {images.map((image, i) => (
               <button
-                key={image.base}
+                key={image.id}
                 type="button"
                 onClick={() => onIndexChange(i)}
                 aria-label={t(d.goTo, { n: i + 1 })}
@@ -190,12 +191,13 @@ export function Lightbox({
                 }`}
               >
                 {/* Miniatura decorativa: o nome acessível vem do aria-label do
-                    botão, e a foto já existe no documento com alt completo. Os
-                    WebP são pré-gerados no build, então next/image só
-                    acrescentaria uma transformação em runtime. */}
+                    botão, e a foto já existe no documento com alt completo. As
+                    variantes são pré-geradas (no build do acervo ou no upload),
+                    então next/image só acrescentaria uma transformação em
+                    runtime. Aqui usamos a menor que existir. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={`${image.base}-400.webp`}
+                  src={smallestVariant(image)}
                   alt=""
                   width={image.width}
                   height={image.height}

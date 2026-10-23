@@ -414,6 +414,9 @@ export const en: Dictionary = {
       countOne: "item in the catalogue",
       countMany: "items in the catalogue",
       loadMore: "Load more",
+      errorTitle: "We couldn't load the stock right now",
+      errorText:
+        "There was a temporary failure reading the catalogue. The molds are still available — talk to the 3WS team and we'll check the full archive for you.",
       showing: "Showing {shown} of {total}",
     },
     card: {

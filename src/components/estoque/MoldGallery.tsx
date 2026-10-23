@@ -100,7 +100,7 @@ function PhotoGrid({
   return (
     <ul className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
       {images.map((image, index) => (
-        <li key={image.base}>
+        <li key={image.id}>
           <button
             type="button"
             onClick={() => onOpen(image)}

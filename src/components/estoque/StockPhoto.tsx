@@ -4,12 +4,16 @@ import type { StockImage } from "@/lib/stock/types";
 /**
  * Foto do acervo.
  *
- * Usa <img> nativo com srcset apontando para os WebP já gerados no build, em
- * vez de next/image: as três larguras são conhecidas em build time, então o
- * otimizador em runtime não acrescentaria nada e cobraria uma transformação
- * por foto. O resultado é semanticamente correto para o Google Imagens
- * (elemento <img> real, nunca background-image), com dimensões declaradas
- * para não causar CLS.
+ * Usa <img> nativo com srcset apontando para arquivos que já existem, em vez
+ * de next/image: as larguras são conhecidas (geradas no build do acervo ou
+ * no upload do painel), então o otimizador em runtime não acrescentaria nada
+ * e cobraria uma transformação por foto. O resultado é semanticamente correto
+ * para o Google Imagens (elemento <img> real, nunca background-image), com
+ * dimensões declaradas para não causar CLS.
+ *
+ * O srcset sai de `image.variants`, que lista apenas o que foi mesmo gerado.
+ * Uma foto com uma variante só sai sem srcset — melhor do que oferecer ao
+ * navegador uma URL que daria 404.
  */
 export function StockPhoto({
   image,
@@ -27,16 +31,23 @@ export function StockPhoto({
   imgClassName?: string;
   maxWidth?: number;
 }) {
-  const widths = maxWidth ? image.widths.filter((w) => w <= maxWidth) : image.widths;
-  const usable = widths.length > 0 ? widths : [image.widths[0]];
+  const capped = maxWidth
+    ? image.variants.filter((variant) => variant.width <= maxWidth)
+    : image.variants;
+  // Nunca fica sem nada: se o corte removeu tudo, a menor variante serve.
+  const usable = capped.length > 0 ? capped : image.variants.slice(0, 1);
   const fallback = usable[usable.length - 1];
 
   return (
     // eslint-disable-next-line @next/next/no-img-element -- ver comentário do componente
     <img
-      src={`${image.base}-${fallback}.webp`}
-      srcSet={usable.map((w) => `${image.base}-${w}.webp ${w}w`).join(", ")}
-      sizes={sizes}
+      src={fallback?.url ?? image.src}
+      srcSet={
+        usable.length > 1
+          ? usable.map((variant) => `${variant.url} ${variant.width}w`).join(", ")
+          : undefined
+      }
+      sizes={usable.length > 1 ? sizes : undefined}
       width={image.width}
       height={image.height}
       alt={image.alt}

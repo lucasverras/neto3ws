@@ -11,7 +11,7 @@ import { StockContactCTA } from "@/components/estoque/StockContactCTA";
 import { StockPhoto } from "@/components/estoque/StockPhoto";
 import { LOCALES, getDictionary, isLocale, t } from "@/lib/i18n";
 import { cavityLabel } from "@/lib/stock/normalizeTitle";
-import { getRelatedItems, getStockItem, getStockSlugs } from "@/lib/stock/parseStock";
+import { getCatalog, getRelatedItems, getStockItem, getStockSlugs } from "@/lib/stock/catalog";
 import {
   breadcrumbJsonLd,
   buildItemMetadata,
@@ -21,12 +21,24 @@ import {
   stockPath,
 } from "@/lib/stock/generateMetadata";
 
-/** Moldes do catálogo × 3 idiomas são pré-renderizados no build. */
-export function generateStaticParams() {
-  return LOCALES.flatMap((locale) => getStockSlugs().map((slug) => ({ locale, slug })));
+/** Moldes publicados × 3 idiomas são pré-renderizados no build. */
+export async function generateStaticParams() {
+  const slugs = await getStockSlugs();
+  return LOCALES.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
 }
 
+// Um molde cadastrado depois do build precisa responder na primeira visita,
+// sem esperar um deploy: a página é gerada sob demanda e cacheada.
 export const dynamicParams = true;
+
+/**
+ * Revalidação periódica de segurança.
+ *
+ * O caminho normal é `revalidatePath` disparado pelo painel a cada alteração,
+ * que atualiza a página na hora. Esta janela só cobre o caso de uma mudança
+ * feita fora do painel (direto no Supabase, por exemplo).
+ */
+export const revalidate = 3600;
 
 export async function generateMetadata({
   params,
@@ -35,7 +47,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, slug } = await params;
   if (!isLocale(locale)) return {};
-  const item = getStockItem(locale, slug);
+  const item = await getStockItem(locale, slug);
   if (!item) return {};
   return buildItemMetadata(locale, getDictionary(locale), item);
 }
@@ -49,11 +61,20 @@ export default async function MoldPage({
   if (!isLocale(locale)) notFound();
 
   const dict = getDictionary(locale);
-  const item = getStockItem(locale, slug);
+  const { items, error } = await getCatalog(locale);
+
+  // Erro de leitura não pode virar "molde não existe": redirecionar seria
+  // apagar da web uma URL que o Google já indexou. Falha alto para que a
+  // página antiga continue servida do cache.
+  if (error) throw new Error(`Não foi possível carregar o molde "${slug}": ${error}`);
+
+  const item = items.find((candidate) => candidate.slug === slug);
+  // Molde despublicado ou removido: o visitante vai para o catálogo em vez de
+  // bater num 404, e o Google consolida o sinal na página que continua viva.
   if (!item) permanentRedirect(stockPath(locale));
 
   const crumbs = itemBreadcrumbs(locale, dict, item);
-  const related = getRelatedItems(locale, item);
+  const related = await getRelatedItems(locale, item);
   const d = dict.stock.detail;
 
   const photoWord = (n: number) =>

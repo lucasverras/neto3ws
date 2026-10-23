@@ -43,26 +43,8 @@ const RULES: CategoryRule[] = [
 
 const FALLBACK_CATEGORY: CategoryKey = "diversos";
 
-export function deriveCategoryKey(slug: string): CategoryKey {
-  for (const rule of RULES) {
-    if (rule.match.test(slug)) return rule.key;
-  }
-  return FALLBACK_CATEGORY;
-}
-
-const KNOWN_SEGMENTS: SegmentKey[] = [
-  "moldes-injecao-plastica",
-  "porta-moldes",
-  "estampos",
-  "moldes-sopro",
-];
-
-export function segmentKey(segment: string): SegmentKey {
-  return KNOWN_SEGMENTS.includes(segment as SegmentKey) ? (segment as SegmentKey) : "outros";
-}
-
-/** Ordem dos chips. Chaves não listadas vão para o fim. */
-export const CATEGORY_ORDER: CategoryKey[] = [
+/** Todas as chaves válidas, na ordem de exibição. Fonte do select do painel. */
+export const CATEGORY_KEYS: CategoryKey[] = [
   "copos-tacas",
   "pratos-saladeiras",
   "bandejas",
@@ -77,6 +59,34 @@ export const CATEGORY_ORDER: CategoryKey[] = [
   "moldes-sopro",
   FALLBACK_CATEGORY,
 ];
+
+export function isCategoryKey(value: string): value is CategoryKey {
+  return (CATEGORY_KEYS as string[]).includes(value);
+}
+
+export function deriveCategoryKey(slug: string): CategoryKey {
+  for (const rule of RULES) {
+    if (rule.match.test(slug)) return rule.key;
+  }
+  return FALLBACK_CATEGORY;
+}
+
+const KNOWN_SEGMENTS: SegmentKey[] = [
+  "moldes-injecao-plastica",
+  "porta-moldes",
+  "estampos",
+  "moldes-sopro",
+];
+
+/** Segmentos oferecidos no painel, incluindo o genérico. */
+export const SEGMENT_KEYS: SegmentKey[] = [...KNOWN_SEGMENTS, "outros"];
+
+export function segmentKey(segment: string): SegmentKey {
+  return KNOWN_SEGMENTS.includes(segment as SegmentKey) ? (segment as SegmentKey) : "outros";
+}
+
+/** Ordem dos chips. Chaves não listadas vão para o fim. */
+export const CATEGORY_ORDER: CategoryKey[] = CATEGORY_KEYS;
 
 export function categoryRank(key: CategoryKey) {
   const index = CATEGORY_ORDER.indexOf(key);

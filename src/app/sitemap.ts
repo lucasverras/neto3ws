@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { absoluteUrl } from "@/lib/site";
 import { LOCALES, LOCALE_TAGS, localePath } from "@/lib/i18n";
-import { getStockItems, getStockSlugs } from "@/lib/stock/parseStock";
+import { getCatalog } from "@/lib/stock/catalog";
 import { stockItemPath, stockPath } from "@/lib/stock/generateMetadata";
 import { largestVariant } from "@/lib/stock/imageUrl";
 
@@ -33,7 +33,7 @@ const STATIC_PAGES = [
   { path: "/moldes-utilidades-domesticas", priority: 0.7 as const, changeFrequency: "weekly" as const },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [
     {
       url: absoluteUrl("/links"),
@@ -69,8 +69,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // As fotos são as mesmas nos três idiomas, mas o alt/caption muda — o
   // catálogo é lido por idioma para o sitemap refletir a página real.
-  for (const locale of LOCALES) {
-    for (const item of getStockItems(locale)) {
+  //
+  // Só itens publicados chegam aqui: `getCatalog` já aplica a regra de
+  // visibilidade, então rascunho, oculto, vendido e arquivado nunca entram no
+  // sitemap. Publicar um molde novo o inclui na próxima revalidação.
+  const catalogs = await Promise.all(LOCALES.map((locale) => getCatalog(locale)));
+
+  for (const catalog of catalogs) {
+    // Falha de leitura não pode virar um sitemap truncado anunciando que o
+    // catálogo encolheu: é melhor o build/revalidação falhar alto.
+    if (catalog.error) {
+      throw new Error(`Não foi possível gerar o sitemap: ${catalog.error}`);
+    }
+  }
+
+  for (const [index, locale] of LOCALES.entries()) {
+    for (const item of catalogs[index].items) {
       entries.push({
         url: absoluteUrl(stockItemPath(locale, item.slug)),
         changeFrequency: "monthly",
@@ -82,7 +96,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
 
   // Confere que os três idiomas cobrem exatamente o mesmo conjunto de moldes.
-  const expectedPerLocale = 1 + STATIC_PAGES.length + 1 + getStockSlugs().length;
+  const expectedPerLocale = 1 + STATIC_PAGES.length + 1 + catalogs[0].items.length;
   if (entries.length !== 1 + LOCALES.length * expectedPerLocale) {
     throw new Error("Sitemap incompleto: os idiomas divergiram no catálogo.");
   }

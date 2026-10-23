@@ -29,6 +29,14 @@ export function whatsappUrl(message: string) {
   return `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(message)}`;
 }
 
+/**
+ * Caminho interno → URL absoluta.
+ *
+ * Uma URL que já é absoluta passa direto: as fotos enviadas pelo painel são
+ * servidas pelo Supabase Storage, com origem própria, e prefixar o domínio do
+ * site produziria um endereço quebrado no sitemap e no Open Graph.
+ */
 export function absoluteUrl(pathname: string) {
+  if (/^https?:\/\//i.test(pathname)) return pathname;
   return `${SITE.url}${pathname.startsWith("/") ? pathname : `/${pathname}`}`;
 }

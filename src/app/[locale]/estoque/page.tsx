@@ -16,10 +16,7 @@ import {
   localePath,
 } from "@/lib/i18n";
 import { largestVariant } from "@/lib/stock/imageUrl";
-import {
-  getCatalog,
-  getStockCategories,
-} from "@/lib/stock/parseStock";
+import { getCatalog } from "@/lib/stock/catalog";
 import {
   OG_IMAGE,
   breadcrumbJsonLd,
@@ -30,6 +27,12 @@ import {
   stockPath,
 } from "@/lib/stock/generateMetadata";
 
+/**
+ * Revalidação periódica de segurança — o painel já dispara `revalidatePath`
+ * a cada alteração, então na prática a página atualiza na hora.
+ */
+export const revalidate = 3600;
+
 export async function generateMetadata({
   params,
 }: {
@@ -38,7 +41,7 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = getDictionary(locale);
-  const institutional = getCatalog(locale).institutional;
+  const { institutional } = await getCatalog(locale);
 
   // Preferimos a foto real do acervo como cartão social; se ela não existir,
   // caímos na imagem OG institucional para nunca renderizar cartão sem imagem.
@@ -80,14 +83,46 @@ export default async function EstoquePage({
   if (!isLocale(locale)) notFound();
 
   const dict = getDictionary(locale);
-  const { items, institutional, totals } = getCatalog(locale);
-  const categories = getStockCategories(locale);
+  const { items, institutional, totals, categories, error } = await getCatalog(locale);
   const acervoPhotos = institutional?.images ?? [];
 
   const crumbs = [
     { name: dict.common.home, path: localePath(locale) },
     { name: dict.header.nav.stock, path: stockPath(locale) },
   ];
+
+  // Falha ao ler o catálogo NÃO é "estoque vazio". Mostrar um grid vazio
+  // faria o visitante concluir que a 3WS não tem moldes, e o Google indexar
+  // uma página de catálogo sem itens.
+  if (error) {
+    return (
+      <>
+        <Header />
+        <main className="flex flex-1 flex-col bg-ink pt-28 md:pt-32">
+          <Container className="py-24">
+            <Breadcrumbs crumbs={crumbs} label={dict.stock.detail.breadcrumbLabel} />
+            <div className="mt-10 max-w-xl rounded-lg border border-white/10 bg-white/[0.02] px-6 py-12">
+              <h1 className="font-display text-2xl font-medium text-white md:text-3xl">
+                {dict.stock.browser.errorTitle}
+              </h1>
+              <p className="mt-4 font-body text-[15px] leading-relaxed text-white/55">
+                {dict.stock.browser.errorText}
+              </p>
+              <a
+                href={whatsappUrl(dict.stock.contactSection.ctaMessage)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-8 inline-flex items-center rounded-xl bg-teal px-8 py-4 font-body text-[13px] font-medium uppercase tracking-[0.16em] text-white transition-colors hover:bg-teal-deep"
+              >
+                {dict.stock.contactSection.cta}
+              </a>
+            </div>
+          </Container>
+        </main>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>

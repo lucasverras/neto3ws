@@ -15,6 +15,10 @@ export function generateStaticParams() {
 // Conjunto fechado de slugs: qualquer outro caminho neste nível é 404.
 export const dynamicParams = false;
 
+// As landings de categoria listam moldes reais do catálogo, então acompanham
+// a mesma janela de revalidação do estoque.
+export const revalidate = 3600;
+
 export async function generateMetadata({
   params,
 }: {

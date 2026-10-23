@@ -421,6 +421,9 @@ export const pt = {
       countOne: "item no catálogo",
       countMany: "itens no catálogo",
       loadMore: "Carregar mais",
+      errorTitle: "Não foi possível carregar o estoque agora",
+      errorText:
+        "Houve uma falha temporária ao consultar o catálogo. Os moldes continuam disponíveis — fale com a equipe da 3WS e consultamos o acervo completo para você.",
       showing: "Mostrando {shown} de {total}",
     },
     card: {
