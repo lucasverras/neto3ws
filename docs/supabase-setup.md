@@ -120,6 +120,23 @@ Development):
 Depois de adicionar, **faça um redeploy** — variável nova não entra num deploy
 que já existe.
 
+## Atalho: um script faz os passos 1, 2, 4, 7 e 8
+
+Depois de autenticar a CLI uma única vez:
+
+```bash
+supabase login                 # abre o navegador
+supabase projects list         # copie o Reference ID do projeto
+./scripts/setup-producao.sh <project-ref>
+```
+
+Ele vincula o projeto, aplica as migrations, confere o administrador, roda a
+importação (com simulação antes), configura as variáveis na Vercel e publica.
+É idempotente — pode rodar de novo.
+
+O passo 3 (criar o usuário no Auth) continua manual **de propósito**: a senha
+é definida no painel do Supabase e não passa por script, log ou repositório.
+
 ## 8. Importar o acervo atual
 
 Com `.env.local` preenchido, na raiz do projeto:
